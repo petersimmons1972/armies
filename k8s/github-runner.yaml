@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  namespace: github-actions
+  labels:
+    app: github-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      serviceAccountName: github-runner
+      containers:
+      - name: runner
+        image: myoung34/github-runner:latest
+        env:
+        - name: REPO_URL
+          value: https://github.com/petersimmons1972/armies
+        - name: RUNNER_NAME
+          value: homelab-runner
+        - name: RUNNER_WORKDIR
+          value: /tmp/github-runner
+        - name: RUNNER_SCOPE
+          value: repo
+        - name: LABELS
+          value: homelab,self-hosted
+        - name: EPHEMERAL
+          value: "false"
+        - name: ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-runner-token
+              key: ACCESS_TOKEN
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: github-runner
+  namespace: github-actions
+---
+# Allows the runner's kubectl calls to manage armies-docs in websites namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: github-runner-edit
+  namespace: websites
+subjects:
+- kind: ServiceAccount
+  name: github-runner
+  namespace: github-actions
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io

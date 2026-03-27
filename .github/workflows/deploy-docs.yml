@@ -18,12 +18,14 @@ env:
   IMAGE_NAME: ${{ github.repository_owner }}/armies-docs
 
 jobs:
-  build-and-deploy:
-    name: Build & Deploy
+  build:
+    name: Build & Push
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    outputs:
+      image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
     steps:
       - name: Checkout
@@ -51,13 +53,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Deploy to K8s
-        env:
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+  deploy:
+    name: Deploy to K8s
+    runs-on: [self-hosted, homelab]
+    needs: build
+    steps:
+      - name: Roll out new image
         run: |
-          mkdir -p ~/.kube
-          echo "$KUBECONFIG_DATA" | base64 -d > ~/.kube/config
-          chmod 600 ~/.kube/config
           kubectl set image deployment/armies-docs \
             nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -n websites
