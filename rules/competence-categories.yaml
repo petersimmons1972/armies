@@ -1,0 +1,392 @@
+# =============================================================================
+# competence-categories.yaml — Armies 2.0 Competence Star System
+# =============================================================================
+# Extracted from: ~/projects/generals/PROGRESSION-SYSTEM.md
+#
+# The competence star system tracks mastery of specific work domains through
+# REPEATED successful deployments. Stars are not purchased with XP — they are
+# earned only by doing the same category of work successfully, over and over.
+#
+# This file is self-contained. A new engineer or agent who has never seen the
+# generals system should be able to understand the full competence model from
+# this file alone.
+#
+# Core principle: "Expertise is earned through sustained excellence under fire,
+# not granted after one task."
+# =============================================================================
+
+---
+
+# =============================================================================
+# SECTION 1: HOW COMPETENCE STARS WORK
+# =============================================================================
+
+competence_system:
+
+  mechanism: >
+    Each competence category tracks a count of SUCCESSFUL deployments in that
+    specific domain. When the count crosses a threshold, the commander is
+    awarded a star in that category. Stars represent demonstrated, repeatable
+    mastery — not a single good performance.
+
+  key_rules:
+    - "Only SUCCESSFUL deployments count toward star progression"
+    - "Failed deployments do NOT decrement the counter — they just don't advance it"
+    - "Each category is tracked independently — excellence in one does not transfer to others"
+    - "A commander may have different star levels in different categories"
+    - "Stars accumulate across ALL projects, not just one"
+    - "There is no cap — a commander can reach Legend (⭐⭐⭐⭐⭐) in every category"
+
+  example: >
+    Admiral Nimitz after 2 deployments:
+      - configuration_manifests: 1/10 (no star yet)
+      - research_intelligence: 1/10 (no star yet)
+    He needs 9 more successful deployments in EACH category to earn his first star.
+
+---
+
+# =============================================================================
+# SECTION 2: STAR LEVELS AND THRESHOLDS
+# =============================================================================
+# The deployment thresholds were calibrated in Feb 2026 to ensure progression
+# remains meaningful at scale. Do NOT reduce them.
+# =============================================================================
+
+star_levels:
+
+  - stars: 1
+    symbol: "⭐"
+    level_name: Competent
+    deployments_required: 10
+    meaning: >
+      Has done this category of work 10 times successfully. Understands
+      the basics and can be relied on for routine tasks. The first star
+      is the hardest to earn because it requires consistent early success.
+
+  - stars: 2
+    symbol: "⭐⭐"
+    level_name: Proficient
+    deployments_required: 25
+    meaning: >
+      Has done this 25 times successfully. Can handle variations and
+      edge cases. Suitable for more complex assignments in this domain.
+
+  - stars: 3
+    symbol: "⭐⭐⭐"
+    level_name: Expert
+    deployments_required: 50
+    meaning: >
+      50 successful deployments. Deep knowledge of patterns, failure modes,
+      and optimizations. Can mentor others. Required for certain promotions
+      (Fleet Admiral of the Fleet requires 6 Expert-level stars).
+
+  - stars: 4
+    symbol: "⭐⭐⭐⭐"
+    level_name: Master
+    deployments_required: 100
+    meaning: >
+      100 successful deployments in a single category. Rare. Indicates
+      a commander who has made this domain a career specialization.
+      Required for Supreme Allied Commander (8 Master-level categories).
+
+  - stars: 5
+    symbol: "⭐⭐⭐⭐⭐"
+    level_name: Legend
+    deployments_required: 250
+    meaning: >
+      250 successful deployments. The highest competence level. Reflects
+      years of operational experience, analogous to a WWII commander who
+      served through the entire war in a single theater. Extremely rare.
+      "Two hundred and fifty deployments for Legend status reflects years
+      of combat experience, just as these commanders served through years
+      of continuous operations."
+
+---
+
+# =============================================================================
+# SECTION 3: THE 8 COMPETENCE CATEGORIES
+# =============================================================================
+# These are the exact category names as defined in PROGRESSION-SYSTEM.md.
+# Each category maps to a distinct type of cognitive and technical work.
+# When logging a deployment, the task type must be mapped to one of these
+# 8 canonical category IDs.
+# =============================================================================
+
+categories:
+
+  # ---------------------------------------------------------------------------
+  # 1. Configuration & Manifests
+  # ---------------------------------------------------------------------------
+  - id: configuration_manifests
+    display_name: "Configuration/Manifests"
+    description: >
+      Writing, editing, and maintaining configuration files, infrastructure
+      manifests, and declarative definitions. Includes Kubernetes YAML,
+      Helm charts, Ansible playbooks, Terraform configs, docker-compose,
+      and any other "code that describes state" rather than "code that does
+      things."
+    typical_tasks:
+      - Writing K8s deployment/service/ingress manifests
+      - Helm chart authoring and templating
+      - Infrastructure-as-code (Terraform, Pulumi)
+      - Application config management (env files, config maps)
+      - Docker and container configuration
+
+  # ---------------------------------------------------------------------------
+  # 2. Deployment & Operations
+  # ---------------------------------------------------------------------------
+  - id: deployment_operations
+    display_name: "Deployment/Operations"
+    description: >
+      Executing deployments, managing running systems, and day-to-day
+      operations tasks. The distinction from configuration_manifests is
+      that this category is about DOING the deployment (kubectl apply,
+      helm upgrade, etc.) and operating the result, not just authoring
+      the definition.
+    typical_tasks:
+      - Executing deployment runs (kubectl apply, helm upgrade)
+      - Rollout management and rollback
+      - Service scaling and resource adjustment
+      - Certificate renewal and rotation
+      - Backup and restore operations
+      - Monitoring and alerting setup
+
+  # ---------------------------------------------------------------------------
+  # 3. Research & Intelligence
+  # ---------------------------------------------------------------------------
+  - id: research_intelligence
+    display_name: "Research/Intelligence"
+    description: >
+      Information gathering, synthesis, analysis, and reporting. The hallmark
+      of quality in this category is sourcing depth (>10 sources earns a
+      bonus), synthesis quality, and actionability of the output. Raw search
+      results without synthesis do not qualify as successful deployments.
+    typical_tasks:
+      - Competitive and vendor landscape research
+      - Data retention and storage cost analysis
+      - Security vulnerability research
+      - Market research and industry analysis
+      - Summarizing documents and extracting key findings
+      - Building intelligence briefings with cited sources
+
+  # ---------------------------------------------------------------------------
+  # 4. Visualization & Charts
+  # ---------------------------------------------------------------------------
+  - id: visualization_charts
+    display_name: "Visualization/Charts"
+    description: >
+      Creating visual artifacts: charts, graphs, dashboards, SVGs, diagrams,
+      and any output where the PRIMARY value is visual communication rather
+      than functional code. Quality is judged by the founder — a praise
+      bonus applies when the output visibly impresses.
+    typical_tasks:
+      - Time-series and trend charts
+      - Storage cost and capacity visualizations
+      - Confidence band and uncertainty charts
+      - Architecture and workflow diagrams
+      - Dashboard layouts and data displays
+      - Report illustrations and infographics
+
+  # ---------------------------------------------------------------------------
+  # 5. Verification & Testing
+  # ---------------------------------------------------------------------------
+  - id: verification_testing
+    display_name: "Verification/Testing"
+    description: >
+      Writing tests, validating output quality, running QA processes, and
+      providing cross-checks. Includes both automated testing (unit tests,
+      integration tests) and human-in-the-loop validation (reviewing a
+      report for accuracy, doing a zero-context cross-check as an observer).
+    typical_tasks:
+      - Writing unit and integration tests
+      - Running test suites and interpreting results
+      - QA review of charts, reports, or code
+      - Zero-context observer cross-checks
+      - Validation sign-off on deliverables
+      - Defect cataloging and bug reproduction
+
+  # ---------------------------------------------------------------------------
+  # 6. Integration & Pipeline
+  # ---------------------------------------------------------------------------
+  - id: integration_pipeline
+    display_name: "Integration/Pipeline"
+    description: >
+      Connecting systems, building data pipelines, and creating integration
+      layers. The distinction from deployment_operations is that this
+      category is about BUILDING the plumbing, not operating it. A pipeline
+      that processes data from system A to system B is integration work.
+    typical_tasks:
+      - API integration and webhook setup
+      - ETL pipelines and data transformation
+      - CI/CD pipeline construction
+      - Message queue and event stream setup
+      - Database schema and migration scripts
+      - Inter-service communication layers
+
+  # ---------------------------------------------------------------------------
+  # 7. Coordination & Command
+  # ---------------------------------------------------------------------------
+  - id: coordination_command
+    display_name: "Coordination/Command"
+    description: >
+      Orchestrating multiple agents or teams toward a shared objective.
+      This is the "general" role — designing the operation, dispatching
+      subordinates, tracking progress, handling blockers, and synthesizing
+      results. A coordinator earns this competence for EACH operation
+      they lead, not just the tasks they personally execute.
+    typical_tasks:
+      - Designing multi-agent operation plans
+      - Dispatching and briefing subordinate agents
+      - Tracking operation progress and resolving blockers
+      - Synthesizing results from multiple parallel workstreams
+      - Writing operation post-mortems
+      - Escalating to the founder when thresholds are crossed
+
+  # ---------------------------------------------------------------------------
+  # 8. Troubleshooting & Firefighting
+  # ---------------------------------------------------------------------------
+  - id: troubleshooting_firefighting
+    display_name: "Troubleshooting/Firefighting"
+    description: >
+      Root cause analysis, incident response, and live debugging. The highest
+      XP base rate (200) reflects that this work is done under pressure with
+      ambiguous information. The 30-minute bonus requires not just fixing the
+      problem but documenting the root cause — silent fixes don't qualify.
+    typical_tasks:
+      - Production incident response
+      - Root cause analysis for mysterious failures
+      - Live debugging of broken deployments
+      - K8s crash loop and OOMKill investigation
+      - Certificate and DNS failure triage
+      - Performance degradation diagnosis
+
+---
+
+# =============================================================================
+# SECTION 4: ROLE CLASS → CATEGORY MAPPING
+# =============================================================================
+# This mapping describes which role classes NATURALLY earn competence in which
+# categories. "Naturally" means: when a role of this class does its primary job,
+# they will be accumulating deployments in the listed categories.
+#
+# This is not a restriction — a researcher CAN earn visualization stars if they
+# produce charts. But their default work will tend toward research_intelligence.
+#
+# Use this mapping to:
+#   1. Set expectations for how fast a role will progress in each category
+#   2. Match roles to operations where specific category competence is needed
+#   3. Identify which roles to deploy when you need coverage in a specific category
+# =============================================================================
+
+role_class_category_mapping:
+
+  coordinator:
+    primary_categories:
+      - coordination_command
+    secondary_categories: []
+    notes: >
+      Coordinators earn coordination_command competence for every operation
+      they lead. They may also earn competence in other categories for work
+      they personally execute, but their defining role maps to coordination.
+
+  implementer:
+    primary_categories:
+      - integration_pipeline
+      - deployment_operations
+      - configuration_manifests
+    secondary_categories: []
+    notes: >
+      Implementers do the build work. Depending on the specific task,
+      they will accumulate competence across all three of these categories.
+      An implementer who writes K8s manifests AND deploys them earns both
+      configuration_manifests AND deployment_operations on that deployment.
+
+  qa_validator:
+    primary_categories:
+      - verification_testing
+    secondary_categories: []
+    notes: >
+      QA validators earn verification_testing competence for every review
+      pass they execute. Observers (a special class of validator) also earn
+      verification_testing, plus saves_bonuses when they prevent defects.
+
+  planner:
+    primary_categories:
+      - coordination_command
+      - research_intelligence
+    secondary_categories: []
+    notes: >
+      Planners do pre-operation design work — they research options and
+      structure the approach. This earns both research (gathering intel to
+      inform the plan) and coordination (designing how the operation runs).
+
+  researcher:
+    primary_categories:
+      - research_intelligence
+    secondary_categories: []
+    notes: >
+      Researchers are pure intelligence specialists. Their entire output
+      maps to research_intelligence. Bonus XP applies when >10 sources cited.
+
+  troubleshooter:
+    primary_categories:
+      - troubleshooting_firefighting
+    secondary_categories: []
+    notes: >
+      Troubleshooters earn troubleshooting_firefighting competence. The
+      30-minute bonus incentivizes thorough documentation of root cause,
+      not just speed of fix.
+
+  artist:
+    primary_categories:
+      - visualization_charts
+    secondary_categories: []
+    notes: >
+      Artists and visualization specialists earn visualization_charts
+      competence. This includes the 6 art direction artists (Mucha,
+      Toulouse-Lautrec, Cassandre, Savignac, Rand, Greiman) when deployed
+      for chart or visual design work.
+
+  observer:
+    primary_categories:
+      - verification_testing
+    secondary_categories: []
+    notes: >
+      Observers earn verification_testing competence as a special case of
+      QA work. They receive flat XP (25-50 per deployment) rather than
+      task-type base rates, plus saves_bonuses when they catch defects.
+      Observers have ABSOLUTE malus immunity — no exceptions, ever.
+
+---
+
+# =============================================================================
+# SECTION 5: COMPETENCE STAR DISPLAY FORMAT
+# =============================================================================
+
+display:
+  format: >
+    In commander profiles and service records, competence stars are displayed
+    as a table with the category name and star symbol:
+
+    competence_stars:
+      coordination_command:    ⭐⭐⭐    (Expert — 50+ deployments)
+      troubleshooting:         ⭐⭐      (Proficient — 25+ deployments)
+      research_intelligence:   ⭐        (Competent — 10+ deployments)
+      visualization_charts:    4/10     (in progress — no star yet)
+
+  in_progress_format: >
+    Before the first star, display as "X/10" to show progress toward
+    the first milestone. Example: "7/10" means 7 successful deployments,
+    3 more needed for ⭐ Competent.
+
+  rank_promotion_note: >
+    Promotion requirements reference competence_stars by COUNT (e.g., "6 stars")
+    and sometimes by MINIMUM LEVEL (e.g., "6 Expert-level stars"). A commander
+    with 6 categories at ⭐ Competent does NOT satisfy a "6 Expert" requirement —
+    all 6 must be at ⭐⭐⭐ or higher.
+
+---
+
+# =============================================================================
+# END OF FILE
+# =============================================================================

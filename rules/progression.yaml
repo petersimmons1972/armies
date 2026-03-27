@@ -1,0 +1,515 @@
+# =============================================================================
+# progression.yaml — Armies 2.0 Progression Rules
+# =============================================================================
+# Extracted from: ~/projects/generals/PROGRESSION-SYSTEM.md
+# Source of truth for XP, medals, ribbons, and rank advancement logic.
+#
+# This file is the authoritative rules reference for the Armies 2.0 engine.
+# Do NOT edit numbers here without updating PROGRESSION-SYSTEM.md and filing
+# a GitHub Issue documenting the change.
+#
+# Philosophy: "These were hard men not afraid to work really hard."
+# Expertise is EARNED through repeated success under fire, not granted after
+# one task. Do NOT reduce thresholds to make progression faster.
+# =============================================================================
+
+---
+
+# =============================================================================
+# SECTION 1: EXPERIENCE POINTS (XP)
+# =============================================================================
+# XP is the primary advancement currency. It accumulates across ALL deployments
+# and ALL projects — it never resets, never decreases (penalties adjust the
+# earning rate, not the total). Malus is tracked separately (see malus system).
+# =============================================================================
+
+xp:
+
+  # ---------------------------------------------------------------------------
+  # Base rates per task type
+  # These are the XP values for a successful, penalty-free deployment.
+  # Higher base XP reflects higher cognitive complexity and blast radius.
+  # ---------------------------------------------------------------------------
+  base_rates:
+    research_intelligence:
+      xp: 50
+      description: >
+        Research, intelligence gathering, source synthesis. Examples: data
+        retention analysis, competitive research, vendor landscape surveys.
+
+    visualization_charts:
+      xp: 75
+      description: >
+        Charts, diagrams, dashboards, SVG output. Examples: cost trend charts,
+        confidence-band visualizations, workflow diagrams.
+
+    integration_pipeline:
+      xp: 100
+      description: >
+        Code integration, CI/CD pipelines, API connections, data plumbing.
+        Examples: K8s manifests, deployment scripts, ETL pipelines.
+
+    coordination_command:
+      xp: 150
+      description: >
+        Coordinating multiple agents or subordinates toward a shared objective.
+        Examples: orchestrating a multi-agent report run, directing a team
+        of implementers and validators.
+
+    troubleshooting_firefighting:
+      xp: 200
+      description: >
+        Root cause analysis, incident response, live debugging. The highest
+        base rate reflects the pressure and skill required to fix things
+        while they are on fire.
+
+  # ---------------------------------------------------------------------------
+  # Bonus XP conditions
+  # Bonuses stack on top of the base rate. Multiple bonuses CAN apply to a
+  # single deployment if all conditions are met.
+  # ---------------------------------------------------------------------------
+  bonuses:
+    - task_type: research_intelligence
+      condition: "More than 10 sources cited in the output"
+      bonus_xp: 25
+      notes: >
+        Encourages deep sourcing over shallow summaries. Count must be
+        verifiable in the output artifact.
+
+    - task_type: visualization_charts
+      condition: "User explicitly praises the quality of the visual output"
+      bonus_xp: 25
+      notes: >
+        Subjective — requires a genuine praise statement from the founder,
+        not a routine acknowledgment. Captured alongside any medal award.
+
+    - task_type: integration_pipeline
+      condition: "Zero bugs found after delivery (validator sign-off)"
+      bonus_xp: 50
+      notes: >
+        Awarded after the QA/validation pass confirms no defects. Cannot
+        be self-certified — requires a validator or the founder.
+
+    - task_type: coordination_command
+      condition: "All subordinate agents in the operation succeeded"
+      bonus_xp: 50
+      notes: >
+        The coordinator earns this only if every agent they dispatched
+        delivered a successful outcome. Partial success = no bonus.
+
+    - task_type: troubleshooting_firefighting
+      condition: "Root cause identified and documented in under 30 minutes"
+      bonus_xp: 100
+      notes: >
+        Speed AND clarity required. The root cause must be written up
+        (service record or issue comment), not just fixed silently.
+
+  # ---------------------------------------------------------------------------
+  # Observer XP (special program — flat rate, no task type categories)
+  # Observers receive zero-context cross-checks. They are scouts, not soldiers.
+  # See Section 10 of PROGRESSION-SYSTEM.md for full philosophy.
+  # ---------------------------------------------------------------------------
+  observer:
+    flat_xp_range:
+      min: 25
+      max: 50
+      notes: >
+        Participation XP. Exact amount within range at coordinator discretion
+        based on depth of review provided.
+    saves_bonuses:
+      p0_prevented: 100   # Report undeliverable / data integrity save
+      p1_prevented: 75    # Visible defect in output prevented
+      p2_prevented: 50    # Functional degradation prevented
+      p3_prevented: 25    # Cosmetic issue caught before delivery
+
+  # ---------------------------------------------------------------------------
+  # XP Penalties
+  # Penalties reduce XP EARNED on the deployment where the failure occurred.
+  # They cannot reduce a deployment's XP below 0. XP total never decreases.
+  # Serious accountability violations are tracked in the Malus system (separate).
+  # ---------------------------------------------------------------------------
+  penalties:
+    - failure_type: task_incomplete
+      penalty_xp: 50
+      description: >
+        Task was not delivered or was abandoned mid-execution. No partial
+        credit — incomplete is incomplete.
+
+    - failure_type: major_error_requiring_rework
+      penalty_xp: 25
+      description: >
+        Output delivered but contained a significant error that required
+        the founder or another agent to fix before it could be used.
+
+    - failure_type: missed_deadline
+      penalty_xp: 25
+      description: >
+        Task completed but past the agreed or expected timeline with no
+        prior escalation of the blocker.
+
+    - failure_type: coordination_failure
+      penalty_xp: 50
+      description: >
+        Coordinator role where subordinates failed or were not properly
+        directed, and the coordinator did not detect or escalate the problem.
+
+  # ---------------------------------------------------------------------------
+  # XP tracking scope
+  # ---------------------------------------------------------------------------
+  tracking:
+    scope: "Cumulative across ALL deployments and ALL projects. Never resets."
+    direction: "XP only goes up. Penalties reduce per-deployment earnings, not the running total."
+    separation_from_malus: >
+      XP and Malus are independent accounting streams. A commander can have
+      high XP and high Malus simultaneously. XP rewards excellence; Malus
+      tracks accountability for defects.
+
+---
+
+# =============================================================================
+# SECTION 2: MEDALS
+# =============================================================================
+# Medals are awarded for exceptional performance based on the quality and
+# enthusiasm of the founder's praise. They are NOT automatic — they require
+# a human judgment call and must be captured with the exact praise quote.
+#
+# Each medal is recorded with: date, project/deployment, exact praise quote,
+# and a description of what the commander did to earn it.
+# =============================================================================
+
+medals:
+
+  # Medal hierarchy from lowest to highest honor
+  hierarchy:
+
+    - id: commendation_medal
+      display: "🏅 Commendation Medal"
+      rank: 1  # lowest
+      trigger: "User says 'good work', 'well done', or equivalent routine praise"
+      example_trigger: "Nice chart, Admiral Spruance"
+      notes: >
+        Baseline recognition. Common enough to be meaningful but not rare.
+        Sets the floor for acknowledgment.
+
+    - id: distinguished_service_medal
+      display: "🎖️ Distinguished Service Medal"
+      rank: 2
+      trigger: "User provides detailed, specific praise calling out particular excellence"
+      example_trigger: "Excellent work, General Zhukov! The workflow diagram is exactly what I needed"
+      notes: >
+        Requires the user to identify WHAT was excellent, not just that
+        the work was good. Generic praise earns Commendation; specific
+        praise earns Distinguished Service.
+
+    - id: medal_of_honor
+      display: "🥇 Medal of Honor"
+      rank: 3
+      trigger: "User provides gushing, enthusiastic praise with multiple exclamation points or emojis"
+      example_trigger: "OUTSTANDING WORK, General Rommel! 🦊 This integration is perfect!"
+      notes: >
+        Reserved for work that visibly excited the founder. The energy
+        level of the praise matters — caps lock, emoji, or multiple
+        exclamation points are signals.
+
+    - id: order_of_victory
+      display: "⭐ Order of Victory"
+      rank: 4  # highest honor
+      trigger: "User says the work changed the game or wants it used everywhere / becomes standard"
+      example_trigger: "THAT'S the general I wanted back. Do this for every report."
+      rarity: "Extremely rare — reserved for breakthrough achievements only"
+      notes: >
+        The highest honor in the system. Awarded only when the founder
+        declares that the output represents a new standard or breakthrough.
+        A commander may serve for years without earning one. Montgomery
+        earned it on his first deployment — this is exceptional, not typical.
+
+  # ---------------------------------------------------------------------------
+  # Medal recording requirements
+  # ---------------------------------------------------------------------------
+  recording:
+    required_fields:
+      - date_awarded
+      - project_or_deployment
+      - exact_praise_quote      # verbatim, not paraphrased
+      - what_commander_did      # brief description of the specific achievement
+
+---
+
+# =============================================================================
+# SECTION 3: CAMPAIGN RIBBONS
+# =============================================================================
+# Ribbons are awarded for completing long missions — multi-hour sessions with
+# clear objectives. Unlike medals (which reflect praise quality), ribbons
+# reflect mission completion and sustained effort.
+#
+# Multiple commanders can share a ribbon from the same operation.
+# =============================================================================
+
+ribbons:
+
+  # ---------------------------------------------------------------------------
+  # Award criteria
+  # ---------------------------------------------------------------------------
+  award_criteria:
+    definition: "Long missions: multi-hour sessions with clear objectives and measurable outcomes"
+    minimum_scale: >
+      Typically involves multiple phases, multiple agents, or significant
+      complexity. A single quick task does not qualify for a ribbon —
+      it must feel like a campaign.
+
+  # ---------------------------------------------------------------------------
+  # Known ribbons (existing registry)
+  # ---------------------------------------------------------------------------
+  known_ribbons:
+
+    - id: clearwatch_campaign
+      display: "🎗️ ClearWatch Campaign"
+      subtitle: "Design Fleet Deployment"
+      awarded: "2026-02-07"
+      criteria: "Deploy 10+ design variations + fix 4 existing"
+      eligible_commanders:
+        - Nimitz
+        - King
+        - Halsey
+        - Marshall
+        - Spruance
+      citation: "For meritorious service in the multi-version deployment operation"
+
+    - id: operation_stunning_charts
+      display: "🎗️ Operation Stunning Charts"
+      subtitle: "Intelligence & Visualization"
+      awarded: "2026-02-07"
+      criteria: "Complete 5-phase intelligence-driven visualization mission"
+      eligible_commanders:
+        - Nimitz
+        - Eisenhower
+        - Halsey
+        - MacArthur
+        - Bradley
+        - Spruance
+        - Zhukov
+        - King
+        - Rommel
+        - Montgomery
+      citation: "For excellence in intelligence gathering and data visualization under demanding conditions"
+
+  # ---------------------------------------------------------------------------
+  # Future ribbon ideas (not yet awarded — ideas for future campaigns)
+  # ---------------------------------------------------------------------------
+  future_ribbon_ideas:
+    - id: arctic_campaign
+      display: "🎗️ Arctic Campaign"
+      concept: "Cold storage and archival work"
+    - id: pacific_theater
+      display: "🎗️ Pacific Theater"
+      concept: "APAC-focused projects"
+    - id: atlantic_crossing
+      display: "🎗️ Atlantic Crossing"
+      concept: "Transatlantic coordination"
+    - id: d_day_operations
+      display: "🎗️ D-Day Operations"
+      concept: "Large-scale simultaneous deployments"
+
+  # ---------------------------------------------------------------------------
+  # Display format
+  # ---------------------------------------------------------------------------
+  display_format: >
+    Commanders display ribbons in their profile inline:
+    "Ribbons: 🎗️ ClearWatch Campaign | 🎗️ Operation Stunning Charts"
+
+---
+
+# =============================================================================
+# SECTION 4: RANK PROGRESSION
+# =============================================================================
+# Commanders start at their historical rank. They can earn higher ranks through
+# accumulated achievements. The bar is intentionally very high — achieving
+# "Fleet Admiral of the Fleet" should require sustained excellence across
+# hundreds of deployments, just as real commanders served for years.
+#
+# Do NOT lower these thresholds. They were calibrated in Feb 2026 to ensure
+# progression remains meaningful at scale.
+# =============================================================================
+
+rank_progression:
+
+  # ---------------------------------------------------------------------------
+  # Starting philosophy
+  # ---------------------------------------------------------------------------
+  philosophy: >
+    Commanders start at their historical rank. Progression only goes upward
+    through extraordinary achievement. Most commanders will never exceed
+    their historical rank in their working lifetime — that is by design.
+
+  # ---------------------------------------------------------------------------
+  # Promotions for commanders below 5-star (Vice Admiral → Fleet Admiral)
+  # These apply to any commander starting at a sub-5-star rank.
+  # ---------------------------------------------------------------------------
+  sub_five_star_promotions:
+
+    - from_rank: "Vice Admiral (3-star)"
+      to_rank: "Admiral (4-star)"
+      requirements:
+        xp: 1000
+        competence_stars: 2    # any 2 categories at ⭐ or above
+        ribbons: 5
+
+    - from_rank: "Admiral (4-star)"
+      to_rank: "Fleet Admiral (5-star)"
+      requirements:
+        xp: 4000
+        competence_stars: 4    # any 4 categories at ⭐ or above
+        ribbons: 15
+        medals:
+          medal_of_honor: 1    # at least 1 Medal of Honor required
+
+  # ---------------------------------------------------------------------------
+  # Transcendent ranks — beyond historical 5-star
+  # Available to ALL 5-star commanders (both those born at 5-star and those
+  # who earned it through sub_five_star_promotions above).
+  # ---------------------------------------------------------------------------
+  transcendent_ranks:
+
+    - rank: "Fleet Admiral of the Fleet"
+      branch: naval
+      requirements:
+        xp: 10000
+        competence_stars: 6           # any 6 categories
+        competence_minimum_level: expert   # all 6 must be ⭐⭐⭐ (Expert) or higher
+        ribbons: 40
+        medals:
+          medal_of_honor: 3           # at least 3 Medals of Honor
+      meaning: "Supreme naval commander"
+      estimated_deployments: "~200+"
+      notes: >
+        Nimitz commanded the entire Pacific Fleet for 3+ years. Achieving
+        this rank should require similar sustained excellence.
+
+    - rank: "General of the Armies"
+      branch: army
+      requirements:
+        xp: 10000
+        competence_stars: 6
+        competence_minimum_level: expert
+        ribbons: 40
+        medals:
+          medal_of_honor: 3
+      meaning: "Supreme army commander"
+      estimated_deployments: "~200+"
+      notes: >
+        Army equivalent of Fleet Admiral of the Fleet. Same bar, different
+        branch.
+
+    - rank: "Supreme Allied Commander"
+      branch: any
+      requirements:
+        xp: 25000
+        competence_stars: 8           # ALL 8 competence categories
+        competence_minimum_level: master   # all 8 must be ⭐⭐⭐⭐ (Master) or higher
+        ribbons: 75
+        medals:
+          order_of_victory: 1         # the rarest medal required
+      meaning: "Theater-level command — the highest achievable rank"
+      notes: >
+        Effectively requires mastery of every competence category plus
+        an Order of Victory (itself extremely rare). This rank may never
+        be achieved in practice — it sets the aspirational ceiling.
+
+  # ---------------------------------------------------------------------------
+  # First promotion note
+  # ---------------------------------------------------------------------------
+  first_promotion:
+    description: >
+      A commander moves from bench (0 XP) to active status on their first
+      successful deployment. This is automatic — no XP gate required.
+    bench_to_active_trigger: "First successful deployment in any task type"
+
+  # ---------------------------------------------------------------------------
+  # High-XP tier (coordinator eligibility)
+  # ---------------------------------------------------------------------------
+  coordinator_eligibility:
+    minimum_xp: 100
+    additional_requirement: "Positive post-mortem on at least one operation"
+    effect: >
+      Commanders at 100+ XP with a positive post-mortem may be assigned
+      coordinator roles and may lead teams of subordinate agents.
+
+---
+
+# =============================================================================
+# SECTION 5: MALUS (ACCOUNTABILITY) SYSTEM
+# =============================================================================
+# Malus is a SEPARATE accounting stream from XP. This section is included here
+# for completeness, but the Malus system is defined authoritatively in the
+# accountability/ directory. Key points for cross-reference:
+#
+# - Malus tracks defect accountability, not positive achievement
+# - Normal malus decays with a 14-day half-life
+# - Malpractice malus does NOT decay — permanent career marks
+# - Observers have absolute malus immunity — no exceptions
+# =============================================================================
+
+malus_reference:
+  ledger_location: "~/projects/generals/accountability/malus-ledger.yaml"
+  report_tool: "~/projects/generals/bin/malus-report.py"
+  decay_formula: "effective_malus = raw_points * (0.5 ^ (days_since / 14))"
+  decay_half_life_days: 14
+  observer_immunity: true  # Observers cannot receive malus under any circumstances
+
+  severity_scale:
+    p0: { base_points: 100, description: "Report undeliverable / data integrity" }
+    p1: { base_points:  60, description: "Visible defect in output (overlap, broken layout)" }
+    p2: { base_points:  30, description: "Functional but degraded (slow, missing enhancement)" }
+    p3: { base_points:  10, description: "Cosmetic / minor (spacing, color off-spec)" }
+
+  escalation_thresholds:
+    - range: "100-199"  consequence: "Warning — noted in next service record"
+    - range: "200-299"  consequence: "Probation — must deliver zero-defect on next deployment"
+    - range: "300-399"  consequence: "Demotion risk — coordinator review before next deployment"
+    - range: "400+"     consequence: "Suspension — cannot deploy until founder review"
+
+  malpractice_categories:
+    - id: strategic_malpractice
+      description: "Bad counsel causing systemic harm"
+      consequence: "Retirement from roster"
+      decays: false
+
+    - id: operational_malpractice
+      description: "Refused to execute assigned role"
+      consequence: "Career review, possible demotion"
+      decays: false
+
+    - id: insubordination
+      description: "Directly violated specific founder instructions"
+      consequence: "Compounds with operational malpractice"
+      decays: false
+
+---
+
+# =============================================================================
+# SECTION 6: POST-DEPLOYMENT PROCESSING ORDER
+# =============================================================================
+# After each deployment, process achievements in this exact order to avoid
+# sequencing errors (e.g. awarding a rank before the medal that qualifies for it).
+# =============================================================================
+
+post_deployment_sequence:
+  - step: 1
+    action: "Calculate XP earned: base_rate + bonuses - penalties"
+  - step: 2
+    action: "Update competence stars: increment category count, award star at 10/25/50/100/250"
+  - step: 3
+    action: "Award campaign ribbon if mission qualifies (long session, clear objectives)"
+  - step: 4
+    action: "Award medal if founder praise qualifies (capture exact quote)"
+  - step: 5
+    action: "Check rank promotion: evaluate if XP/stars/ribbons/medals meet any threshold"
+  - step: 6
+    action: "Update service record: add deployment entry with all earned achievements"
+
+---
+
+# =============================================================================
+# END OF FILE
+# Motto: "Audentes Fortuna Iuvat" (Fortune Favors the Bold)
+# =============================================================================
