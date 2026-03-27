@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "armies"
+version = "0.1.0"
+description = "Multi-agent coordination engine for Claude Code"
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.0",
+    "pyyaml>=6.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+armies = "armies.cli:cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
