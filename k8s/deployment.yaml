@@ -20,8 +20,6 @@ spec:
       labels:
         app: armies-docs
     spec:
-      imagePullSecrets:
-        - name: ghcr-pull-secret
       containers:
         - name: nginx
           image: ghcr.io/petersimmons1972/armies-docs:latest
