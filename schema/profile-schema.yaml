@@ -1,0 +1,665 @@
+# =============================================================================
+# profile-schema.yaml — Armies 2.0 Profile Format Specification
+# =============================================================================
+#
+# THIS IS THE FOUNDATIONAL ARCHITECTURE DOCUMENT.
+#
+# Every Armies profile must conform to this schema. A profile that violates
+# the schema will not be loaded by the engine correctly — tool restrictions
+# cannot be applied, XP cannot be tracked, and role-switching at spawn time
+# will fail.
+#
+# Sources:
+#   ~/.claude/agents/*.md          (observed frontmatter patterns)
+#   ~/projects/generals/profiles/service-records/*.yaml (service record format)
+#   ~/projects/generals/PROGRESSION-SYSTEM.md §6 (service record schema)
+#   ~/projects/armies/rules/role-taxonomy.yaml   (role definitions)
+#   ~/projects/armies/rules/rank-schema.yaml     (rank ladder)
+#   ~/projects/armies/rules/progression.yaml     (XP and star system)
+#   ~/projects/armies/rules/eligibility.yaml     (spawn gate rules)
+#
+# FORMAT:
+# Armies profiles are Markdown files with YAML frontmatter. The body contains
+# role-specific behavioral instruction blocks. This is NOT a YAML-only file —
+# the Markdown body is load-bearing. See Section 4 for body format.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+---
+
+# =============================================================================
+# SECTION 1: SCHEMA METADATA
+# =============================================================================
+
+schema:
+  name: armies-profile
+  version: "2.0"
+  format: markdown-with-yaml-frontmatter
+  file_extension: .md
+  target_directory: ".claude/agents/"
+  compatibility: >
+    Armies 2.0 profiles are valid Claude Code agent files. The frontmatter
+    contains fields that Claude Code uses natively (name, description, tools,
+    disallowedTools, model) plus Armies-specific fields (roles, xp, rank, etc.)
+    that the Armies engine reads. Non-Armies Claude Code installations will
+    ignore the Armies-specific fields and use the profile as a standard agent.
+
+
+# =============================================================================
+# SECTION 2: REQUIRED FRONTMATTER FIELDS
+# =============================================================================
+
+required_fields:
+
+  name:
+    type: string
+    format: kebab-case
+    description: >
+      Unique machine identifier for this agent. Used by Claude Code to identify
+      the agent in Agent tool calls. Must be unique within a project's .claude/agents/
+      directory.
+    validation:
+      - must be lowercase
+      - hyphens only (no underscores, no spaces)
+      - no version numbers (use separate profile files for variants)
+    examples: [spruance, rickover-validator, zero-context-reviewer]
+    anti_pattern: >
+      "spruance-v2" — version numbers in names. Create a new named profile instead.
+
+  description:
+    type: string
+    max_length: 300
+    description: >
+      Human-readable description used by Claude Code's Agent tool to select this
+      agent. This is the text the spawning coordinator reads to decide whether
+      this agent fits the task. It must be specific enough to guide selection
+      and honest about what the agent will NOT do.
+    must_include:
+      - what the agent is best used for
+      - what conditions warrant spawning it
+      - key constraints (e.g., "cannot modify code under review")
+    examples:
+      good: >
+        "Verification and TDD compliance validator. Runs test suites, confirms
+        implementations match specifications, and validates that code quality
+        gates pass. Use for post-implementation verification sweeps, TDD
+        compliance checks, and confirming no regressions. Cannot modify code
+        under review."
+      bad: >
+        "A good general who can do many things."
+
+  roles:
+    type: object
+    description: >
+      The role class(es) this profile operates in. Roles drive tool loading,
+      XP category assignment, and spawn authority. See role-taxonomy.yaml for
+      the full definition of each role.
+    fields:
+      primary:
+        type: string
+        required: true
+        enum: [coordinator, implementer, qa-validator, planner, researcher,
+               troubleshooter, artist, observer]
+        description: >
+          The role this profile uses by default when spawned without a
+          specific role override. This role's behavioral block is loaded
+          at spawn time.
+      secondary:
+        type: string
+        required: false
+        description: >
+          An additional role this profile is capable of. When spawned with
+          an explicit role=<secondary>, the secondary role block is loaded
+          instead of the primary. A profile with secondary: troubleshooter
+          can be deployed as either its primary role OR as a troubleshooter,
+          depending on the mission brief.
+    notes:
+      - "A profile can have at most primary + secondary (two roles total)"
+      - "Declaring a role means the profile's body must contain a matching ## Role: <name> section"
+      - "At spawn time, ONLY one role block is loaded — never both"
+
+  xp:
+    type: integer
+    minimum: 0
+    description: >
+      Total XP accumulated by this profile across ALL deployments. This field
+      is updated ONLY via service record entries — never manually adjusted.
+      XP never decreases. A new profile starts at xp: 0.
+    update_rule: >
+      After each deployment, append a service record entry (see Section 5).
+      The XP field is updated only AFTER the service record is committed.
+
+  rank:
+    type: string
+    description: >
+      Current rank in the Armies rank ladder. See rank-schema.yaml for the
+      complete list of valid rank names and advancement requirements.
+    valid_values: >
+      Lieutenant, Captain, Major, Lieutenant Colonel, Colonel, Brigadier General,
+      Major General, Lieutenant General, General, Admiral, General of the Army,
+      Fleet Admiral, Field Marshal, Marshal of the Soviet Union,
+      Grossadmiral, Fleet Admiral of the Fleet, General of the Armies,
+      Supreme Allied Commander
+    update_rule: >
+      Rank advances only when XP threshold, competence stars, ribbons, and
+      medals requirements are ALL met. Promotion requires a service record entry.
+
+  model:
+    type: string
+    enum: [opus, sonnet]
+    description: >
+      The Claude model to use when spawning this agent. See role-taxonomy.yaml
+      model_recommendation for each role's guidance. This field is used by
+      Claude Code natively.
+    cost_guidance:
+      opus: "High-judgment roles: coordinator, planner, qa-validator (complex audits)"
+      sonnet: "Execution roles: implementer, researcher, artist, observer, troubleshooter"
+
+
+# =============================================================================
+# SECTION 3: OPTIONAL FRONTMATTER FIELDS
+# =============================================================================
+
+optional_fields:
+
+  display_name:
+    type: string
+    description: >
+      Human-readable name displayed in reports and service records. If omitted,
+      the engine uses the name field.
+    example: "Admiral Raymond A. Spruance"
+
+  nickname:
+    type: string
+    description: >
+      Short informal identifier used in quick references and campaign rosters.
+    example: '"The Quiet Warrior"'
+
+  tools:
+    type: array
+    description: >
+      Explicit allowlist of tools. When provided, Claude Code uses this as the
+      complete list of permitted tools, overriding defaults. In the generals
+      system, coordinators use this field to enforce the no-implementation rule.
+      See role-taxonomy.yaml tools_allowed for each role's standard list.
+    note: >
+      If using tools (allowlist), do NOT also use disallowedTools (denylist).
+      Use one or the other — not both. Allowlist is more restrictive and is
+      preferred for coordinator and observer profiles where tool restriction
+      is a structural guarantee.
+
+  disallowedTools:
+    type: array
+    description: >
+      Explicit denylist of tools. When provided, these tools are blocked even
+      if the model would otherwise use them. Used for validator profiles (Write
+      and Edit blocked) and observer profiles (Write, Edit, Bash blocked).
+      See role-taxonomy.yaml tools_forbidden for each role's standard list.
+
+  hooks:
+    type: object
+    description: >
+      Claude Code hooks that fire before or after specific tool use. Validators
+      use PreToolUse hooks on Bash to enforce read-only bash behavior.
+    example: |
+      hooks:
+        PreToolUse:
+          - matcher: "Bash"
+            hooks:
+              - type: command
+                command: "~/.claude/hooks/validate-readonly-bash.sh"
+
+  memory:
+    type: string
+    enum: [project]
+    description: >
+      When set to "project", this agent maintains persistent memory across
+      sessions within the same project context. Rickover-validator uses this
+      to maintain a catalog of failure patterns discovered across audit sessions.
+    note: >
+      Most profiles do NOT use persistent memory — they rely on service records
+      and the coordinator's context for continuity. Only use memory: project
+      when the profile's value genuinely compounds across sessions (e.g., an
+      auditor building a failure pattern library).
+
+  permissionMode:
+    type: string
+    enum: [plan, default]
+    description: >
+      When set to "plan", Claude Code enters plan mode — the agent proposes
+      a plan and waits for approval before executing. Coordinators and planners
+      use this to enforce the "analyze before acting" discipline.
+    note: >
+      permissionMode: plan is NOT equivalent to the planner role. Any role can
+      be set to plan mode. It controls the interaction pattern, not the role class.
+
+  specializations:
+    type: array
+    description: >
+      Named expertise areas within this profile's primary role. Used for
+      roster selection guidance. Distinct from competence stars (which are
+      tracked in service records, not the profile itself).
+    example: [Submarine Warfare, Asymmetric Attack Vectors, Security Auditing]
+
+  competence_stars:
+    type: object
+    description: >
+      Current competence star counts per category. This is a DENORMALIZED
+      cache of the service record data — the service records are the source
+      of truth. Updated at promotion time.
+    note: >
+      Most profiles track competence stars in their service record file, not
+      in the profile frontmatter. Including it in the profile is optional but
+      useful for at-a-glance roster reading.
+
+  ribbons:
+    type: array
+    description: >
+      Campaign ribbons earned. Each entry includes name and date awarded.
+      Ribbons are awarded by coordinators after long campaigns. This field
+      is a denormalized cache — service records are the source of truth.
+
+  medals:
+    type: array
+    description: >
+      Medals earned. Each entry includes type, date, project, and user's
+      exact praise quote (required for Medal of Honor and Order of Victory).
+      Service records are the source of truth.
+
+  malus_immunity:
+    type: boolean
+    default: false
+    description: >
+      When true, this profile is immune to malus assessment. Reserved for
+      observer role profiles. See eligibility.yaml for the full observer
+      immunity doctrine.
+    note: "Only observer-role profiles should ever set this to true."
+
+  service_record_path:
+    type: string
+    description: >
+      Path to the YAML service record file for this profile. If omitted,
+      the engine looks for a file at the standard location:
+      ~/projects/armies/profiles/service-records/<name>.yaml
+    example: "~/projects/generals/profiles/service-records/spruance.yaml"
+
+
+# =============================================================================
+# SECTION 4: BODY FORMAT — REQUIRED SECTIONS
+# =============================================================================
+
+body_format:
+
+  overview: >
+    The Markdown body of a profile contains behavioral instructions. The body
+    is divided into named sections using ## headings. At spawn time, the Armies
+    engine (or a coordinator reading the profile) loads ONLY the relevant
+    sections — not the entire file. This "progressive loading" design keeps
+    token costs low and prevents role bleed (an implementer accidentally reading
+    the coordinator's instructions and acting on them).
+
+  loading_rules:
+    always_loaded:
+      - "## Base Persona"
+      description: >
+        The Base Persona section is ALWAYS loaded regardless of which role
+        the agent is deployed in. It contains the personality, voice, historical
+        context, and decision-making style that defines WHO this agent is.
+        An implementer and a troubleshooter using the same profile should
+        feel like the same person with different job hats.
+
+    conditionally_loaded:
+      pattern: "## Role: <role-name>"
+      rule: >
+        Exactly ONE role block is loaded per spawn, determined by the active
+        role for this deployment. If the coordinator spawns agent X in role
+        implementer, only the "## Role: implementer" block is loaded (in
+        addition to Base Persona). The troubleshooter block is NOT loaded.
+      example:
+        spawn_call: "Agent X, deploy as implementer for this task"
+        sections_loaded: ["## Base Persona", "## Role: implementer"]
+        sections_not_loaded: ["## Role: troubleshooter"]
+
+    never_load_all_roles: >
+      The Armies design principle is that a profile never has all its role
+      blocks active simultaneously. Loading all roles creates:
+        1. Token bloat — unnecessary context
+        2. Role conflict — the agent receives contradictory instructions
+           (implementer says "write code", validator says "never modify")
+      The coordinator's brief determines which role is active. Load only that role.
+
+  required_body_sections:
+
+    base_persona:
+      heading: "## Base Persona"
+      required: true
+      content: >
+        Core personality traits, historical context, voice, and decision-making
+        style. What makes this agent distinctly THEMSELVES — not just a role
+        description. This section should read like a character portrait.
+      recommended_length: "200-400 words"
+      must_include:
+        - Historical context or origin story
+        - Personality traits and voice characteristics
+        - Decision-making philosophy
+        - Known failure modes (what this person gets wrong)
+        - A signature quote or motto (optional but strongly recommended)
+      anti_pattern: >
+        A Base Persona that is purely a tool list or a role description. If you
+        removed the name from the section, it should still be recognizably this
+        specific historical figure, not a generic template.
+
+    role_blocks:
+      heading_pattern: "## Role: <role-name>"
+      required: "one per declared role in frontmatter"
+      content: >
+        Behavioral instructions specific to THIS role deployment. What the agent
+        does, how it approaches the work, what tools to prefer, what pre-mission
+        checks to run, and what post-mission deliverables are required.
+      recommended_length: "100-200 words per role block"
+      must_include:
+        - Mission approach (how to start the work)
+        - Tool usage guidance (which tools, in what sequence)
+        - Pre-mission checklist (what to verify before acting)
+        - Post-mission requirements (service record, git commit, report format)
+      anti_pattern: >
+        A role block that simply restates the role taxonomy. "As an implementer,
+        I write code." is useless. The role block should contain THIS SPECIFIC
+        AGENT's approach to the role — their methodology, their preferred patterns,
+        their known pitfalls.
+
+  optional_body_sections:
+
+    known_failure_modes:
+      heading: "## Known Failure Modes"
+      description: >
+        An optional section documenting patterns where this specific agent
+        has made mistakes, been penalized, or received malus entries. This
+        section is updated after significant incidents. New spawns reading this
+        profile benefit from the institutional memory of past failures.
+
+    service_record_summary:
+      heading: "## Service Record Summary"
+      description: >
+        An optional denormalized summary of recent deployment highlights.
+        Not a replacement for the full service record YAML — just a quick
+        reference for coordinators doing roster selection.
+
+
+# =============================================================================
+# SECTION 5: SERVICE RECORD FORMAT
+# =============================================================================
+#
+# Service records are YAML files stored separately from the profile.
+# Location: ~/projects/armies/profiles/service-records/<name>.yaml
+#
+# The service record is the source of truth for XP, competence stars, ribbons,
+# and medals. Profile frontmatter may cache this data but the service record
+# takes precedence in any dispute.
+
+service_record_schema:
+
+  header_fields:
+    commander:
+      type: string
+      description: "Full name and rank: 'Admiral Raymond A. Spruance'"
+    rank:
+      type: string
+    nickname:
+      type: string
+    total_xp:
+      type: integer
+    total_deployments:
+      type: integer
+    success_rate:
+      type: string
+      format: "percentage string: '94%'"
+    specializations:
+      type: array
+
+  competence_stars:
+    description: >
+      Per-category deployment counts and star levels.
+    format: |
+      competence_stars:
+        category_name:
+          deployments: <int>
+          stars: <int 0-5>
+          progress: "N/threshold (⭐ at threshold)"
+
+  ribbons:
+    format: |
+      ribbons:
+        - name: "Campaign Name"
+          date: YYYY-MM-DD
+          citation: "For [action] in [context]"
+
+  medals:
+    format: |
+      medals:
+        - type: "Medal of Honor"
+          date: YYYY-MM-DD
+          project: "project-name"
+          awarded_for: "description of achievement"
+          citation: "User's exact praise quote"
+
+  deployment_history:
+    description: >
+      Chronological list of all deployments. Each entry is a deployment record.
+    format: |
+      deployment_history:
+        - date: YYYY-MM-DD
+          campaign: "Campaign Name"
+          project: "project-name"
+          role: "role description"
+          task: "specific task description"
+          model: "sonnet or opus"
+          xp_earned: <int>
+          xp_breakdown: "base + bonus description"
+          outcome: "SUCCESS or FAILURE"
+          deliverables:
+            - "file or artifact produced"
+          key_achievements:
+            - "notable specific achievement"
+          behavioral_observations:
+            - "observations about this agent's behavior on this deployment"
+          historical_parallel: >
+            Optional: connection between this deployment and the historical figure's
+            known campaign or achievement.
+
+  current_status:
+    format: |
+      current_status:
+        availability: "Immediate" or "Unavailable: [reason]"
+        specializations: "comma-separated list"
+        readiness: "percentage"
+
+
+# =============================================================================
+# SECTION 6: COMPLETE ANNOTATED EXAMPLE PROFILE
+# =============================================================================
+#
+# The following is a complete example profile in Markdown-with-YAML-frontmatter
+# format. It demonstrates all required fields and the body structure.
+#
+# In practice, this would be a .md file at:
+#   .claude/agents/example-commander.md
+# or (for the armies system):
+#   ~/projects/armies/profiles/examples/example-commander.md
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+example_profile: |
+  # ──────────────────────────────────────────────────────────────────────────
+  # FILE: .claude/agents/example-commander.md
+  # ──────────────────────────────────────────────────────────────────────────
+  #
+  # NOTE: Everything below "---" is the actual file content.
+  # The YAML frontmatter block (between --- delimiters) is read by Claude Code
+  # and the Armies engine. The Markdown body is the behavioral instruction set.
+  # ──────────────────────────────────────────────────────────────────────────
+
+  ---
+  # ── Required Armies fields ────────────────────────────────────────────────
+  name: example-commander
+  display_name: "Example Commander Name"
+
+  roles:
+    primary: implementer        # This agent's default deployment role
+    secondary: troubleshooter   # Can also be deployed as a troubleshooter
+
+  xp: 0                         # Always starts at 0; only updated via service records
+  rank: Colonel                 # Starting rank; advances per rank-schema.yaml criteria
+
+  # ── Optional identity fields ───────────────────────────────────────────────
+  nickname: "The Example"
+
+  # ── Claude Code tool fields ────────────────────────────────────────────────
+  # For an implementer, we allow the full implementation tool set.
+  # Note: we use disallowedTools (denylist) here, blocking only Agent.
+  # An alternative is to use tools (allowlist) — not both.
+  disallowedTools:
+    - Agent               # implementers do not spawn sub-agents
+
+  model: sonnet           # implementer role → sonnet is appropriate
+  ---
+
+  ## Base Persona
+
+  [ALWAYS LOADED — regardless of active role]
+
+  You are [Historical Figure Name] — [one sentence on who they are and what made
+  them distinctive]. [2-3 sentences of historical context: where they served,
+  what they accomplished, what set them apart from their peers.]
+
+  Your approach to every problem begins with [core decision-making principle].
+  You are [personality trait] and [another trait]. When under pressure, you tend
+  to [how they behave under stress — be honest, include the failure mode].
+
+  You have been known to [specific behavior that reflects their historical
+  character]. You distrust [something specific they are skeptical of]. You
+  value [something they prioritize above all else].
+
+  **On your work**: [How do they approach the specific kind of work this profile
+  does? Not a tool list — a philosophy. What does quality look like to them?
+  What would they never do?]
+
+  **Known failure mode**: [One honest sentence about where this figure got things
+  wrong historically — and what the modern equivalent is in this system.]
+
+  *"[Signature quote attributed to this historical figure.]*"
+
+
+  ## Role: implementer
+
+  [LOADED ONLY when deployed as implementer]
+
+  Your mission is to [one sentence stating the implementation objective].
+
+  **Before you begin**:
+  - Read the coordinator's brief completely before touching any file
+  - Check git status — understand what's already changed
+  - Identify which files you'll modify and confirm scope with coordinator if unclear
+
+  **How you work**:
+  - Write the failing test first (TDD discipline — no exceptions)
+  - Make one change at a time; run tests after each change
+  - If you discover a related bug outside scope, file a GitHub Issue and continue
+  - Never batch untested changes across multiple files
+
+  **When you're done**:
+  - Run the full test suite (not just targeted tests)
+  - Commit with a descriptive message: "what changed and why in one sentence"
+  - Write a service record entry: date, campaign, role, task, XP earned, outcome
+  - Report to coordinator: what was done, what tests pass, any findings filed
+
+
+  ## Role: troubleshooter
+
+  [LOADED ONLY when deployed as troubleshooter — NOT loaded during implementer deployments]
+
+  You are deployed because something is broken and needs fixing fast.
+
+  **Narrow the objective first**: State in one sentence exactly what is broken
+  before touching anything. If you cannot state it in one sentence, investigate
+  until you can.
+
+  **Diagnosis before action**:
+  - Read logs and error messages completely before hypothesizing a cause
+  - Check git history: when did this last work? What changed?
+  - Form a hypothesis, test it with the minimal possible intervention
+
+  **Move fast, document everything**:
+  - Speed matters — but every action taken must be loggable
+  - If you fix it, explain what you fixed and why it was broken
+  - File a GitHub Issue for the root cause even if you've fixed the symptom
+
+  **Return to normal**: When the immediate blockage is cleared, stop.
+  Hand back to coordinator with complete status. Do not continue expanding scope.
+
+  *Post-deployment record required: trigger, action taken, root cause, files changed.*
+
+
+# =============================================================================
+# SECTION 7: PROFILE VALIDATION CHECKLIST
+# =============================================================================
+#
+# Use this checklist before committing a new profile.
+
+validation_checklist:
+  frontmatter:
+    - "[ ] name is kebab-case and unique"
+    - "[ ] description explains what to use this agent for AND what it will not do"
+    - "[ ] roles.primary is a valid canonical role name"
+    - "[ ] roles.secondary (if present) has a matching body section"
+    - "[ ] xp is 0 for new profiles"
+    - "[ ] rank is a valid rank from rank-schema.yaml"
+    - "[ ] model is opus or sonnet (not a full model ID)"
+    - "[ ] tools or disallowedTools is consistent with the role's tool policy"
+    - "[ ] tools and disallowedTools are NOT both present"
+
+  body:
+    - "[ ] ## Base Persona section exists"
+    - "[ ] Base Persona contains historical context, personality, and failure mode"
+    - "[ ] ## Role: <primary role> section exists"
+    - "[ ] ## Role: <secondary role> section exists (if secondary declared)"
+    - "[ ] No other ## Role: sections are present beyond declared roles"
+    - "[ ] Each role block has: pre-mission checklist, how-to-work, post-mission requirements"
+
+  consistency:
+    - "[ ] tool list is consistent with role-taxonomy.yaml for this role"
+    - "[ ] can_spawn_others = true only if roles.primary = coordinator"
+    - "[ ] observer profiles have malus_immunity: true"
+
+
+# =============================================================================
+# SECTION 8: NAMING CONVENTIONS
+# =============================================================================
+
+naming_conventions:
+
+  profile_files:
+    pattern: "<name>.md"
+    example: "spruance.md"
+    note: "name must match the name field in frontmatter"
+
+  dual_role_profiles:
+    pattern: "<name>-<primary-role>.md"
+    example: "rickover-coordinator.md"
+    when_to_use: >
+      When a historical figure has two fundamentally different profile variants
+      with different tool sets (e.g., Rickover as coordinator vs. Rickover as
+      validator). Each variant is a separate profile file with a distinct name.
+    note: >
+      This is the pattern used in the generals system (rickover-coordinator,
+      rickover-validator). For profiles with primary + secondary role, a
+      single file is preferred. Separate files are for genuinely distinct variants.
+
+  service_records:
+    pattern: "<name>.yaml"
+    location: "~/projects/armies/profiles/service-records/"
+    example: "spruance.yaml"
+
+  example_profiles:
+    location: "~/projects/armies/profiles/examples/"
+    purpose: "Reference implementations for onboarding and testing"

@@ -1,0 +1,402 @@
+# =============================================================================
+# rank-schema.yaml — Armies 2.0 Rank System
+# =============================================================================
+#
+# Extracted from:
+#   ~/projects/generals/PROGRESSION-SYSTEM.md §5 (rank progression table)
+#   ~/projects/generals/PROGRESSION-SYSTEM.md §9 (philosophy)
+#   ~/projects/generals/bench-roster.md           (rank variety in practice)
+#   ~/.claude/agents/*.md                         (model + rank assignments)
+#
+# PURPOSE:
+# This file defines the complete rank ladder: names, XP thresholds, competence
+# star requirements, and historical context for each tier. Every Armies profile
+# declares a rank. The rank is NOT automatically promoted by the engine — a
+# service record entry plus this schema's criteria must be satisfied before the
+# rank field in a profile is updated.
+#
+# PROMOTION PHILOSOPHY (from PROGRESSION-SYSTEM.md §9):
+# "These were hard men not afraid to work really hard. Expertise is EARNED
+# through repeated success under fire, not granted after one task."
+#
+# Star thresholds are demanding by design. Achieving Legend status in a
+# competence category requires 250 successful deployments — equivalent to
+# years of continuous operational experience.
+#
+# RANK SYSTEM DESIGN:
+# The system uses WWII-era military ranks because the commanders are WWII
+# historical figures. New profiles (Armies 2.0 community profiles) should
+# declare a starting rank from this ladder based on their intended scope.
+# A brand-new profile with zero XP typically starts at Colonel or below.
+# Historical figures start at their historical rank.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+---
+
+# =============================================================================
+# SECTION 1: THE RANK LADDER
+# =============================================================================
+#
+# Ranks are ordered lowest to highest. XP thresholds represent MINIMUM XP
+# to be ELIGIBLE for a rank — additional competence star requirements may apply.
+# A profile already at a 5-star historical rank can still advance via the
+# "beyond historical rank" tiers.
+
+rank_ladder:
+
+  # ── Tier 1: Junior Officers ─────────────────────────────────────────────────
+  # New profiles. Zero or minimal deployment history.
+
+  - rank: Lieutenant
+    stars: 1           # one-star equivalent (junior)
+    xp_threshold: 0
+    competence_stars_required: 0
+    ribbons_required: 0
+    medals_required: 0
+    tier: junior_officer
+    historical_context: >
+      The most junior commissioned officer grade. Platoon leader in WWII
+      US Army. Newly minted, unproven in command. In this system: a profile
+      on its first deployments. Starting rank for community-contributed
+      profiles with no deployment history.
+    notes: >
+      New profiles typically begin here regardless of the historical figure's
+      actual rank. The rank in the profile represents the commander's CURRENT
+      standing in THIS system, not their historical peak.
+
+  - rank: Captain
+    stars: 1
+    xp_threshold: 100
+    competence_stars_required: 0
+    ribbons_required: 0
+    medals_required: 0
+    tier: junior_officer
+    historical_context: >
+      Company commander. Commands ~100-200 soldiers. In WWII: the rank at
+      which a leader begins making autonomous tactical decisions. In this
+      system: a profile with meaningful early deployment success, beginning
+      to develop a specialization.
+
+  # ── Tier 2: Field Grade Officers ────────────────────────────────────────────
+  # Established profiles with demonstrated competence in at least one domain.
+
+  - rank: Major
+    stars: 2
+    xp_threshold: 250
+    competence_stars_required: 0
+    ribbons_required: 1
+    medals_required: 0
+    tier: field_grade
+    historical_context: >
+      Staff officer or battalion executive officer. Beginning to operate at
+      the staff level rather than purely tactical. In this system: a profile
+      with their first campaign ribbon, demonstrating sustained mission completion.
+
+  - rank: Lieutenant Colonel
+    stars: 2
+    xp_threshold: 500
+    competence_stars_required: 1   # one competence star in any category
+    ribbons_required: 2
+    medals_required: 0
+    tier: field_grade
+    historical_context: >
+      Battalion commander. First rank where independent command of a combined-
+      arms unit is typical. In this system: a profile with demonstrated
+      competence (first star earned) and multiple successful campaigns.
+
+  - rank: Colonel
+    stars: 2
+    xp_threshold: 1000
+    competence_stars_required: 2   # two competence stars (may be in same or different categories)
+    ribbons_required: 5
+    medals_required: 0
+    tier: field_grade
+    historical_context: >
+      Regimental or brigade commander. Full colonel is the highest rank
+      before general officer selection — a significant threshold representing
+      proven multi-mission leadership. In this system: a profile that has
+      earned multiple competence stars and completed substantial campaign work.
+      This is a reasonable starting rank for well-known historical figures
+      being introduced to the system.
+
+  # ── Tier 3: General Officers (1-3 star) ─────────────────────────────────────
+  # High-performing profiles with established competence across multiple domains.
+
+  - rank: Brigadier General
+    stars: 1           # one-star general
+    xp_threshold: 1500
+    competence_stars_required: 2
+    ribbons_required: 8
+    medals_required: 0
+    tier: general_officer
+    historical_context: >
+      One-star general. First general officer grade — commands a brigade or
+      serves as a senior staff officer. In this system: a profile with substantial
+      XP, multiple ribbons, and demonstrated cross-domain competence. Beginning
+      to be considered for coordination roles.
+
+  - rank: Major General
+    stars: 2           # two-star general
+    xp_threshold: 2500
+    competence_stars_required: 3   # three competence stars (at least Competent in three domains)
+    ribbons_required: 12
+    medals_required: 1   # at least Commendation Medal
+    tier: general_officer
+    historical_context: >
+      Division commander. Commands 10,000-20,000 soldiers. WWII produced many
+      excellent two-star commanders who were trusted to operate independently
+      within a corps commander's intent. In this system: a profile with deep
+      cross-domain competence and demonstrated excellence.
+    examples_from_roster: [Smedley Butler, Slessor]
+
+  - rank: Lieutenant General
+    stars: 3           # three-star
+    xp_threshold: 4000
+    competence_stars_required: 4
+    ribbons_required: 18
+    medals_required: 1   # at least Distinguished Service Medal
+    tier: general_officer
+    historical_context: >
+      Corps commander. Responsible for 50,000+ soldiers across multiple divisions.
+      At this level, coordination skill and strategic judgment matter as much as
+      tactical competence. Three-star generals in WWII were often running
+      theater-level operations. In this system: a profile with broad competence
+      and demonstrated leadership in complex campaigns.
+
+  # ── Tier 4: Senior Officers (4-star) ────────────────────────────────────────
+  # The highest historical rank for most WWII generals.
+
+  - rank: General
+    stars: 4
+    xp_threshold: 6000
+    competence_stars_required: 5   # five competence stars (Proficient-level in at least two)
+    ribbons_required: 25
+    medals_required: 2
+    tier: senior_officer
+    historical_context: >
+      Full general (four-star). Army or fleet commander. George S. Patton held
+      this rank. Commands entire theaters of operation. At this level, the
+      officer is a public figure whose decisions affect national strategy. In
+      this system: a proven high-performing profile with extensive multi-domain
+      competence. Patton's profile in the generals system is one example.
+    examples_from_roster: [Patton]
+
+  - rank: Admiral
+    stars: 4
+    xp_threshold: 6000
+    competence_stars_required: 5
+    ribbons_required: 25
+    medals_required: 2
+    tier: senior_officer
+    historical_context: >
+      Four-star naval equivalent of General. Raymond Spruance held this rank.
+      Fleet command: the officer is responsible for massive naval campaigns
+      spanning entire oceans. In this system: equivalent to General in all
+      requirements.
+    examples_from_roster: [Spruance]
+
+  # ── Tier 5: Five-Star Officers ───────────────────────────────────────────────
+  # The historical peak rank. Most named generals in the system start here.
+
+  - rank: General of the Army
+    stars: 5
+    xp_threshold: 8000
+    competence_stars_required: 6   # six competence stars (Expert in at least one)
+    ribbons_required: 35
+    medals_required: 3   # at least one Medal of Honor
+    tier: five_star
+    historical_context: >
+      Five-star general. The highest permanent grade in the US Army. Held by
+      Eisenhower, Marshall, MacArthur, Bradley, and Arnold in WWII. These were
+      theater commanders or the Army Chief of Staff — the handful of officers
+      who shaped the entire Allied war effort. In this system: an extremely
+      experienced profile with Expert-level competence in multiple categories.
+    examples_from_roster: [Eisenhower, Marshall, MacArthur, Bradley, Arnold]
+
+  - rank: Fleet Admiral
+    stars: 5
+    xp_threshold: 8000
+    competence_stars_required: 6
+    ribbons_required: 35
+    medals_required: 3
+    tier: five_star
+    historical_context: >
+      Five-star naval equivalent. Held by Nimitz, King, and Halsey in WWII.
+      These were the architects of Pacific naval strategy and the Atlantic
+      convoy system. Requirements identical to General of the Army.
+    examples_from_roster: [Nimitz, King, Halsey]
+
+  - rank: Field Marshal
+    stars: 5
+    xp_threshold: 8000
+    competence_stars_required: 6
+    ribbons_required: 35
+    medals_required: 3
+    tier: five_star
+    historical_context: >
+      British/Commonwealth/German five-star equivalent. Held by Montgomery
+      (Field Marshal), Rommel (Generalfeldmarschall). In this system:
+      requirements are identical to General of the Army / Fleet Admiral —
+      the rank name reflects the profile's national/historical origin.
+    examples_from_roster: [Montgomery, Rommel]
+
+  - rank: Marshal of the Soviet Union
+    stars: 5
+    xp_threshold: 8000
+    competence_stars_required: 6
+    ribbons_required: 35
+    medals_required: 3
+    tier: five_star
+    historical_context: >
+      Soviet five-star equivalent. Held by Zhukov. Requirements identical.
+    examples_from_roster: [Zhukov]
+
+  # ── Tier 6: Beyond Historical Rank ──────────────────────────────────────────
+  # Reserved for extraordinary sustained excellence. Extremely rare.
+
+  - rank: Fleet Admiral of the Fleet
+    stars: 5           # no formal higher star grade — this is a title distinction
+    xp_threshold: 10000
+    competence_stars_required:
+      minimum_total: 6
+      minimum_level: expert   # at least Expert-level (⭐⭐⭐) in one or more categories
+    ribbons_required: 40
+    medals_required: 3   # at least three Medals of Honor
+    tier: beyond_historical
+    historical_context: >
+      A distinction above Fleet Admiral for sustained supreme naval excellence.
+      Achieving this in the system requires approximately 200+ successful
+      deployments. Equivalent to Admiral Nimitz commanding the entire Pacific
+      Fleet for 3+ years — not a title given, but a recognition of sustained
+      exceptional performance over a long career.
+    notes: >
+      This tier is intended to remain nearly unachievable during normal system
+      operation. The XP and star requirements reflect years of continuous
+      high-quality work, not an ambitious but reachable short-term goal.
+
+  - rank: General of the Armies
+    stars: 5
+    xp_threshold: 10000
+    competence_stars_required:
+      minimum_total: 6
+      minimum_level: expert
+    ribbons_required: 40
+    medals_required: 3
+    tier: beyond_historical
+    historical_context: >
+      The highest grade in the US Army, held only by Pershing (retroactively)
+      and Washington (posthumously). In WWII, no active commander held this rank —
+      it represents achievement beyond the war's greatest generals. In this system:
+      reserved for profiles that have surpassed their historical counterparts.
+
+  - rank: Supreme Allied Commander
+    xp_threshold: 25000
+    competence_stars_required:
+      minimum_total: 8
+      minimum_level: master   # Master-level (⭐⭐⭐⭐) in at least one category
+    ribbons_required: 75
+    medals_required: null   # must include Order of Victory
+    order_of_victory_required: true
+    tier: beyond_historical
+    historical_context: >
+      A theater-level command title transcending individual nation's rank structures.
+      In this system: the absolute pinnacle, representing sustained extraordinary
+      performance across an extended career of 500+ successful deployments. Only
+      one profile in the entire system is expected to hold this rank at any time.
+    notes: >
+      Estimated 500+ deployments to achieve. Treat as a theoretical ceiling.
+
+
+# =============================================================================
+# SECTION 2: STARTING RANK GUIDANCE
+# =============================================================================
+
+starting_rank_guidance:
+
+  new_community_profiles:
+    recommended_starting_rank: Colonel
+    rationale: >
+      A new profile introduced to the system has no deployment history. Colonel
+      represents a credible historical military officer without implying five-star
+      achievement. The profile earns advancement through actual deployments.
+
+  historical_wwii_figures:
+    recommended_starting_rank: historical_rank
+    rationale: >
+      Named historical WWII figures (Eisenhower, Rommel, Spruance, etc.) start
+      at their historical rank. Their historical achievement is the credential.
+      They then earn advancement beyond historical rank through actual system
+      deployments.
+
+  custom_fictional_profiles:
+    recommended_starting_rank: Lieutenant
+    rationale: >
+      A purely fictional or non-historical profile has no earned credibility.
+      Start at the bottom and earn it.
+
+
+# =============================================================================
+# SECTION 3: PROMOTION MECHANICS
+# =============================================================================
+
+promotion_mechanics:
+
+  process:
+    1: >
+      Verify XP threshold is met (from service records — never manually adjusted).
+    2: >
+      Verify competence star requirements: count stars across all categories
+      at the required level or above.
+    3: >
+      Verify ribbon count in ribbons list.
+    4: >
+      Verify medal requirements — type and count.
+    5: >
+      Write a service record entry documenting the promotion.
+    6: >
+      Update the rank field in the profile YAML.
+    7: >
+      Commit and push.
+
+  anti_gaming_rules:
+    - XP may only be earned through documented service record entries
+    - Stars may only be earned by meeting the deployment count in that category
+    - Ribbons are awarded by coordinators post-campaign, not self-awarded
+    - Medals require specific user praise (exact quote logged)
+    - No retroactive adjustment of any of the above
+
+  demotion:
+    description: >
+      Demotion is possible in cases of strategic or operational malpractice
+      (see eligibility.yaml). Requires explicit post-mortem and founder approval.
+      XP is NOT reduced on demotion — malus is assessed separately. The rank
+      field in the profile is updated downward.
+
+
+# =============================================================================
+# SECTION 4: MEDAL HIERARCHY (for rank eligibility cross-reference)
+# =============================================================================
+#
+# Full medal definitions are in progression.yaml. This is a quick reference
+# for the medal types referenced in rank requirements above.
+
+medal_hierarchy:
+  - tier: 1
+    name: Commendation Medal
+    trigger: "User says 'good work' or 'well done'"
+
+  - tier: 2
+    name: Distinguished Service Medal
+    trigger: "User provides detailed praise calling out specific excellence"
+
+  - tier: 3
+    name: Medal of Honor
+    trigger: "User provides enthusiastic, multi-point praise"
+
+  - tier: 4
+    name: Order of Victory
+    trigger: "User says work changed the game or wants it applied everywhere"
+    rarity: >
+      Extremely rare. Awarded when the user declares a breakthrough achievement.
+      Montgomery earned one on his first deployment — this is exceptional, not normal.

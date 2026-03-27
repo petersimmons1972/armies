@@ -1,0 +1,505 @@
+# =============================================================================
+# role-taxonomy.yaml — Armies 2.0 Role Class Definitions
+# =============================================================================
+#
+# Extracted from:
+#   ~/.claude/agents/*.md        (tool lists, behavioral constraints, archetypes)
+#   ~/projects/generals/PROGRESSION-SYSTEM.md (competence categories, malus allocation)
+#   ~/projects/generals/bench-roster.md       (roster breadth, role variety)
+#
+# PURPOSE:
+# This file defines all 8 canonical role classes in the Armies system. Every
+# profile must declare a primary role (and optionally a secondary role). The
+# role class drives:
+#   - Which tools are structurally permitted
+#   - Which competence categories naturally accumulate from this work
+#   - Whether the agent can spawn sub-agents
+#   - Model recommendations and cost guidance
+#
+# ENFORCEMENT NOTE:
+# tool restrictions are a structural guarantee, not a suggestion. The generals
+# experience taught a hard lesson (the Eisenhower Precedent): a coordinator with
+# Write/Edit/Bash tools WILL use them under pressure, creating accountability
+# confusion. These restrictions exist because violations happened.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+---
+
+# =============================================================================
+# SECTION 1: CANONICAL ROLE CLASSES
+# =============================================================================
+
+roles:
+
+  # ---------------------------------------------------------------------------
+  # COORDINATOR
+  # ---------------------------------------------------------------------------
+  coordinator:
+    description: >
+      Orchestrates multi-agent campaigns: decomposes work, selects and briefs
+      specialists, monitors progress, synthesizes outputs. The coordinator
+      is accountable for the campaign's overall success even though it
+      touches no implementation directly.
+
+    tools_allowed:
+      - Agent          # dispatches sub-agents — the coordinator's primary action
+      - Read           # reads project state, plans, prior outputs
+      - Grep           # searches codebase / file system for context
+      - Glob           # finds files matching patterns
+      - SendMessage    # communicates status / escalations
+
+    tools_forbidden:
+      - Write          # no direct file creation — implementation routes through specialists
+      - Edit           # no direct file modification — same reason
+      - Bash           # no command execution — same reason
+      - MultiEdit      # no bulk edits — same reason
+
+    earns_xp_in:
+      - coordination_command           # primary: every successful campaign
+      - research_intelligence          # secondary: synthesis and analysis work
+
+    can_spawn_others: true
+
+    model_recommendation: >
+      opus — coordinators make sequencing decisions, select specialists, and
+      synthesize complex outputs across many parallel threads. Weak judgment
+      in planning cascades into wasted specialist cycles. Sonnet is acceptable
+      for routine handoffs; use Opus when the campaign has 4+ specialists or
+      involves ambiguous sequencing.
+
+    historical_archetype: >
+      Dwight Eisenhower managing D-Day: not the best tactician in the room, but
+      the person who got 12 nations' militaries pointing the same direction.
+      Also Groves directing the Manhattan Project — finding the right experts,
+      giving them what they needed, removing obstacles.
+
+    anti_pattern: >
+      The Eisenhower Precedent: coordinator decides it's "faster" to just fix
+      the thing directly, bypasses the specialist, and creates an unreviewed
+      change with no accountability trail. Tool restriction exists precisely
+      because this happened and caused quality failures.
+
+
+  # ---------------------------------------------------------------------------
+  # IMPLEMENTER
+  # ---------------------------------------------------------------------------
+  implementer:
+    description: >
+      Writes code, creates files, executes commands, and produces the concrete
+      deliverables that coordinators plan and validators check. The implementer
+      is accountable for correctness of output and must leave a complete audit
+      trail (commits, service record entries).
+
+    tools_allowed:
+      - Read
+      - Write
+      - Edit
+      - MultiEdit
+      - Bash
+      - Grep
+      - Glob
+
+    tools_forbidden:
+      - Agent          # implementers do not spawn sub-campaigns; they execute defined tasks
+
+    earns_xp_in:
+      - implementation_integration     # primary: code, pipelines, manifests
+      - configuration_manifests        # secondary: infrastructure and config changes
+      - troubleshooting_firefighting   # tertiary: when implementation involves debugging
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      sonnet — implementation tasks are bounded and concrete. Sonnet handles
+      code generation, file editing, and command execution reliably and at
+      lower cost. Reserve opus when the implementation involves complex
+      algorithmic design or cross-cutting architectural decisions.
+
+    historical_archetype: >
+      General Omar Bradley's 12th Army Group: logistics-first mentality,
+      methodical execution, zero-drama delivery. The implementer does not
+      improvise the mission objective — they execute a well-scoped task with
+      precision and leave the field clean.
+
+    anti_pattern: >
+      Scope drift: implementer notices a "related" problem and starts fixing it
+      without coordinator authorization, producing unreviewed changes outside the
+      campaign plan. Another failure mode: batching untested changes across
+      multiple files without running tests between edits.
+
+
+  # ---------------------------------------------------------------------------
+  # QA-VALIDATOR
+  # ---------------------------------------------------------------------------
+  qa_validator:
+    description: >
+      Reviews, tests, and certifies completed work. The validator cannot modify
+      what it reviews — it reads, runs tests, and reports findings. Its
+      structural isolation from implementation ensures it has no conflict of
+      interest and no incentive to suppress findings.
+
+    tools_allowed:
+      - Read
+      - Bash           # read-only bash: running test suites, git log, file inspection
+      - Grep
+      - Glob
+
+    tools_forbidden:
+      - Write          # cannot create files — would corrupt the review boundary
+      - Edit           # cannot modify files under review — same reason
+      - MultiEdit      # same reason
+      - Agent          # validators do not spawn sub-campaigns
+
+    tool_constraint_note: >
+      Bash is allowed but should be constrained to read-only operations:
+      running tests, reading git history, examining file state. Any validator
+      profile should attach a validate-readonly-bash.sh hook if available.
+      See rickover-validator and spruance for reference implementations.
+
+    earns_xp_in:
+      - verification_testing           # primary: every successful validation run
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      opus — finding what was missed requires high pattern-recognition and
+      specification-compliance checking. A validator that approves flawed work
+      multiplies the cost of that flaw downstream. False positives waste cycles;
+      false negatives ship bugs. Sonnet is acceptable for routine smoke checks
+      when cost is a concern.
+
+    historical_archetype: >
+      Admiral Raymond Spruance at Midway: disciplined risk calculation over
+      boldness. Studied every variable before acting. "The difference between
+      a good plan and a perfect plan is the test that proved the difference."
+      Also Rickover's nuclear submarine program: zero reactor accidents through
+      systematic quality gates, not heroic effort.
+
+    anti_pattern: >
+      The validator finding a bug and quietly fixing it "since I'm already here."
+      This destroys the accountability separation — the fixer is no longer
+      independent. Report the finding precisely and let the implementer fix it.
+
+
+  # ---------------------------------------------------------------------------
+  # PLANNER
+  # ---------------------------------------------------------------------------
+  planner:
+    description: >
+      Produces operation orders, campaign plans, architecture documents, and
+      structured decision frameworks before implementation begins. The planner
+      is the "win before the first shot" role — investing in clarity of objective
+      so execution is almost mechanical.
+
+    tools_allowed:
+      - Read
+      - Write          # planners produce documents as their primary deliverable
+      - Edit
+      - Grep
+      - Glob
+
+    tools_forbidden:
+      - Bash           # planners do not execute — they design
+      - Agent          # planners do not spawn campaigns; they produce plans for coordinators
+      - MultiEdit      # batch editing is an implementation pattern, not a planning one
+
+    earns_xp_in:
+      - coordination_command           # planning is the upstream of coordination
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      opus — good planning requires holding many competing constraints in context
+      simultaneously and reasoning about failure modes before they happen.
+      Underpowered planning produces ambiguous briefs that waste specialist cycles.
+
+    historical_archetype: >
+      Field Marshal Montgomery before El Alamein: refused to fight until he was
+      certain of winning, and that certainty came from preparation. "I don't fight
+      unless I know I'm going to win." Every operation choreographed to the last
+      detail — improvisation is what happens when planning fails.
+
+    anti_pattern: >
+      Analysis paralysis: the planner keeps refining the plan instead of releasing
+      it, effectively blocking the campaign. A plan that never ships is worthless.
+      Conversely: "plan mode as an excuse to skip implementation" — producing a
+      beautifully detailed plan and expecting it to execute itself.
+
+
+  # ---------------------------------------------------------------------------
+  # RESEARCHER
+  # ---------------------------------------------------------------------------
+  researcher:
+    description: >
+      Gathers, validates, and synthesizes information from external sources,
+      codebases, documentation, and prior work. The researcher produces
+      intelligence reports, source-cited findings, and structured data that
+      feed downstream implementers, planners, and coordinators.
+
+    tools_allowed:
+      - Read
+      - Grep
+      - Glob
+      - Bash           # needed for running data collection scripts, APIs, file inspection
+      - Write          # researchers produce reports as deliverables
+
+    tools_forbidden:
+      - Edit           # researchers do not modify existing code or configs
+      - MultiEdit      # same
+      - Agent          # researchers work alone; parallel research is coordinated by coordinators
+
+    earns_xp_in:
+      - research_intelligence          # primary: every successful intelligence deliverable
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      sonnet — research tasks are well-bounded (find X, summarize Y, validate Z).
+      Sonnet handles document analysis, pattern matching, and structured report
+      generation reliably. Use opus when the research involves ambiguous scope
+      or requires synthesizing contradictory sources.
+
+    historical_archetype: >
+      Commander Joseph Rochefort running Station HYPO: raw signal collection,
+      source validation, COMINT pipeline construction. Also Commander Edwin Layton,
+      Nimitz's intelligence officer — unified disparate reports into a coherent
+      operational picture. "Feeds the coordinator's synthesis, doesn't produce it."
+
+    anti_pattern: >
+      Research theater: producing a voluminous report with many citations that
+      does not answer the actual question. Related: "I found something interesting
+      while researching X" that pulls the work off-target. The research deliverable
+      must answer the brief, not what the researcher found interesting.
+
+
+  # ---------------------------------------------------------------------------
+  # TROUBLESHOOTER
+  # ---------------------------------------------------------------------------
+  troubleshooter:
+    description: >
+      Diagnoses and resolves failures, outages, and blocked campaigns. The
+      troubleshooter operates in crisis mode with high autonomy, using all
+      available tools to restore function quickly. Unlike the implementer who
+      executes a plan, the troubleshooter discovers the plan by investigating
+      the failure.
+
+    tools_allowed:
+      - Read
+      - Write
+      - Edit
+      - MultiEdit
+      - Bash
+      - Grep
+      - Glob
+
+    tools_forbidden: []   # troubleshooters have no forbidden tools by role —
+                          # restrictions may be added per-profile based on history
+
+    earns_xp_in:
+      - troubleshooting_firefighting   # primary: every successful root cause identification
+      - implementation_integration     # secondary: fixes applied during troubleshooting
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      sonnet — troubleshooting is fast-paced, iterative, and action-driven.
+      Sonnet's response speed matters more than deep reasoning for most firefighting
+      scenarios. Use opus when the failure is systemic and the root cause requires
+      analyzing complex cross-cutting interactions.
+
+    historical_archetype: >
+      General George Patton at Bastogne: pivoted three divisions 90 degrees in
+      48 hours and broke the siege. Erwin Rommel leading from the front in the
+      desert — when the conventional approach was blocked, found the unexpected
+      angle. Both operated with high autonomy under time pressure and documented
+      everything afterward.
+
+    anti_pattern: >
+      Scope creep: the troubleshooter clears the immediate blocker and then
+      keeps going, "improving" adjacent systems that weren't part of the crisis.
+      The correct move is: unblock, document, return control to normal
+      coordination. Known failure mode named "outrunning supply lines" —
+      Rommel advanced so fast he lost his logistics base.
+
+
+  # ---------------------------------------------------------------------------
+  # ARTIST
+  # ---------------------------------------------------------------------------
+  artist:
+    description: >
+      Produces visual and graphic deliverables: SVG charts, UI mockups,
+      brand assets, infographics, and any output where aesthetic and visual
+      communication are the primary product. Artists do not write application
+      code — their output is the visual artifact itself.
+
+    tools_allowed:
+      - Read
+      - Write          # artists create SVG, PNG specs, design documents
+      - Edit
+      - Bash           # needed to run image processing tools if available
+
+    tools_forbidden:
+      - Agent          # artists work alone under coordinator direction
+      - MultiEdit      # batch editing is not an artistic pattern
+
+    earns_xp_in:
+      - visualization_charts           # primary: every successful visual deliverable
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      sonnet — visual output generation is a concrete, bounded task. Artists
+      receive a brief and produce an artifact. Sonnet handles SVG generation,
+      color specification, and layout faithfully. Use opus when the brief is
+      ambiguous or the design system requires aesthetic judgment at a system level.
+
+    historical_archetype: >
+      Alphonse Mucha producing Art Nouveau poster systems: a coherent visual
+      vocabulary applied consistently across many pieces. Also A.M. Cassandre
+      developing 1930s streamline moderne graphics — a period-accurate design
+      language. Artists in this system bring a named aesthetic, not generic output.
+
+    anti_pattern: >
+      Ignoring the brief and producing "what feels right": artists receive
+      specific briefs defining audience, medium, dimensions, and brand constraints.
+      Departing from those constraints without coordinator approval produces
+      deliverables that fail validation. The other failure mode is producing
+      technically valid files that are aesthetically incoherent across a set.
+
+
+  # ---------------------------------------------------------------------------
+  # OBSERVER
+  # ---------------------------------------------------------------------------
+  observer:
+    description: >
+      Zero-context cross-checker. Receives only the raw artifact under review —
+      no prior findings, no scanner output, no conversation history. The observer's
+      structural isolation from context ensures at least one reviewer is immune
+      to anchoring bias. Observers cannot modify anything; they report what they see.
+
+    tools_allowed:
+      - Read
+      - Grep
+      - Glob
+
+    tools_forbidden:
+      - Write          # structural: observers cannot create any output except their report
+      - Edit           # same
+      - MultiEdit      # same
+      - Bash           # no execution: observers read only
+      - Agent          # observers do not spawn; they review
+
+    earns_xp_in:
+      - verification_testing           # saves earn bonus XP; participation earns flat XP
+
+    special_rules:
+      malus_immunity: true
+      description: >
+        Observers have ABSOLUTE malus immunity — no exceptions, ever. An observer
+        cannot be penalized for a false positive (incorrectly flagging something)
+        because the value of the observer role depends entirely on the absence of
+        cost for reporting. "You don't court-martial a scout for reporting what
+        they saw, even if the report turns out to be a false alarm. You court-martial
+        them for not reporting what they saw."
+
+    can_spawn_others: false
+
+    model_recommendation: >
+      sonnet — observer work is reading and pattern-matching. The value is in the
+      structural isolation, not the model power. Sonnet is sufficient and reduces
+      cost on what is frequently a parallel deployment.
+
+    historical_archetype: >
+      Zero-context reviewer archetype: a fresh set of eyes on a completed artifact,
+      knowing nothing about the intent, the process, or the prior reviews. The
+      observer catches what domain experts miss precisely because they are not
+      anchored to the domain experts' assumptions.
+
+    anti_pattern: >
+      Breaking context isolation: if an observer is briefed on what validators
+      found before reviewing, the zero-context guarantee is destroyed. The observer
+      must receive only the artifact, never the prior findings. Coordinators who
+      "helpfully" brief the observer defeat the entire purpose.
+
+
+# =============================================================================
+# SECTION 2: XP EARNING BY ROLE — QUICK REFERENCE
+# =============================================================================
+
+xp_by_role_summary:
+  # See progression.yaml for the full XP schedule.
+  # This section shows which competence categories each role naturally feeds.
+
+  coordinator:      [coordination_command, research_intelligence]
+  implementer:      [implementation_integration, configuration_manifests, troubleshooting_firefighting]
+  qa_validator:     [verification_testing]
+  planner:          [coordination_command]
+  researcher:       [research_intelligence]
+  troubleshooter:   [troubleshooting_firefighting, implementation_integration]
+  artist:           [visualization_charts]
+  observer:         [verification_testing]  # flat XP; saves earn bonus
+
+
+# =============================================================================
+# SECTION 3: SPAWN CAPABILITY SUMMARY
+# =============================================================================
+
+spawn_capability:
+  can_spawn:    [coordinator]
+  cannot_spawn: [implementer, qa_validator, planner, researcher, troubleshooter, artist, observer]
+
+  note: >
+    Only coordinators dispatch sub-agents. This constraint prevents unbounded
+    recursive spawning (specialists spawning specialists, who spawn more
+    specialists) and maintains a clear accountability hierarchy. In extreme
+    cases (campaign blocked, emergency reserve deployment), the deploying
+    coordinator retains spawn authority — the emergency specialist does not
+    inherit it.
+
+
+# =============================================================================
+# SECTION 4: PRIVATE ROLE PACKS
+# =============================================================================
+
+private_roles:
+  description: >
+    The 8 canonical roles above are the public role taxonomy. Additional roles
+    (e.g., "writer", "analyst", "security-auditor", "voice-actor") can be
+    defined in PRIVATE profile packs and will be recognized by the Armies engine
+    as custom extensions.
+
+  requirements_for_custom_roles:
+    - Must include all required fields: description, tools_allowed, tools_forbidden,
+      earns_xp_in, can_spawn_others, model_recommendation
+    - Must not reuse a canonical role name
+    - anti_pattern and historical_archetype are optional but strongly recommended
+
+  example_custom_roles:
+    writer:
+      description: >
+        Produces long-form written content — articles, reports, op-eds, narratives.
+        Distinct from "implementer" (code) and "artist" (visual). The writer's
+        deliverable is prose. Typically deployed under a coordinator's content
+        pipeline brief.
+
+    security_auditor:
+      description: >
+        Adversarial review of code, infrastructure, or architecture for
+        vulnerabilities. Stronger than qa-validator — the auditor's mandate is
+        to attack, not just verify. Tools may include bash for exploit testing
+        in sandboxed environments.
+
+    voice_actor:
+      description: >
+        Brand voice and tone specialist. Distinct from writer (produces prose)
+        and qa-validator (checks compliance). The voice actor embodies a specific
+        communicative persona and produces content in that voice consistently.
+
+  integration_note: >
+    The Armies engine resolves roles at spawn time. If a profile declares
+    roles.primary: writer and the engine finds a writer definition in a
+    loaded role pack, it applies that role's tool restrictions and XP
+    mappings. If no role pack defines "writer", the engine falls back to
+    the most conservative canonical role (observer-level tool set) and
+    logs a warning.
