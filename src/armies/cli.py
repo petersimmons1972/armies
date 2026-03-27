@@ -85,7 +85,8 @@ def cmd_roster() -> None:
 
         name = fm.get("name", path.stem)
         display_name = fm.get("display_name", fm.get("name", path.stem))
-        primary_role = fm.get("primary_role", "—")
+        roles = fm.get("roles", {})
+        primary_role = fm.get("primary_role") or (roles.get("primary") if isinstance(roles, dict) else None) or "—"
         xp = str(fm.get("xp", "—"))
         rank = fm.get("rank", "—")
 
