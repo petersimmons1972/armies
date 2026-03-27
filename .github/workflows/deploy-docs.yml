@@ -37,6 +37,7 @@ jobs:
           env-slug: prod
           project-slug: homelab-jz5w
           secret-path: /
+          site-url: https://infisical.petersimmons.com
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
