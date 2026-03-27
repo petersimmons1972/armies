@@ -1,0 +1,24 @@
+# Build stage — MkDocs Material
+FROM python:3.12-slim AS builder
+
+WORKDIR /build
+
+COPY requirements-docs.txt .
+RUN pip install --no-cache-dir -r requirements-docs.txt
+
+COPY mkdocs.yml .
+COPY docs/ docs/
+COPY README.md README.md
+
+# Rewrite docs/-prefixed links for MkDocs context (README uses GitHub-relative paths)
+RUN sed 's|(docs/|(|g; s|CONTRIBUTING.md|https://github.com/petersimmons1972/armies/blob/master/CONTRIBUTING.md|g' README.md > docs/index.md
+
+RUN mkdocs build
+
+# Serve stage — Chainguard nginx (0-CVE, non-root UID 65532)
+FROM cgr.dev/chainguard/nginx:latest
+
+COPY --from=builder /build/site /usr/share/nginx/html
+
+# nginx.conf for SPA-style serving with clean URLs
+COPY docker/nginx-docs.conf /etc/nginx/conf.d/default.conf
