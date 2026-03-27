@@ -1,126 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
-  <title>Profile Crafting Guide — The Personality-to-Role Match</title>
-  <desc>Field guide illustration: aged parchment with handwritten annotations showing the five elements of a well-crafted Base Persona, with a Grace Hopper moth Easter egg hidden in the border decoration. Forest green, aged parchment palette.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 420" width="750" height="420">
+  <title>Creating Profiles — Build Your General</title>
+  <defs>
+    <radialGradient id="cp-light" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#c8a050" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#c8a050" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cp-bench" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0f00"/>
+      <stop offset="100%" stop-color="#0a0600"/>
+    </linearGradient>
+    <linearGradient id="cp-paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8c880"/>
+      <stop offset="100%" stop-color="#c0b060"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Outer frame — forest green leather/cloth binder -->
-  <rect width="600" height="500" fill="#1a3a10"/>
-  <rect x="5" y="5" width="590" height="490" fill="none" stroke="#2a5a18" stroke-width="2"/>
-  <rect x="12" y="12" width="576" height="476" fill="none" stroke="#2a5a18" stroke-width="1" opacity="0.5"/>
+  <!-- Background — workbench -->
+  <rect width="750" height="420" fill="url(#cp-bench)"/>
+  <rect width="750" height="420" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="738" height="408" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
 
-  <!-- Inner parchment page -->
-  <rect x="25" y="25" width="550" height="450" fill="#e8d8a0" rx="2"/>
+  <!-- Top band -->
+  <rect x="0" y="0" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="29" font-family="serif" font-size="28" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="7">BUILD YOUR GENERAL</text>
 
-  <!-- Parchment aging — diagonal lines for texture -->
-  <g stroke="#c8b070" stroke-width="0.3" opacity="0.2">
-    <line x1="25" y1="25" x2="575" y2="475"/>
-    <line x1="75" y1="25" x2="575" y2="425"/>
-    <line x1="125" y1="25" x2="575" y2="375"/>
-    <line x1="25" y1="75" x2="525" y2="475"/>
-    <line x1="25" y1="125" x2="475" y2="475"/>
+  <!-- Bottom band -->
+  <rect x="0" y="376" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="400" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">PERSONA · ROLE · FAILURE MODE · ACCOUNTABILITY</text>
+
+  <!-- Workbench surface glow -->
+  <ellipse cx="375" cy="210" rx="300" ry="130" fill="url(#cp-light)"/>
+
+  <!-- Main document/profile sheet — center -->
+  <rect x="240" y="68" width="270" height="290" fill="url(#cp-paper)" rx="3" stroke="#8b7820" stroke-width="1.5"/>
+  <!-- Document ruled lines -->
+  <g stroke="#8b7820" stroke-width="0.8" opacity="0.5">
+    <line x1="258" y1="100" x2="492" y2="100"/>
+    <line x1="258" y1="118" x2="492" y2="118"/>
+    <line x1="258" y1="136" x2="492" y2="136"/>
+    <line x1="258" y1="154" x2="492" y2="154"/>
+    <line x1="258" y1="172" x2="492" y2="172"/>
+    <line x1="258" y1="190" x2="492" y2="190"/>
+    <line x1="258" y1="208" x2="492" y2="208"/>
+    <line x1="258" y1="226" x2="492" y2="226"/>
+    <line x1="258" y1="244" x2="492" y2="244"/>
+    <line x1="258" y1="262" x2="492" y2="262"/>
+    <line x1="258" y1="280" x2="492" y2="280"/>
+    <line x1="258" y1="298" x2="492" y2="298"/>
+    <line x1="258" y1="316" x2="492" y2="316"/>
+  </g>
+  <!-- Document header area -->
+  <rect x="240" y="68" width="270" height="24" fill="#5a4800" rx="3"/>
+  <text x="375" y="84" font-family="monospace" font-size="10" fill="#d8c880" text-anchor="middle" letter-spacing="2">--- PROFILE FRONTMATTER ---</text>
+  <!-- YAML-like entries (decorative) -->
+  <g font-family="monospace" font-size="9" fill="#3a2800" opacity="0.8">
+    <text x="258" y="99">name: grace-hopper</text>
+    <text x="258" y="117">display_name: "Admiral Grace Hopper"</text>
+    <text x="258" y="135">roles:</text>
+    <text x="266" y="153">  primary: implementer</text>
+    <text x="258" y="171">xp: 0</text>
+    <text x="258" y="189">rank: "Private"</text>
+  </g>
+  <!-- Section divider on document -->
+  <line x1="250" y1="200" x2="500" y2="200" stroke="#5a4800" stroke-width="1.5" opacity="0.8"/>
+  <text x="375" y="215" font-family="monospace" font-size="8" fill="#5a4800" text-anchor="middle" opacity="0.8">## Base Persona</text>
+  <!-- More lines below section break -->
+  <g stroke="#8b7820" stroke-width="0.8" opacity="0.4">
+    <line x1="258" y1="225" x2="490" y2="225"/>
+    <line x1="258" y1="240" x2="480" y2="240"/>
+    <line x1="258" y1="255" x2="488" y2="255"/>
+    <line x1="258" y1="270" x2="470" y2="270"/>
+    <line x1="258" y1="285" x2="490" y2="285"/>
+    <line x1="258" y1="300" x2="478" y2="300"/>
   </g>
 
-  <!-- Top header with botanical border -->
-  <rect x="25" y="25" width="550" height="38" fill="#2a5a18"/>
+  <!-- Tools on bench -->
 
-  <!-- Oak leaf border decoration — top header -->
-  <g fill="#1a4010" opacity="0.7">
-    <ellipse cx="55" cy="44" rx="10" ry="5" transform="rotate(-30,55,44)"/>
-    <ellipse cx="70" cy="38" rx="10" ry="5" transform="rotate(20,70,38)"/>
-    <ellipse cx="85" cy="44" rx="10" ry="5" transform="rotate(-10,85,44)"/>
-    <ellipse cx="510" cy="44" rx="10" ry="5" transform="rotate(30,510,44)"/>
-    <ellipse cx="525" cy="38" rx="10" ry="5" transform="rotate(-20,525,38)"/>
-    <ellipse cx="540" cy="44" rx="10" ry="5" transform="rotate(10,540,44)"/>
+  <!-- Compass — upper left -->
+  <g transform="translate(148, 150)">
+    <!-- Compass body -->
+    <line x1="0" y1="-50" x2="-20" y2="30" stroke="#8b6010" stroke-width="3" stroke-linecap="round"/>
+    <line x1="0" y1="-50" x2="20" y2="30" stroke="#8b6010" stroke-width="3" stroke-linecap="round"/>
+    <!-- Pivot point -->
+    <circle cx="0" cy="-50" r="5" fill="#c8a050"/>
+    <!-- Pencil tip left leg -->
+    <polygon points="-20,30 -24,44 -16,30" fill="#c8a050"/>
+    <!-- Pin tip right leg -->
+    <polygon points="20,30 17,44 23,30" fill="#c8a050"/>
+    <!-- Arc drawn by compass -->
+    <path d="M -30,60 Q 0,20 30,60" stroke="#c8a050" stroke-width="1" fill="none" opacity="0.5" stroke-dasharray="3,2"/>
   </g>
 
-  <text x="300" y="49" font-family="serif" font-size="22.4" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="3">PROFILE CRAFTING GUIDE</text>
-
-  <!-- Page title -->
-  <text x="300" y="85" font-family="serif" font-size="28.8" font-weight="bold" fill="#1a3a10" text-anchor="middle">The Five Elements of a Base Persona</text>
-  <line x1="60" y1="92" x2="540" y2="92" stroke="#2a5a18" stroke-width="1.5"/>
-  <line x1="60" y1="94" x2="540" y2="94" stroke="#2a5a18" stroke-width="0.5"/>
-
-  <!-- Element 1: Historical Context -->
-  <g transform="translate(50, 110)">
-    <circle cx="16" cy="10" r="14" fill="#2a5a18"/>
-    <text x="16" y="15" font-family="serif" font-size="22.4" font-weight="bold" fill="#d4c585" text-anchor="middle">1</text>
-    <text x="38" y="15" font-family="serif" font-size="20.8" font-weight="bold" fill="#1a3a10">Historical Context</text>
-    <text x="38" y="30" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">Where did they work? Under what pressure? What did they do that no one had done?</text>
-    <text x="38" y="44" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">Portrait, not biography. Foundation everything else builds on.</text>
+  <!-- Straight ruler — bottom left, angled -->
+  <g transform="translate(110, 280) rotate(-20)">
+    <rect x="-5" y="-90" width="30" height="180" fill="#8b6010" rx="2"/>
+    <rect x="-3" y="-88" width="26" height="176" fill="#a07828" rx="1"/>
+    <!-- Ruler markings -->
+    <g stroke="#5a3800" stroke-width="0.8">
+      <line x1="0" y1="-80" x2="0" y2="-72"/>
+      <line x1="0" y1="-60" x2="0" y2="-52"/>
+      <line x1="0" y1="-40" x2="0" y2="-32"/>
+      <line x1="0" y1="-20" x2="0" y2="-8"/>
+      <line x1="0" y1="0" x2="0" y2="8"/>
+      <line x1="0" y1="20" x2="0" y2="32"/>
+      <line x1="0" y1="40" x2="0" y2="52"/>
+      <line x1="0" y1="60" x2="0" y2="72"/>
+    </g>
   </g>
 
-  <!-- Element 2: Core Personality Traits with Evidence -->
-  <g transform="translate(50, 170)">
-    <circle cx="16" cy="10" r="14" fill="#2a5a18"/>
-    <text x="16" y="15" font-family="serif" font-size="22.4" font-weight="bold" fill="#d4c585" text-anchor="middle">2</text>
-    <text x="38" y="15" font-family="serif" font-size="20.8" font-weight="bold" fill="#1a3a10">Core Traits With Evidence</text>
-    <text x="38" y="30" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">3–5 adjectives, each supported by something they actually did.</text>
-    <rect x="38" y="38" width="450" height="24" fill="#d4c585" stroke="#2a5a18" stroke-width="0.5" rx="2"/>
-    <text x="46" y="48" font-family="monospace" font-size="20" fill="#1a3a10">✓ "methodical, but not cautious — she tested everything, but moved fast once the test passed"</text>
-    <text x="46" y="58" font-family="monospace" font-size="20" fill="#8b6010">✗ "she was methodical and hard-working" — describes no one in particular</text>
+  <!-- Magnifying glass — upper right -->
+  <g transform="translate(590, 140)">
+    <!-- Handle -->
+    <line x1="40" y1="40" x2="80" y2="80" stroke="#8b6010" stroke-width="6" stroke-linecap="round"/>
+    <!-- Lens rim -->
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#8b6010" stroke-width="5"/>
+    <circle cx="0" cy="0" r="38" fill="#050300" opacity="0.6" stroke="#c8a050" stroke-width="1"/>
+    <!-- Lens glint -->
+    <path d="M -20,-20 Q -10,-30 0,-20" stroke="#c8a050" stroke-width="2" fill="none" opacity="0.4"/>
+    <!-- What the lens shows: profile frontmatter fragment -->
+    <text x="0" y="-8" font-family="monospace" font-size="7" fill="#c8a050" text-anchor="middle" opacity="0.7">name:</text>
+    <text x="0" y="4" font-family="monospace" font-size="7" fill="#c8a050" text-anchor="middle" opacity="0.7">roles:</text>
+    <text x="0" y="16" font-family="monospace" font-size="7" fill="#c8a050" text-anchor="middle" opacity="0.7">xp: 0</text>
   </g>
 
-  <!-- Element 3: Voice and Communication Style -->
-  <g transform="translate(50, 240)">
-    <circle cx="16" cy="10" r="14" fill="#2a5a18"/>
-    <text x="16" y="15" font-family="serif" font-size="22.4" font-weight="bold" fill="#d4c585" text-anchor="middle">3</text>
-    <text x="38" y="15" font-family="serif" font-size="20.8" font-weight="bold" fill="#1a3a10">Voice &amp; Communication Style</text>
-    <text x="38" y="30" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">Declaratives or analytical chains? Numbers or narrative? Voice = agent's output register.</text>
-  </g>
+  <!-- Quill pen — resting across document corner -->
+  <path d="M 180,340 Q 300,310 430,240" stroke="#c8a050" stroke-width="2" fill="none" opacity="0.7"/>
+  <path d="M 430,240 Q 455,225 445,235 Q 470,210 455,225 Q 478,200 460,218 L 425,245 Z" fill="#d8c880" opacity="0.7"/>
+  <polygon points="180,340 172,352 186,342" fill="#3a2000"/>
 
-  <!-- Element 4: Decision-Making Philosophy -->
-  <g transform="translate(50, 295)">
-    <circle cx="16" cy="10" r="14" fill="#2a5a18"/>
-    <text x="16" y="15" font-family="serif" font-size="22.4" font-weight="bold" fill="#d4c585" text-anchor="middle">4</text>
-    <text x="38" y="15" font-family="serif" font-size="20.8" font-weight="bold" fill="#1a3a10">Decision-Making Philosophy</text>
-    <text x="38" y="30" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">How do they handle uncertainty? Ship first vs. wait for perfect requirements?</text>
-  </g>
-
-  <!-- Element 5: Known Failure Mode — highlighted as most important -->
-  <g transform="translate(50, 350)">
-    <circle cx="16" cy="10" r="14" fill="#8b0000"/>
-    <text x="16" y="15" font-family="serif" font-size="22.4" font-weight="bold" fill="#fff8c0" text-anchor="middle">5</text>
-    <text x="38" y="15" font-family="serif" font-size="20.8" font-weight="bold" fill="#8b0000">Known Failure Mode</text>
-    <text x="38" y="30" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">NOT OPTIONAL. The failure mode is what makes the profile a real person.</text>
-    <text x="38" y="44" font-family="serif" font-size="18" fill="#3a2a00" font-style="italic">An agent without a failure mode has no personality.</text>
-    <!-- Hopper example -->
-    <rect x="38" y="52" width="450" height="30" fill="#fff0e0" stroke="#8b0000" stroke-width="0.5" rx="2"/>
-    <text x="46" y="65" font-family="monospace" font-size="20" fill="#3a1a00">Grace Hopper: "Her failure mode is documentation. She ships first and writes it down</text>
-    <text x="46" y="75" font-family="monospace" font-size="20" fill="#3a1a00">later. Sometimes much later. The code works; the README is a stub."</text>
-  </g>
-
-  <!-- Bottom rule -->
-  <rect x="60" y="442" width="480" height="2" fill="#2a5a18" opacity="0.5"/>
-  <text x="300" y="460" font-family="serif" font-size="18" fill="#2a5a18" text-anchor="middle" font-style="italic">If you remove the name, it should still be recognizably THIS specific person.</text>
-
-  <!-- ===== EASTER EGG: A moth (Grace Hopper's debugging moth) hidden in the border ornament ===== -->
-  <!-- Moth hidden in the top-right corner decorative flourish, very small -->
-  <g transform="translate(552, 32)" opacity="0.55">
-    <!-- Moth body -->
-    <ellipse cx="0" cy="0" rx="2" ry="5" fill="#3a2800"/>
-    <!-- Moth wings — spread -->
-    <ellipse cx="-7" cy="-2" rx="6" ry="3" fill="#4a3810" transform="rotate(-20,-7,-2)"/>
-    <ellipse cx="7" cy="-2" rx="6" ry="3" fill="#4a3810" transform="rotate(20,7,-2)"/>
-    <!-- Lower wings -->
-    <ellipse cx="-5" cy="3" rx="4" ry="2" fill="#3a2800" transform="rotate(10,-5,3)"/>
-    <ellipse cx="5" cy="3" rx="4" ry="2" fill="#3a2800" transform="rotate(-10,5,3)"/>
-    <!-- Antennae -->
-    <line x1="-1" y1="-5" x2="-5" y2="-10" stroke="#3a2800" stroke-width="0.7"/>
-    <line x1="1" y1="-5" x2="5" y2="-10" stroke="#3a2800" stroke-width="0.7"/>
-    <circle cx="-5" cy="-10" r="0.8" fill="#3a2800"/>
-    <circle cx="5" cy="-10" r="0.8" fill="#3a2800"/>
-  </g>
-  <!-- Tiny logbook tape next to the moth -->
-  <rect x="548" y="42" width="14" height="8" fill="#d4c585" stroke="#8b6010" stroke-width="0.5" opacity="0.5"/>
-  <text x="555" y="48" font-family="monospace" font-size="10.5" fill="#3a1a00" text-anchor="middle" opacity="0.5">BUG</text>
-
-  <!-- Botanical divider decorations between elements -->
-  <g fill="#2a5a18" opacity="0.3">
-    <!-- Small leaf decorators next to element numbers -->
-    <ellipse cx="46" cy="158" rx="6" ry="2" transform="rotate(-45,46,158)"/>
-    <ellipse cx="46" cy="228" rx="6" ry="2" transform="rotate(-45,46,228)"/>
-    <ellipse cx="46" cy="283" rx="6" ry="2" transform="rotate(-45,46,283)"/>
-    <ellipse cx="46" cy="338" rx="6" ry="2" transform="rotate(-45,46,338)"/>
-  </g>
+  <!-- Inkwell — lower right corner -->
+  <ellipse cx="630" cy="330" rx="22" ry="14" fill="#050300" stroke="#8b6010" stroke-width="2"/>
+  <ellipse cx="630" cy="326" rx="22" ry="10" fill="#0a0500" stroke="#8b6010" stroke-width="1.5"/>
+  <ellipse cx="630" cy="324" rx="16" ry="6" fill="#1a1a2a"/>
 
 </svg>

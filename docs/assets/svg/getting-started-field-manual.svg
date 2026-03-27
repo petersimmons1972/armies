@@ -1,113 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
-  <title>Field Manual Cover — Armies Getting Started Guide</title>
-  <desc>WWII field manual cover design: olive drab and khaki, brass hardware details, depicting the armies init → spawn → record cycle as a soldier's pocket guide. Olive green, khaki, brass palette.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 420" width="750" height="420">
+  <title>Getting Started — Field Manual Cover</title>
+  <defs>
+    <linearGradient id="gs-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1200"/>
+      <stop offset="100%" stop-color="#0d0800"/>
+    </linearGradient>
+    <radialGradient id="gs-halo" cx="50%" cy="48%" r="40%">
+      <stop offset="0%" stop-color="#c8a050" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#c8a050" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
 
-  <!-- Outer card background — olive drab -->
-  <rect width="700" height="500" fill="#3d4a1a"/>
+  <!-- Background -->
+  <rect width="750" height="420" fill="url(#gs-bg)"/>
+  <rect width="750" height="420" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="7" y="7" width="736" height="406" fill="none" stroke="#c8a050" stroke-width="0.8" opacity="0.25"/>
+  <rect x="14" y="14" width="722" height="392" fill="none" stroke="#c8a050" stroke-width="0.4" opacity="0.15"/>
 
-  <!-- Worn leather texture suggestion -->
-  <rect x="0" y="0" width="700" height="500" fill="none" stroke="#2a3010" stroke-width="6"/>
-  <rect x="6" y="6" width="688" height="488" fill="none" stroke="#4a5820" stroke-width="1"/>
+  <!-- Top classification band -->
+  <rect x="0" y="0" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="17" font-family="serif" font-size="11" fill="#c8a050" text-anchor="middle" letter-spacing="8" opacity="0.7">UNCLASSIFIED — FOR GENERAL DISTRIBUTION</text>
+  <text x="375" y="34" font-family="serif" font-size="15" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="5">FM 1-01 — ARMIES FIELD MANUAL</text>
 
-  <!-- Inner paper area -->
-  <rect x="30" y="30" width="640" height="440" fill="#d4c585" rx="2"/>
-  <rect x="30" y="30" width="640" height="440" fill="none" stroke="#a09040" stroke-width="1"/>
+  <!-- Bottom band -->
+  <rect x="0" y="376" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="398" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">HEADQUARTERS — ARMIES FIELD COMMAND</text>
+  <text x="375" y="415" font-family="serif" font-size="10" fill="#c8a050" text-anchor="middle" letter-spacing="4" opacity="0.5">SUPERSEDES ALL PREVIOUS EDITIONS</text>
 
-  <!-- Top classification stripe -->
-  <rect x="30" y="30" width="640" height="30" fill="#8b6010"/>
-  <text x="350" y="51" font-family="serif" font-size="20.8" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="6">FIELD MANUAL</text>
+  <!-- Center halo -->
+  <ellipse cx="375" cy="200" rx="260" ry="130" fill="url(#gs-halo)"/>
 
-  <!-- Document number top right -->
-  <text x="655" y="51" font-family="monospace" font-size="18" fill="#d4c585" text-anchor="end" opacity="0.8">FM 1-00</text>
+  <!-- Decorative corner ornaments -->
+  <path d="M 26,56 L 26,80 L 50,80" fill="none" stroke="#c8a050" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 724,56 L 724,80 L 700,80" fill="none" stroke="#c8a050" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 26,364 L 26,340 L 50,340" fill="none" stroke="#c8a050" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 724,364 L 724,340 L 700,340" fill="none" stroke="#c8a050" stroke-width="1.5" opacity="0.6"/>
 
-  <!-- Bottom classification stripe -->
-  <rect x="30" y="440" width="640" height="30" fill="#8b6010"/>
-  <text x="350" y="459" font-family="serif" font-size="20" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="4">ARMIES COORDINATION ENGINE</text>
-
-  <!-- Main content area background -->
-  <rect x="50" y="76" width="600" height="348" fill="#c8b870" opacity="0.3"/>
-
-  <!-- Eagle/emblem at top center -->
-  <!-- Simplified military eagle silhouette -->
-  <g transform="translate(350,130)" fill="#5a4010">
-    <!-- Wings spread -->
-    <path d="M 0,-15 L -80,-5 L -60,10 L -30,5 L 0,15 L 30,5 L 60,10 L 80,-5 Z" opacity="0.9"/>
-    <!-- Body -->
-    <ellipse cx="0" cy="5" rx="18" ry="20" opacity="0.9"/>
+  <!-- Soldier at attention — center silhouette -->
+  <g transform="translate(375, 58)" fill="#c8a050" opacity="0.8">
     <!-- Head -->
-    <circle cx="0" cy="-18" r="12" opacity="0.9"/>
-    <!-- Beak -->
-    <polygon points="0,-12 10,-18 6,-22" opacity="0.9"/>
-    <!-- Tail feathers -->
-    <path d="M -14,20 L -8,38 L 0,28 L 8,38 L 14,20" opacity="0.8"/>
-    <!-- Shield on chest -->
-    <rect x="-8" y="-2" width="16" height="18" rx="1" fill="#8b6010"/>
-    <!-- Shield stripes -->
-    <rect x="-8" y="-2" width="16" height="4" fill="#d4c585" opacity="0.8"/>
-    <rect x="-8" y="6" width="16" height="4" fill="#d4c585" opacity="0.8"/>
-    <rect x="-8" y="14" width="16" height="4" fill="#d4c585" opacity="0.8"/>
-    <!-- Talons holding scrolls -->
-    <path d="M -18,22 L -30,30 L -22,34 L -14,26" opacity="0.8"/>
-    <path d="M 18,22 L 30,30 L 22,34 L 14,26" opacity="0.8"/>
+    <ellipse cx="0" cy="20" rx="16" ry="18"/>
+    <!-- Helmet -->
+    <ellipse cx="0" cy="8" rx="20" ry="10" fill="#8b6010"/>
+    <rect x="-20" y="12" width="40" height="6" rx="2" fill="#8b6010"/>
+    <!-- Neck -->
+    <rect x="-6" y="36" width="12" height="8" rx="1"/>
+    <!-- Uniform jacket -->
+    <path d="M -24,44 L -30,160 L 30,160 L 24,44 Z" fill="#c8a050"/>
+    <!-- Collar/lapels -->
+    <path d="M -6,44 L 0,56 L 6,44" fill="none" stroke="#8b6010" stroke-width="1.5"/>
+    <!-- Epaulettes -->
+    <rect x="-34" y="44" width="12" height="8" rx="2" fill="#8b6010"/>
+    <rect x="22" y="44" width="12" height="8" rx="2" fill="#8b6010"/>
+    <!-- Medal ribbons -->
+    <rect x="-18" y="62" width="8" height="5" fill="#8b0000"/>
+    <rect x="-9" y="62" width="8" height="5" fill="#2a5010"/>
+    <rect x="0" y="62" width="8" height="5" fill="#c8a050"/>
+    <rect x="9" y="62" width="8" height="5" fill="#1a3a6a"/>
+    <!-- Belt -->
+    <rect x="-30" y="130" width="60" height="7" rx="2" fill="#8b6010"/>
+    <rect x="-5" y="131" width="10" height="5" rx="1" fill="#c8a050"/>
+    <!-- Trousers -->
+    <rect x="-22" y="160" width="18" height="90" rx="4"/>
+    <rect x="4" y="160" width="18" height="90" rx="4"/>
+    <!-- Boots -->
+    <rect x="-26" y="240" width="26" height="18" rx="4" fill="#3a2000"/>
+    <rect x="0" y="240" width="26" height="18" rx="4" fill="#3a2000"/>
+    <!-- Rifle at side — right arm -->
+    <rect x="28" y="44" width="4" height="120" rx="2" fill="#8b6010"/>
+    <rect x="26" y="44" width="8" height="6" rx="1" fill="#6b4a10"/>
+    <!-- Left arm at side -->
+    <rect x="-32" y="44" width="8" height="80" rx="4"/>
   </g>
 
   <!-- Main title -->
-  <text x="350" y="200" font-family="serif" font-size="57.6" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="4">GETTING</text>
-  <text x="350" y="240" font-family="serif" font-size="57.6" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="4">STARTED</text>
+  <text x="375" y="156" font-family="serif" font-size="42" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="6">FIELD MANUAL</text>
+  <line x1="100" y1="165" x2="650" y2="165" stroke="#c8a050" stroke-width="1" opacity="0.5"/>
+  <text x="375" y="188" font-family="serif" font-size="22" fill="#c8a050" text-anchor="middle" letter-spacing="8" opacity="0.9">GETTING STARTED</text>
 
-  <!-- Decorative rule under title -->
-  <rect x="140" y="250" width="420" height="3" fill="#8b6010"/>
-  <rect x="140" y="255" width="420" height="1" fill="#8b6010" opacity="0.4"/>
-
-  <!-- The 5-step process as a compact list with military numbering -->
-  <g font-family="monospace" font-size="24" fill="#3a2800">
-    <text x="170" y="285">1.  pip install armies</text>
-    <text x="170" y="305">2.  armies init</text>
-    <text x="170" y="325">3.  cp grace-hopper.md ~/.armies/profiles/</text>
-    <text x="170" y="345">4.  armies spawn grace-hopper --role implementer</text>
-    <text x="170" y="365">5.  armies record grace-hopper "mission complete"</text>
-  </g>
-
-  <!-- Step bullets/markers -->
-  <g fill="#8b6010">
-    <rect x="155" y="276" width="8" height="12" rx="1"/>
-    <rect x="155" y="296" width="8" height="12" rx="1"/>
-    <rect x="155" y="316" width="8" height="12" rx="1"/>
-    <rect x="155" y="336" width="8" height="12" rx="1"/>
-    <rect x="155" y="356" width="8" height="12" rx="1"/>
-  </g>
-
-  <!-- Divider and subtitle -->
-  <rect x="140" y="378" width="420" height="1" fill="#8b6010" opacity="0.5"/>
-  <text x="350" y="397" font-family="serif" font-size="20" fill="#5a4010" text-anchor="middle" letter-spacing="3" font-style="italic">Zero to first spawn — narrative walkthrough</text>
-
-  <!-- Corner stamps/seals -->
-  <!-- Top left corner: UNCLASSIFIED stamp -->
-  <g transform="translate(60,78)">
-    <rect x="0" y="0" width="80" height="22" fill="none" stroke="#2a5a00" stroke-width="1.5" rx="2"/>
-    <text x="40" y="15" font-family="sans-serif" font-size="20" font-weight="bold" fill="#2a5a00" text-anchor="middle" letter-spacing="2">UNCLASSIFIED</text>
-  </g>
-
-  <!-- Top right corner: date/version -->
-  <text x="648" y="90" font-family="monospace" font-size="20" fill="#5a4010" text-anchor="end" opacity="0.7">REV. 1.0</text>
-  <text x="648" y="100" font-family="monospace" font-size="20" fill="#5a4010" text-anchor="end" opacity="0.7">2026-03</text>
-
-  <!-- Bottom left: "See also" reference -->
-  <text x="52" y="432" font-family="sans-serif" font-size="20" fill="#5a4010" opacity="0.8">See: how-it-works.md | creating-profiles.md</text>
-
-  <!-- Notebook wire binding simulation on left edge -->
-  <g fill="none" stroke="#6a6030" stroke-width="2" opacity="0.6">
-    <circle cx="30" cy="80" r="5"/>
-    <circle cx="30" cy="120" r="5"/>
-    <circle cx="30" cy="160" r="5"/>
-    <circle cx="30" cy="200" r="5"/>
-    <circle cx="30" cy="240" r="5"/>
-    <circle cx="30" cy="280" r="5"/>
-    <circle cx="30" cy="320" r="5"/>
-    <circle cx="30" cy="360" r="5"/>
-    <circle cx="30" cy="400" r="5"/>
-    <circle cx="30" cy="440" r="5"/>
-  </g>
+  <!-- Subtitle block -->
+  <rect x="220" y="344" width="310" height="28" fill="#3a1a00" rx="2"/>
+  <text x="375" y="362" font-family="monospace" font-size="14" fill="#c8a050" text-anchor="middle" letter-spacing="3">ZERO TO FIRST SPAWN</text>
 
 </svg>

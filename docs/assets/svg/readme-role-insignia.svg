@@ -1,117 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 160" width="900" height="160">
-  <title>Role Class Insignia — Eight Roles of the Armies System</title>
-  <desc>Eight role class icons in WWII military insignia style, displayed in a row. Warm gold, cream, and deep burgundy palette.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" width="780" height="380">
+  <title>Armies — Role Class Insignia</title>
 
   <!-- Background -->
-  <rect width="900" height="160" fill="#1a0a02"/>
-  <rect x="0" y="0" width="900" height="2" fill="#c8a050" opacity="0.5"/>
-  <rect x="0" y="158" width="900" height="2" fill="#c8a050" opacity="0.5"/>
+  <rect width="780" height="380" fill="#0d0800"/>
+  <rect width="780" height="380" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="768" height="368" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.3"/>
 
-  <!-- Section label -->
-  <text x="450" y="18" font-family="serif" font-size="20" fill="#c8a050" text-anchor="middle" letter-spacing="4" opacity="0.8">ROLE CLASSES</text>
+  <!-- Top band -->
+  <rect x="0" y="0" width="780" height="34" fill="#3a1a00"/>
+  <text x="390" y="22" font-family="serif" font-size="15" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="6">ROLE CLASS INSIGNIA</text>
 
-  <!-- 8 role insignia badges, evenly spaced -->
-  <!-- Each badge: octagonal shape with role symbol and label -->
+  <!-- Bottom band -->
+  <rect x="0" y="346" width="780" height="34" fill="#3a1a00"/>
+  <text x="390" y="367" font-family="serif" font-size="12" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.7">8 ROLE CLASSES — ONE MISSION PER SPAWN</text>
 
-  <!-- 1. COORDINATOR — compass/star -->
-  <g transform="translate(56,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#1a3a7a" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Compass star symbol -->
-    <line x1="0" y1="-20" x2="0" y2="20" stroke="#c8a050" stroke-width="2"/>
-    <line x1="-20" y1="0" x2="20" y2="0" stroke="#c8a050" stroke-width="2"/>
-    <line x1="-14" y1="-14" x2="14" y2="14" stroke="#c8a050" stroke-width="1" opacity="0.6"/>
-    <line x1="14" y1="-14" x2="-14" y2="14" stroke="#c8a050" stroke-width="1" opacity="0.6"/>
-    <circle cx="0" cy="0" r="5" fill="#c8a050"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">COORDINATOR</text>
+  <!-- Badge macro: octagon shape helper -->
+  <!-- Row 1: coordinator, implementer, qa-validator, planner -->
+  <!-- Row 2: researcher, artist, observer, troubleshooter -->
+
+  <!-- Badge positions: row1 y=85 center, row2 y=235 center -->
+  <!-- x positions: 80, 225, 370, 515 (but we have 4 in row, spacing ~160px, start ~80) -->
+  <!-- Actually 780px / 4 = 195 each, centers at 97.5, 292.5, 487.5, 682.5... too far apart -->
+  <!-- Better: start at 80, spacing 165: 80, 245, 410, 575, 740 - but 740 near edge -->
+  <!-- Let's use: 4 per row, centers at 97, 262, 487, 652 in 780px... -->
+  <!-- Centers: 780/8 * (1,3,5,7) = 97.5, 292.5, 487.5, 682.5 -->
+
+  <!-- COORDINATOR badge — gold/bronze -->
+  <g transform="translate(97,115)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#8b6010" stroke="#c8a050" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#c8a050" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#d8c880" text-anchor="middle" letter-spacing="1">COORD</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#c8a050" text-anchor="middle">★★★</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">COORDINATOR</text>
   </g>
 
-  <!-- 2. IMPLEMENTER — hammer/anvil -->
-  <g transform="translate(168,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#5a1a00" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Wrench/gear symbol -->
-    <rect x="-4" y="-20" width="8" height="28" rx="2" fill="#c8a050"/>
-    <rect x="-14" y="-22" width="28" height="8" rx="3" fill="#c8a050"/>
-    <rect x="-10" y="8" width="20" height="6" rx="2" fill="#c8a050" opacity="0.7"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">IMPLEMENTER</text>
+  <!-- IMPLEMENTER badge — blue-steel -->
+  <g transform="translate(262,115)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#1a2a4a" stroke="#4a7ab0" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#4a7ab0" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#8ab8e8" text-anchor="middle" letter-spacing="1">IMPL</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#4a7ab0" text-anchor="middle">⚙⚙⚙</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#8ab8e8" text-anchor="middle" letter-spacing="1">IMPLEMENTER</text>
   </g>
 
-  <!-- 3. QA-VALIDATOR — magnifying glass -->
-  <g transform="translate(280,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#2a4a00" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Magnifying glass -->
-    <circle cx="-3" cy="-5" r="13" fill="none" stroke="#c8a050" stroke-width="2.5"/>
-    <line x1="7" y1="5" x2="18" y2="17" stroke="#c8a050" stroke-width="3" stroke-linecap="round"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">QA-VALIDATOR</text>
+  <!-- QA-VALIDATOR badge — red/warning -->
+  <g transform="translate(487,115)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#3a0000" stroke="#c83030" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#c83030" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#e88080" text-anchor="middle" letter-spacing="1">QA</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#c83030" text-anchor="middle">⚑⚑⚑</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#e88080" text-anchor="middle" letter-spacing="1">QA-VALIDATOR</text>
   </g>
 
-  <!-- 4. PLANNER — drafting triangle -->
-  <g transform="translate(392,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#3a1a5a" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Triangle/drawing -->
-    <polygon points="0,-18 18,16 -18,16" fill="none" stroke="#c8a050" stroke-width="2"/>
-    <line x1="-18" y1="16" x2="0" y2="-18" stroke="#c8a050" stroke-width="1" opacity="0.5"/>
-    <line x1="0" y1="-4" x2="18" y2="16" stroke="#c8a050" stroke-width="1" opacity="0.5"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">PLANNER</text>
+  <!-- PLANNER badge — dark green -->
+  <g transform="translate(682,115)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#1a3010" stroke="#5a8a30" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#5a8a30" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#90c060" text-anchor="middle" letter-spacing="1">PLAN</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#5a8a30" text-anchor="middle">◈◈◈</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#90c060" text-anchor="middle" letter-spacing="1">PLANNER</text>
   </g>
 
-  <!-- 5. RESEARCHER — open book -->
-  <g transform="translate(504,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#1a2a4a" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Open book -->
-    <path d="M -18,-12 L -18,14 L 0,18 L 0,-8 Z" fill="#c8a050" opacity="0.8"/>
-    <path d="M 18,-12 L 18,14 L 0,18 L 0,-8 Z" fill="#c8a050" opacity="0.6"/>
-    <line x1="0" y1="-8" x2="0" y2="18" stroke="#1a2a4a" stroke-width="1.5"/>
-    <line x1="-15" y1="-4" x2="-3" y2="-4" stroke="#1a2a4a" stroke-width="1" opacity="0.6"/>
-    <line x1="-15" y1="2" x2="-3" y2="2" stroke="#1a2a4a" stroke-width="1" opacity="0.6"/>
-    <line x1="-15" y1="8" x2="-3" y2="8" stroke="#1a2a4a" stroke-width="1" opacity="0.6"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">RESEARCHER</text>
+  <!-- Row divider -->
+  <line x1="40" y1="208" x2="740" y2="208" stroke="#c8a050" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- RESEARCHER badge — amber -->
+  <g transform="translate(97,265)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#2a1a00" stroke="#c87820" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#c87820" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#e8a850" text-anchor="middle" letter-spacing="1">RSCH</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#c87820" text-anchor="middle">◎◎◎</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#e8a850" text-anchor="middle" letter-spacing="1">RESEARCHER</text>
   </g>
 
-  <!-- 6. TROUBLESHOOTER — lightning bolt -->
-  <g transform="translate(616,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#5a2a00" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Lightning bolt -->
-    <polygon points="8,-20 -4,2 4,2 -8,22 10,0 2,0 14,-20" fill="#c8a050"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">TROUBLESHOOTER</text>
+  <!-- ARTIST badge — purple -->
+  <g transform="translate(262,265)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#1a0a2a" stroke="#8050c0" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#8050c0" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#c090f0" text-anchor="middle" letter-spacing="1">ART</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#8050c0" text-anchor="middle">✦✦✦</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#c090f0" text-anchor="middle" letter-spacing="1">ARTIST</text>
   </g>
 
-  <!-- 7. ARTIST — palette/brush -->
-  <g transform="translate(728,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#4a0a2a" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Paintbrush -->
-    <rect x="-3" y="-20" width="6" height="20" rx="1" fill="#c8a050"/>
-    <rect x="-5" y="-22" width="10" height="6" rx="1" fill="#d4b483"/>
-    <path d="M -3,0 L 3,0 L 5,16 Q 0,22 -5,16 Z" fill="#c8a050" opacity="0.9"/>
-    <!-- Small paint dots -->
-    <circle cx="14" cy="-14" r="3" fill="#c8a050" opacity="0.8"/>
-    <circle cx="-16" cy="-10" r="2.5" fill="#c8a050" opacity="0.6"/>
-    <circle cx="16" cy="6" r="2" fill="#c8a050" opacity="0.5"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">ARTIST</text>
+  <!-- OBSERVER badge — grey/silver -->
+  <g transform="translate(487,265)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#1a1a1a" stroke="#808080" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#808080" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#b0b0b0" text-anchor="middle" letter-spacing="1">OBS</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#808080" text-anchor="middle">◉◉◉</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#b0b0b0" text-anchor="middle" letter-spacing="1">OBSERVER</text>
   </g>
 
-  <!-- 8. OBSERVER — eye -->
-  <g transform="translate(840,80)">
-    <polygon points="0,-38 22,-22 38,0 22,22 0,38 -22,22 -38,0 -22,-22" fill="#1a3a1a" stroke="#c8a050" stroke-width="1.5"/>
-    <polygon points="0,-30 16,-16 30,0 16,16 0,30 -16,16 -30,0 -16,-16" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
-    <!-- Eye symbol -->
-    <path d="M -18,0 Q 0,-16 18,0 Q 0,16 -18,0 Z" fill="none" stroke="#c8a050" stroke-width="2"/>
-    <circle cx="0" cy="0" r="6" fill="#c8a050"/>
-    <circle cx="0" cy="0" r="3" fill="#1a3a1a"/>
-    <!-- Eyelashes/rays -->
-    <line x1="0" y1="-16" x2="0" y2="-20" stroke="#c8a050" stroke-width="1" opacity="0.6"/>
-    <line x1="0" y1="16" x2="0" y2="20" stroke="#c8a050" stroke-width="1" opacity="0.6"/>
-    <text x="0" y="50" font-family="sans-serif" font-size="17.5" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="1">OBSERVER</text>
+  <!-- TROUBLESHOOTER badge — orange/alert -->
+  <g transform="translate(682,265)">
+    <polygon points="0,-48 28,-34 46,-10 46,18 28,42 0,52 -28,42 -46,18 -46,-10 -28,-34" fill="#2a0f00" stroke="#c05010" stroke-width="2"/>
+    <polygon points="0,-38 22,-27 36,-8 36,14 22,33 0,41 -22,33 -36,14 -36,-8 -22,-27" fill="none" stroke="#c05010" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="6" font-family="serif" font-size="11" font-weight="bold" fill="#e07040" text-anchor="middle" letter-spacing="1">TRBL</text>
+    <text x="0" y="20" font-family="monospace" font-size="9" fill="#c05010" text-anchor="middle">⚡⚡⚡</text>
+    <text x="0" y="76" font-family="serif" font-size="14" font-weight="bold" fill="#e07040" text-anchor="middle" letter-spacing="1">TROUBLESHOOTER</text>
   </g>
-
-  <!-- Connecting banner line -->
-  <line x1="30" y1="130" x2="870" y2="130" stroke="#c8a050" stroke-width="0.5" opacity="0.3"/>
 
 </svg>

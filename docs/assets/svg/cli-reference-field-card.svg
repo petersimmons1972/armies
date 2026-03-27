@@ -1,182 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 440" width="750" height="440">
-  <title>CLI Field Reference Card — All Armies Commands</title>
-  <desc>WWII soldier's field pocket card format, khaki and utilitarian tan, listing all armies CLI commands like a quick-reference battle card.</desc>
+  <title>CLI Reference — Quick Reference Card</title>
+  <defs>
+    <linearGradient id="cr-uniform" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a1a"/>
+      <stop offset="100%" stop-color="#1a1a0a"/>
+    </linearGradient>
+    <linearGradient id="cr-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8c880"/>
+      <stop offset="100%" stop-color="#b8a860"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Outer carrier / khaki cover -->
-  <rect width="750" height="440" fill="#5a5020"/>
+  <!-- Background — olive uniform fabric -->
+  <rect width="750" height="440" fill="url(#cr-uniform)"/>
+  <rect width="750" height="440" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="738" height="428" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
 
-  <!-- Wear marks on the khaki cover -->
-  <rect x="0" y="0" width="750" height="440" fill="none" stroke="#4a4010" stroke-width="4"/>
-  <circle cx="20" cy="20" r="8" fill="#4a4010" opacity="0.3"/>
-  <circle cx="730" cy="20" r="8" fill="#4a4010" opacity="0.3"/>
-  <circle cx="20" cy="420" r="8" fill="#4a4010" opacity="0.3"/>
-  <circle cx="730" cy="420" r="8" fill="#4a4010" opacity="0.3"/>
+  <!-- Subtle fabric texture -->
+  <rect width="750" height="440" fill="none" stroke="#3a3a2a" stroke-width="1" opacity="0.15"/>
 
-  <!-- Inner card — unbleached field manual paper -->
-  <rect x="16" y="16" width="718" height="408" fill="#d8c880" rx="2"/>
-  <rect x="16" y="16" width="718" height="408" fill="none" stroke="#8b7820" stroke-width="1"/>
+  <!-- Top band -->
+  <rect x="0" y="0" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="29" font-family="serif" font-size="26" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="7">QUICK REFERENCE CARD</text>
 
-  <!-- TOP BANNER — classification bar -->
-  <rect x="16" y="16" width="718" height="28" fill="#5a4800"/>
-  <text x="375" y="35" font-family="serif" font-size="24" font-weight="bold" fill="#d8c880" text-anchor="middle" letter-spacing="5">ARMIES CLI — QUICK REFERENCE CARD</text>
-  <text x="32" y="35" font-family="monospace" font-size="20" fill="#a09040">FM 1-01</text>
-  <text x="716" y="35" font-family="monospace" font-size="20" fill="#a09040" text-anchor="end">REV 1.0</text>
+  <!-- Bottom band -->
+  <rect x="0" y="396" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="420" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">FM 1-01 · REV 1.0 · ARMIES CLI</text>
 
-  <!-- Two-column layout -->
-  <!-- LEFT COLUMN: Primary commands -->
-  <rect x="26" y="52" width="340" height="360" fill="#c8b860" opacity="0.2"/>
+  <!-- Breast pocket outline on uniform -->
+  <rect x="180" y="68" width="390" height="310" fill="#242414" rx="4" stroke="#4a4a2a" stroke-width="2"/>
+  <!-- Pocket flap -->
+  <path d="M 180,68 Q 375,52 570,68 L 570,98 Q 375,112 180,98 Z" fill="#2e2e1e" stroke="#4a4a2a" stroke-width="1.5"/>
+  <!-- Button on pocket flap -->
+  <circle cx="375" cy="83" r="8" fill="#4a3a10" stroke="#8b7020" stroke-width="1.5"/>
+  <circle cx="375" cy="83" r="4" fill="none" stroke="#8b7020" stroke-width="1"/>
+  <!-- Button holes -->
+  <line x1="373" y1="81" x2="373" y2="85" stroke="#3a2800" stroke-width="1"/>
+  <line x1="377" y1="81" x2="377" y2="85" stroke="#3a2800" stroke-width="1"/>
 
-  <text x="196" y="72" font-family="serif" font-size="20" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="3">PRIMARY COMMANDS</text>
-  <line x1="36" y1="76" x2="356" y2="76" stroke="#8b7820" stroke-width="1"/>
+  <!-- Field card sticking out of pocket -->
+  <rect x="230" y="88" width="290" height="270" fill="url(#cr-card)" rx="3" stroke="#8b7820" stroke-width="1.5"/>
 
-  <!-- Command blocks -->
-  <!-- armies roster -->
-  <g transform="translate(36, 84)">
-    <rect x="0" y="0" width="310" height="50" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies roster</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">List all profiles with XP, rank, and eligibility status.</text>
-    <text x="8" y="41" font-family="serif" font-size="20" fill="#5a4000">Reads ~/.armies/profiles/ — computes live malus if ledger exists.</text>
+  <!-- Card header -->
+  <rect x="230" y="88" width="290" height="22" fill="#5a4800" rx="3"/>
+  <text x="375" y="103" font-family="monospace" font-size="10" fill="#d8c880" text-anchor="middle" letter-spacing="2">ARMIES · FIELD CARD</text>
+
+  <!-- Card vertical divider -->
+  <line x1="375" y1="118" x2="375" y2="348" stroke="#8b7820" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- LEFT COLUMN: command names -->
+  <text x="240" y="130" font-family="monospace" font-size="11" fill="#5a4000" font-weight="bold" letter-spacing="2">COMMAND</text>
+  <line x1="234" y1="135" x2="369" y2="135" stroke="#8b7820" stroke-width="0.8"/>
+  <g font-family="monospace" font-size="14" fill="#3a2000">
+    <text x="240" y="156">$ roster</text>
+    <text x="240" y="178">$ spawn</text>
+    <text x="240" y="200">$ record</text>
+    <text x="240" y="222">$ eligible</text>
+    <text x="240" y="244">$ init</text>
+    <text x="240" y="266">$ sync</text>
+    <text x="240" y="288">$ research</text>
   </g>
 
-  <!-- armies spawn -->
-  <g transform="translate(36, 144)">
-    <rect x="0" y="0" width="310" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies spawn &lt;agent&gt; --role &lt;role&gt;</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Generate spawn prompt: frontmatter + Base Persona + role block.</text>
-    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Paste output into Claude Code agent invocation.</text>
-    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">--role: coordinator | implementer | researcher | ...</text>
+  <!-- RIGHT COLUMN: one-word purposes -->
+  <text x="384" y="130" font-family="monospace" font-size="11" fill="#5a4000" font-weight="bold" letter-spacing="2">PURPOSE</text>
+  <line x1="379" y1="135" x2="512" y2="135" stroke="#8b7820" stroke-width="0.8"/>
+  <g font-family="monospace" font-size="14" fill="#3a2000">
+    <text x="384" y="156">list agents</text>
+    <text x="384" y="178">deploy agent</text>
+    <text x="384" y="200">log service</text>
+    <text x="384" y="222">check gates</text>
+    <text x="384" y="244">bootstrap</text>
+    <text x="384" y="266">git sync</text>
+    <text x="384" y="288">draft profile</text>
   </g>
 
-  <!-- armies record -->
-  <g transform="translate(36, 216)">
-    <rect x="0" y="0" width="310" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies record &lt;agent&gt; &lt;note&gt; --xp N</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Write service record entry. Update XP in profile frontmatter.</text>
-    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Must be committed to git — uncommitted records are not real.</text>
-    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">--xp: XP earned this deployment (integer)</text>
-  </g>
+  <!-- Card footer -->
+  <line x1="234" y1="300" x2="512" y2="300" stroke="#8b7820" stroke-width="0.8" opacity="0.6"/>
+  <text x="375" y="316" font-family="monospace" font-size="9" fill="#5a4000" text-anchor="middle" opacity="0.8">~/.armies/profiles/ · git commit required</text>
+  <text x="375" y="332" font-family="monospace" font-size="10" fill="#8b0000" text-anchor="middle" font-weight="bold">IF NOT COMMITTED — DIDN'T HAPPEN</text>
 
-  <!-- armies eligible -->
-  <g transform="translate(36, 288)">
-    <rect x="0" y="0" width="310" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies eligible &lt;agent&gt;</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Compute effective malus fresh from ledger. Show eligibility gates.</text>
-    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Never cached — recomputed from current date every invocation.</text>
-    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">Tiers: Clean | Warning | Probation | Demotion | Suspension</text>
-  </g>
+  <!-- Card corner fold -->
+  <path d="M 510,88 L 520,88 L 520,98 Z" fill="#c0a850" opacity="0.6"/>
 
-  <!-- armies init -->
-  <g transform="translate(36, 360)">
-    <rect x="0" y="0" width="310" height="50" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies init</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Create ~/.armies/ directory structure. Idempotent — safe to rerun.</text>
-    <text x="8" y="41" font-family="serif" font-size="20" fill="#5a4000">Optional: set remote_url for git-backed profile sync.</text>
-  </g>
-
-  <!-- DIVIDER -->
-  <rect x="370" y="52" width="2" height="355" fill="#8b7820" opacity="0.5"/>
-
-  <!-- RIGHT COLUMN: Supporting commands + quick reference -->
-  <rect x="376" y="52" width="346" height="360" fill="#c8b860" opacity="0.2"/>
-
-  <text x="549" y="72" font-family="serif" font-size="20" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="3">ADDITIONAL COMMANDS</text>
-  <line x1="386" y1="76" x2="714" y2="76" stroke="#8b7820" stroke-width="1"/>
-
-  <!-- armies sync -->
-  <g transform="translate(386, 84)">
-    <rect x="0" y="0" width="316" height="50" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="316" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies sync</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Git pull + push to configured remote. Requires remote_url in</text>
-    <text x="8" y="41" font-family="serif" font-size="20" fill="#5a4000">~/.armies/config.yaml. Forwards SSH agent via SSH_AUTH_SOCK.</text>
-  </g>
-
-  <!-- armies research -->
-  <g transform="translate(386, 144)">
-    <rect x="0" y="0" width="316" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
-    <rect x="0" y="0" width="316" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies research &lt;role&gt; [--mode api]</text>
-    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Generate draft research prompt for creating a new profile.</text>
-    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Saved to profiles/drafts/ — feed to Claude Code Agent tool.</text>
-    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">Roles: coordinator|implementer|planner|researcher|...</text>
-  </g>
-
-  <!-- Eligibility tier quick-ref table -->
-  <g transform="translate(386, 218)">
-    <text x="0" y="12" font-family="serif" font-size="18" font-weight="bold" fill="#3a2800" letter-spacing="2">ELIGIBILITY TIER QUICK REFERENCE</text>
-    <line x1="0" y1="16" x2="316" y2="16" stroke="#8b7820" stroke-width="0.5"/>
-    <!-- Table header -->
-    <g font-family="monospace" font-size="17.5" fill="#5a4000">
-      <text x="0" y="28">TIER</text>
-      <text x="80" y="28">MALUS</text>
-      <text x="130" y="28">COORD</text>
-      <text x="175" y="28">EMERG</text>
-      <text x="220" y="28">SPEC</text>
-      <text x="262" y="28">VALID</text>
-    </g>
-    <line x1="0" y1="32" x2="316" y2="32" stroke="#8b7820" stroke-width="0.5"/>
-    <!-- Rows -->
-    <g font-family="monospace" font-size="17.5">
-      <text x="0" y="44" fill="#3a2800">Clean</text>
-      <text x="80" y="44" fill="#3a2800">0–99</text>
-      <text x="130" y="44" fill="#2a5a20">CLR</text>
-      <text x="175" y="44" fill="#2a5a20">CLR</text>
-      <text x="220" y="44" fill="#2a5a20">CLR</text>
-      <text x="262" y="44" fill="#2a5a20">CLR</text>
-      <line x1="0" y1="48" x2="316" y2="48" stroke="#a09040" stroke-width="0.3"/>
-
-      <text x="0" y="60" fill="#3a2800">Warning</text>
-      <text x="80" y="60" fill="#3a2800">100–199</text>
-      <text x="130" y="60" fill="#8b0000">BLK</text>
-      <text x="175" y="60" fill="#8b4000">FDR</text>
-      <text x="220" y="60" fill="#2a5a20">CLR</text>
-      <text x="262" y="60" fill="#2a5a20">CLR</text>
-      <line x1="0" y1="64" x2="316" y2="64" stroke="#a09040" stroke-width="0.3"/>
-
-      <text x="0" y="76" fill="#3a2800">Probation</text>
-      <text x="80" y="76" fill="#3a2800">200–299</text>
-      <text x="130" y="76" fill="#8b0000">BLK</text>
-      <text x="175" y="76" fill="#8b0000">BLK</text>
-      <text x="220" y="76" fill="#8b4000">REV</text>
-      <text x="262" y="76" fill="#2a5a20">CLR</text>
-      <line x1="0" y1="80" x2="316" y2="80" stroke="#a09040" stroke-width="0.3"/>
-
-      <text x="0" y="92" fill="#3a2800">Demotion</text>
-      <text x="80" y="92" fill="#3a2800">300–399</text>
-      <text x="130" y="92" fill="#8b0000">BLK</text>
-      <text x="175" y="92" fill="#8b0000">BLK</text>
-      <text x="220" y="92" fill="#8b0000">ESC</text>
-      <text x="262" y="92" fill="#2a5a20">CLR</text>
-      <line x1="0" y1="96" x2="316" y2="96" stroke="#a09040" stroke-width="0.3"/>
-
-      <text x="0" y="108" fill="#3a2800">Suspension</text>
-      <text x="80" y="108" fill="#3a2800">400+</text>
-      <text x="130" y="108" fill="#8b0000">BLK</text>
-      <text x="175" y="108" fill="#8b0000">BLK</text>
-      <text x="220" y="108" fill="#8b0000">BLK</text>
-      <text x="262" y="108" fill="#8b0000">BLK</text>
-    </g>
-  </g>
-
-  <!-- Profile paths quick ref -->
-  <g transform="translate(386, 358)">
-    <text x="0" y="12" font-family="serif" font-size="18" font-weight="bold" fill="#3a2800" letter-spacing="2">KEY PATHS</text>
-    <line x1="0" y1="16" x2="316" y2="16" stroke="#8b7820" stroke-width="0.5"/>
-    <g font-family="monospace" font-size="17.5" fill="#3a2800">
-      <text x="0" y="30">~/.armies/profiles/       agent .md files</text>
-      <text x="0" y="42">~/.armies/accountability/  malus-ledger.yaml</text>
-      <text x="0" y="54">~/.armies/service-records/ per-agent YAML</text>
-    </g>
-  </g>
-
-  <!-- Bottom banner -->
-  <rect x="16" y="408" width="718" height="16" fill="#5a4800"/>
-  <text x="375" y="420" font-family="serif" font-size="20" fill="#d8c880" text-anchor="middle" letter-spacing="3">IF IT'S NOT COMMITTED — IT DIDN'T HAPPEN</text>
+  <!-- Decorative pen clipped to pocket edge -->
+  <rect x="548" y="92" width="8" height="120" rx="4" fill="#3a2800"/>
+  <rect x="546" y="88" width="12" height="14" rx="3" fill="#c8a050"/>
+  <polygon points="552,212 548,226 556,226" fill="#1a1000"/>
 
 </svg>
