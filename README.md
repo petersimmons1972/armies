@@ -1,5 +1,11 @@
 # Armies
 
+<div align="center">
+<img src="docs/assets/svg/readme-command-table.svg" alt="A commander stands at a war room table covered in agent profile cards — coordinator, implementer, observer — with mission arrows pointing between them." width="900">
+</div>
+
+<!-- POSTER: README — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 AI agents are generic. You get the same assistant whether you're debugging a race condition or writing a post-mortem. No memory between sessions. No accountability when something goes wrong. No personality to anchor behavior. Every prompt starts from zero, and every agent is interchangeable. That is the problem. Armies gives your agents identity. Historical figures with earned expertise, accumulated XP, and structural role constraints. Grace Hopper ships code fast and asks forgiveness later. Jane Goodall observes without contaminating the scene. Roy Disney keeps Walt's impossible vision from burning the budget. The right specialist for every mission -- and they get better every time they're deployed.
 
 **STATUS: experimental**
@@ -69,6 +75,12 @@ The **frontmatter** carries the structural data: tool restrictions (enforced, no
 ---
 
 ## Role Classes
+
+<div align="center">
+<img src="docs/assets/svg/readme-role-insignia.svg" alt="Eight role class insignia badges in WWII military style — coordinator, implementer, qa-validator, planner, researcher, troubleshooter, artist, observer." width="900">
+</div>
+
+<!-- POSTER: README — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 | Role              | Archetype                                                                  | Responsibility                                      | Allowed Tools                   |
 | ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------- |

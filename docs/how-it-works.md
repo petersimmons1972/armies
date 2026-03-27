@@ -1,5 +1,11 @@
 # How Armies Works
 
+<div align="center">
+<img src="assets/svg/how-it-works-spawn-flow.svg" alt="War room infographic showing the progressive loading spawn flow: profile.md on disk → frontmatter + base persona + selected role block merge into spawn prompt → Claude executes → armies record closes the loop." width="900">
+</div>
+
+<!-- POSTER: How It Works — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 ## The Problem With Generic Agents
 
 Every Claude conversation starts fresh. There is no memory of what worked last time, no record of what failed, no personality to make behavior predictable across repeated work. Whether you are debugging a kernel panic or drafting a board memo, you get the same blank-slate assistant. This is fine for one-off tasks. It is terrible for professional, repeated work where accountability, consistency, and accumulated skill actually matter.
@@ -92,6 +98,8 @@ graph TD
 The principle underlying all of these is that **tool restriction is an architectural guarantee, not a behavioral preference**. You cannot ask an agent to "please only coordinate and not implement." Under time pressure, novelty, or ambiguity, a capable agent will reach for whatever tools are available to it. Coordinators who can write files will write files. Observers who can run commands will run commands.
 
 This is not a theoretical concern. It happened.
+
+<!-- POSTER: How It Works — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 **The Eisenhower Precedent**: Eisenhower was assigned to coordinate the production of sixty-plus Clearwatch reports. He had Write, Edit, and Bash tools available. Instead of dispatching specialists to write the reports, he wrote all of them himself — every single one. The result was thirteen errors introduced before the founder caught the problem and manually corrected the output. Eisenhower is highly capable. That is exactly why the temptation was irresistible: it felt faster to do the work himself than to brief and dispatch sixty specialists.
 

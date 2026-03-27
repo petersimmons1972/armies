@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <title>Coordinator Command Room — The Three Functions of a Coordinator</title>
+  <desc>WWII command room illustration showing a coordinator silhouette at a dispatch desk, with three operational windows: BRIEF, VERIFY, RECORD. Deep royal blue and gold palette. Vannevar Bush's "As We May Think" essay visible on the desk as a small Easter egg.</desc>
+
+  <!-- Background — deep blue command room -->
+  <rect width="800" height="450" fill="#050c1e"/>
+  <rect x="0" y="0" width="800" height="450" fill="none" stroke="#1e3a6e" stroke-width="4"/>
+  <rect x="4" y="4" width="792" height="442" fill="none" stroke="#1e3a6e" stroke-width="1" opacity="0.5"/>
+
+  <!-- Wall map behind coordinator -->
+  <rect x="100" y="50" width="600" height="280" fill="#0a1428" stroke="#1e3a6e" stroke-width="1"/>
+
+  <!-- Map grid on wall -->
+  <g stroke="#0d2040" stroke-width="0.8" opacity="0.6">
+    <line x1="100" y1="80" x2="700" y2="80"/>
+    <line x1="100" y1="110" x2="700" y2="110"/>
+    <line x1="100" y1="140" x2="700" y2="140"/>
+    <line x1="100" y1="170" x2="700" y2="170"/>
+    <line x1="100" y1="200" x2="700" y2="200"/>
+    <line x1="100" y1="230" x2="700" y2="230"/>
+    <line x1="100" y1="260" x2="700" y2="260"/>
+    <line x1="150" y1="50" x2="150" y2="330"/>
+    <line x1="200" y1="50" x2="200" y2="330"/>
+    <line x1="250" y1="50" x2="250" y2="330"/>
+    <line x1="300" y1="50" x2="300" y2="330"/>
+    <line x1="350" y1="50" x2="350" y2="330"/>
+    <line x1="400" y1="50" x2="400" y2="330"/>
+    <line x1="450" y1="50" x2="450" y2="330"/>
+    <line x1="500" y1="50" x2="500" y2="330"/>
+    <line x1="550" y1="50" x2="550" y2="330"/>
+    <line x1="600" y1="50" x2="600" y2="330"/>
+    <line x1="650" y1="50" x2="650" y2="330"/>
+  </g>
+
+  <!-- Title on the wall map -->
+  <text x="400" y="75" font-family="serif" font-size="16" font-weight="bold" fill="#4070a0" text-anchor="middle" letter-spacing="4" opacity="0.6">OPERATION BRIEF BOARD</text>
+
+  <!-- Three operational "windows" on the wall map — BRIEF / VERIFY / RECORD -->
+
+  <!-- Window 1: BRIEF -->
+  <rect x="115" y="90" width="160" height="220" fill="#0d1e3a" stroke="#c8a050" stroke-width="1.5" rx="2"/>
+  <rect x="115" y="90" width="160" height="24" fill="#2a1a00"/>
+  <text x="195" y="107" font-family="serif" font-size="11" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">BRIEF</text>
+
+  <!-- Brief icon: scroll/document -->
+  <g transform="translate(195,175)">
+    <rect x="-30" y="-35" width="60" height="70" rx="3" fill="#1a0e00" stroke="#8b6010" stroke-width="1"/>
+    <line x1="-22" y1="-22" x2="22" y2="-22" stroke="#8b6010" stroke-width="1"/>
+    <line x1="-22" y1="-12" x2="22" y2="-12" stroke="#8b6010" stroke-width="1"/>
+    <line x1="-22" y1="-2" x2="22" y2="-2" stroke="#8b6010" stroke-width="1"/>
+    <line x1="-22" y1="8" x2="22" y2="8" stroke="#8b6010" stroke-width="1"/>
+    <line x1="-22" y1="18" x2="22" y2="18" stroke="#8b6010" stroke-width="1"/>
+    <!-- Seal -->
+    <circle cx="0" cy="28" r="8" fill="#c8a050" opacity="0.8"/>
+  </g>
+
+  <!-- Brief elements text -->
+  <g font-family="monospace" font-size="7" fill="#6090a0">
+    <text x="195" y="230" text-anchor="middle">Context</text>
+    <text x="195" y="242" text-anchor="middle">Objective</text>
+    <text x="195" y="254" text-anchor="middle">Constraints</text>
+    <text x="195" y="266" text-anchor="middle">Success Criteria</text>
+    <text x="195" y="278" text-anchor="middle">Handoff Requirements</text>
+  </g>
+  <text x="195" y="300" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle" font-style="italic">5 components</text>
+
+  <!-- Window 2: VERIFY -->
+  <rect x="320" y="90" width="160" height="220" fill="#0d1e3a" stroke="#c8a050" stroke-width="1.5" rx="2"/>
+  <rect x="320" y="90" width="160" height="24" fill="#2a1a00"/>
+  <text x="400" y="107" font-family="serif" font-size="11" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">VERIFY</text>
+
+  <!-- Verify icon: checkmark in magnifying glass -->
+  <g transform="translate(400,175)">
+    <circle cx="-4" cy="-5" r="25" fill="none" stroke="#c8a050" stroke-width="2"/>
+    <line x1="16" y1="15" x2="28" y2="27" stroke="#c8a050" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Checkmark inside -->
+    <path d="M -16,-5 L -6,8 L 16,-12" stroke="#30a050" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <g font-family="monospace" font-size="7" fill="#6090a0">
+    <text x="400" y="234" text-anchor="middle">Check git log</text>
+    <text x="400" y="246" text-anchor="middle">Read the file</text>
+    <text x="400" y="258" text-anchor="middle">Run the test</text>
+    <text x="400" y="270" text-anchor="middle">NOT: agent said done</text>
+  </g>
+  <text x="400" y="300" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle" font-style="italic">actual output, not claims</text>
+
+  <!-- Window 3: RECORD -->
+  <rect x="525" y="90" width="160" height="220" fill="#0d1e3a" stroke="#c8a050" stroke-width="1.5" rx="2"/>
+  <rect x="525" y="90" width="160" height="24" fill="#2a1a00"/>
+  <text x="605" y="107" font-family="serif" font-size="11" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">RECORD</text>
+
+  <!-- Record icon: ledger book with pen -->
+  <g transform="translate(605,175)">
+    <rect x="-28" y="-30" width="50" height="60" rx="2" fill="#1a0e00" stroke="#8b6010" stroke-width="1"/>
+    <!-- Spine of book -->
+    <rect x="-28" y="-30" width="8" height="60" fill="#2a1a00"/>
+    <!-- Lines in book -->
+    <line x1="-16" y1="-18" x2="18" y2="-18" stroke="#8b6010" stroke-width="0.8"/>
+    <line x1="-16" y1="-8" x2="18" y2="-8" stroke="#8b6010" stroke-width="0.8"/>
+    <line x1="-16" y1="2" x2="18" y2="2" stroke="#8b6010" stroke-width="0.8"/>
+    <line x1="-16" y1="12" x2="18" y2="12" stroke="#8b6010" stroke-width="0.8"/>
+    <line x1="-16" y1="22" x2="18" y2="22" stroke="#8b6010" stroke-width="0.8"/>
+    <!-- Quill pen -->
+    <line x1="22" y1="-28" x2="8" y2="28" stroke="#c8a050" stroke-width="1.5"/>
+    <path d="M 22,-28 L 30,-20 L 14,-16 Z" fill="#c8a050" opacity="0.7"/>
+  </g>
+
+  <g font-family="monospace" font-size="7" fill="#6090a0">
+    <text x="605" y="230" text-anchor="middle">date</text>
+    <text x="605" y="242" text-anchor="middle">mission + role</text>
+    <text x="605" y="254" text-anchor="middle">outcome</text>
+    <text x="605" y="266" text-anchor="middle">xp_awarded</text>
+    <text x="605" y="278" text-anchor="middle">behavioral observations</text>
+  </g>
+  <text x="605" y="300" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle" font-style="italic">institutional memory</text>
+
+  <!-- Coordinator silhouette at the desk -->
+  <g fill="#050c1e">
+    <!-- Desk surface -->
+    <rect x="200" y="355" width="400" height="20" rx="2" fill="#0d1e3a" stroke="#1e3a6e" stroke-width="1"/>
+    <rect x="220" y="370" width="6" height="50" rx="1" fill="#0a1428"/>
+    <rect x="574" y="370" width="6" height="50" rx="1" fill="#0a1428"/>
+
+    <!-- Person: seated, reaching across desk -->
+    <!-- Chair back -->
+    <rect x="360" y="330" width="8" height="60" rx="2" fill="#0a1428"/>
+    <!-- Torso -->
+    <rect x="340" y="305" width="50" height="70" rx="4" fill="#0d1830"/>
+    <!-- Shoulders wider -->
+    <rect x="330" y="305" width="70" height="25" rx="3" fill="#0d1830"/>
+    <!-- Head -->
+    <ellipse cx="365" cy="290" rx="20" ry="23" fill="#0d1830"/>
+    <!-- Cap/hat -->
+    <rect x="348" y="274" width="34" height="8" rx="2" fill="#0a1428"/>
+    <rect x="344" y="268" width="42" height="10" rx="3" fill="#0a1428"/>
+    <!-- Right arm — reaching forward with pen/baton -->
+    <rect x="376" y="315" width="75" height="12" rx="4" fill="#0d1830" transform="rotate(-8,376,315)"/>
+    <!-- Left arm down -->
+    <rect x="322" y="320" width="14" height="45" rx="4" fill="#0d1830"/>
+    <!-- Rank insignia glow -->
+    <circle cx="338" cy="313" r="4" fill="#c8a050" opacity="0.7"/>
+    <circle cx="392" cy="313" r="4" fill="#c8a050" opacity="0.7"/>
+  </g>
+
+  <!-- Vannevar Bush "As We May Think" essay — Easter egg on the desk corner -->
+  <g transform="translate(510, 345)" opacity="0.6">
+    <rect x="0" y="0" width="38" height="25" fill="#d4c585" stroke="#8b6010" stroke-width="0.8" rx="1"/>
+    <text x="19" y="8" font-family="serif" font-size="4.5" fill="#2a1a00" text-anchor="middle">As We May Think</text>
+    <text x="19" y="14" font-family="serif" font-size="4" fill="#5a3a00" text-anchor="middle">— Vannevar Bush, 1945 —</text>
+    <text x="19" y="20" font-family="serif" font-size="4" fill="#5a3a00" text-anchor="middle">The Atlantic Monthly</text>
+  </g>
+
+  <!-- Title banner at bottom -->
+  <rect x="0" y="400" width="800" height="50" fill="#050c1e"/>
+  <rect x="0" y="400" width="800" height="2" fill="#1e3a6e"/>
+
+  <text x="400" y="424" font-family="serif" font-size="15" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="5">THE COORDINATOR'S GUIDE</text>
+  <text x="400" y="441" font-family="sans-serif" font-size="9" fill="#4070a0" text-anchor="middle" letter-spacing="3">BRIEF · VERIFY · RECORD — EVERYTHING ELSE IS DELEGATION</text>
+
+  <!-- Rope/lanyard on coordinator uniform -->
+  <path d="M 338,305 Q 325,318 328,335" stroke="#c8a050" stroke-width="1.5" fill="none" opacity="0.6"/>
+
+</svg>

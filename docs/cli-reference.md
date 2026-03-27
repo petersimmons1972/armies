@@ -1,5 +1,11 @@
 # CLI Reference
 
+<div align="center">
+<img src="assets/svg/cli-reference-field-card.svg" alt="WWII soldier's field pocket reference card listing all armies commands (roster, spawn, record, eligible, init, sync, research) with syntax and quick eligibility tier lookup table." width="750">
+</div>
+
+<!-- POSTER: CLI Reference — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 Complete reference for every `armies` command. All commands write to stdout and exit non-zero on failure.
 
 ---

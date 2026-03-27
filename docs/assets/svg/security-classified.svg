@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+  <title>Security — Classified Document Style, Attack Surface and Defense Layers</title>
+  <desc>CLASSIFIED document style illustration showing the three attack surface risks (API keys, SSH passthrough, profile access) in a redacted intelligence report format. Charcoal, steel grey, classified red palette.</desc>
+
+  <!-- Background — classified document grey -->
+  <rect width="700" height="400" fill="#1a1a1a"/>
+  <rect x="0" y="0" width="700" height="400" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+
+  <!-- Paper texture suggestion -->
+  <rect x="4" y="4" width="692" height="392" fill="#f0ece0" rx="1"/>
+
+  <!-- Red CLASSIFIED diagonal stamp -->
+  <text x="350" y="260" font-family="sans-serif" font-size="110" font-weight="bold" fill="#8b0000" text-anchor="middle" transform="rotate(-25, 350, 260)" opacity="0.08" letter-spacing="5">CLASSIFIED</text>
+
+  <!-- Top classification bar -->
+  <rect x="4" y="4" width="692" height="28" fill="#8b0000"/>
+  <text x="350" y="23" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="6">CLASSIFIED // SECURITY ASSESSMENT // ARMIES</text>
+
+  <!-- Document header -->
+  <rect x="4" y="32" width="692" height="48" fill="#e8e4d8"/>
+  <text x="20" y="52" font-family="monospace" font-size="10" fill="#3a3a3a">TO: Armies Operator</text>
+  <text x="20" y="66" font-family="monospace" font-size="10" fill="#3a3a3a">SUBJECT: Container Attack Surface Assessment — Chainguard Python Base</text>
+  <text x="600" y="52" font-family="monospace" font-size="9" fill="#3a3a3a" text-anchor="end">EYES ONLY</text>
+  <text x="600" y="66" font-family="monospace" font-size="9" fill="#3a3a3a" text-anchor="end">REF: ARMIES-SEC-001</text>
+
+  <!-- Divider -->
+  <line x1="4" y1="80" x2="696" y2="80" stroke="#3a3a3a" stroke-width="1"/>
+
+  <!-- Section: Three Risks — Intelligence format with redactions -->
+  <text x="20" y="100" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1a1a1a" letter-spacing="2">IDENTIFIED RISK FACTORS:</text>
+
+  <!-- Risk 1: API Keys -->
+  <rect x="20" y="108" width="655" height="55" fill="#f8f4e8" stroke="#c0b890" stroke-width="0.5" rx="2"/>
+  <rect x="20" y="108" width="8" height="55" fill="#8b0000"/>
+  <text x="38" y="124" font-family="serif" font-size="11" font-weight="bold" fill="#1a1a1a">RISK FACTOR ALPHA — API KEY EXPOSURE</text>
+  <text x="38" y="140" font-family="serif" font-size="10" fill="#3a3a3a">Container calls Claude API directly. API keys are high-value targets — unauthorized access enables arbitrary</text>
+  <text x="38" y="153" font-family="serif" font-size="10" fill="#3a3a3a">LLM workloads billed to operator account. Chainguard base: 0–2 CVEs vs. 40–50+ for python:3.11-slim.</text>
+
+  <!-- Risk 2: SSH Passthrough -->
+  <rect x="20" y="170" width="655" height="55" fill="#f8f4e8" stroke="#c0b890" stroke-width="0.5" rx="2"/>
+  <rect x="20" y="170" width="8" height="55" fill="#c83030"/>
+  <text x="38" y="186" font-family="serif" font-size="11" font-weight="bold" fill="#1a1a1a">RISK FACTOR BRAVO — SSH KEY PASSTHROUGH</text>
+  <text x="38" y="202" font-family="serif" font-size="10" fill="#3a3a3a">armies sync forwards host SSH agent via SSH_AUTH_SOCK. A compromised container IS a compromised</text>
+  <text x="38" y="215" font-family="serif" font-size="10" fill="#3a3a3a">SSH key. Every repo reachable from the host key is reachable from inside the container.</text>
+
+  <!-- Risk 3: Profile Access -->
+  <rect x="20" y="232" width="655" height="55" fill="#f8f4e8" stroke="#c0b890" stroke-width="0.5" rx="2"/>
+  <rect x="20" y="232" width="8" height="55" fill="#606060"/>
+  <text x="38" y="248" font-family="serif" font-size="11" font-weight="bold" fill="#1a1a1a">RISK FACTOR CHARLIE — PROFILE VOLUME MOUNT</text>
+  <text x="38" y="264" font-family="serif" font-size="10" fill="#3a3a3a">~/.armies/profiles/ mounted as volume. Profiles may contain organizational context, team structures,</text>
+  <text x="38" y="277" font-family="serif" font-size="10" fill="#3a3a3a">workflow details. Plaintext on disk — no encryption at rest. Protect as you protect dotfiles.</text>
+
+  <!-- Defense: Chainguard -->
+  <text x="20" y="308" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1a1a1a" letter-spacing="2">MITIGATION: CHAINGUARD PYTHON BASE</text>
+
+  <g font-family="serif" font-size="10" fill="#3a3a3a">
+    <text x="20" y="325">✓  No shell (/bin/sh, /bin/bash) — pivot-after-compromise severely limited</text>
+    <text x="20" y="340">✓  No curl, wget, apt — tooling download after compromise blocked</text>
+    <text x="20" y="355">✓  Signed image (cosign) + daily CVE rebuilds — supply chain verified</text>
+    <text x="20" y="370">✓  UID 65532 (nonroot) — no root escalation path inside container</text>
+  </g>
+
+  <!-- Redacted section at bottom — Easter egg: CLASSIFIED stamp buried in SVG metadata area -->
+  <rect x="20" y="382" width="300" height="12" fill="#1a1a1a" rx="1"/>
+  <text x="175" y="392" font-family="monospace" font-size="8" fill="#1a1a1a" text-anchor="middle">REDACTED — SEE SUPPLEMENTAL ANNEX</text>
+
+  <!-- Bottom classification bar -->
+  <rect x="4" y="372" width="692" height="24" fill="#8b0000"/>
+  <text x="350" y="388" font-family="sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="6">CLASSIFIED // ARMIES SECURITY // HANDLE ACCORDINGLY</text>
+
+  <!-- EASTER EGG: "CLASSIFIED" stamp embedded in SVG title/metadata region (visible only in source) -->
+  <!-- Hidden tiny stamp in the document corner, very faint -->
+  <g transform="translate(640, 90)" opacity="0.12">
+    <rect x="-25" y="-12" width="50" height="20" fill="none" stroke="#8b0000" stroke-width="1.5" rx="2"/>
+    <text x="0" y="3" font-family="sans-serif" font-size="7" font-weight="bold" fill="#8b0000" text-anchor="middle" letter-spacing="1">CLASSIFIED</text>
+  </g>
+
+</svg>

@@ -1,5 +1,11 @@
 # Getting Started
 
+<div align="center">
+<img src="assets/svg/getting-started-field-manual.svg" alt="Field manual cover design for the Armies Getting Started Guide showing the five setup commands in WWII military document style." width="500">
+</div>
+
+<!-- POSTER: Getting Started — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 You are about to set up something different from a prompt template library. You are initializing a roster of specialists -- historical figures with persistent identities, structural role constraints, and experience that compounds across every deployment. By the end of this guide, you will have spawned your first agent, watched it execute a mission, and recorded the outcome so the agent is smarter next time.
 
 ---
@@ -110,6 +116,8 @@ The **Base Persona** is always loaded, regardless of which role you spawn her in
 The **Role block** (`## Role: implementer`) loads only when you spawn her in that role. It defines the mission-specific behavioral instructions: what to do before starting, how to work, and what to deliver. If this profile also had a `## Role: troubleshooter` block, that block would stay on disk when you spawn her as an implementer. You only pay context window cost for the role you are using right now.
 
 ---
+
+<!-- POSTER: Getting Started — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 ## Spawning Your First Agent
 

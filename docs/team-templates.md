@@ -1,5 +1,11 @@
 # Team Templates
 
+<div align="center">
+<img src="assets/svg/team-templates-formation.svg" alt="Military tactical formation diagram showing all five built-in team templates (Standard Development, Quality Sprint, Research Spike, Emergency Firefighting, Planning Session) with agent role tokens arranged in their operational formations." width="900">
+</div>
+
+<!-- POSTER: Team Templates — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 Running a multi-agent mission without a template is like assigning a project without
 deciding who owns what. The people are available, the work needs doing, and somehow
 nothing ships because no one agreed on the roles. Templates solve that problem before
@@ -195,6 +201,8 @@ yet have a specification. The planning session is upstream of implementation —
 produces the artifact that the Standard Development Team works from.
 
 ---
+
+<!-- POSTER: Team Templates — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 ## The Observer Is Not Optional
 

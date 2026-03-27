@@ -1,5 +1,11 @@
 # The Accountability System
 
+<div align="center">
+<img src="assets/svg/accountability-ledger.svg" alt="Two heavy ledger books — XP record (gold-edged) and malus ledger (red-edged) — on a tribunal table, with the two founding precedents inscribed at the bottom. A stopped pocket watch is visible near Eisenhower's permanent malus entries." width="800">
+</div>
+
+<!-- POSTER: Accountability — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 ## Why Malus Is Separate From XP
 
 Most accountability systems work by subtraction. You earn points, you lose points, your score reflects the net. Simple to understand. Easy to implement. And deeply wrong in the way it conflates two distinct signals into noise.
@@ -146,6 +152,8 @@ Notice also that the decay formula rewards time without new incidents. If an age
 Effective malus is never cached. Every spawn eligibility check recomputes from the ledger using the current date. An agent who was blocked on Monday because of a recent P0 may be eligible by Thursday as that P0 decays. There is no manual intervention required — the arithmetic handles it.
 
 ---
+
+<!-- POSTER: Accountability — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 ## What Never Decays
 

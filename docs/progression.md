@@ -1,5 +1,11 @@
 # How Agents Advance
 
+<div align="center">
+<img src="assets/svg/progression-medal-rack.svg" alt="WWII military medal rack and rank ladder showing the four medal tiers (Commendation, Distinguished Service, Medal of Honor, Order of Victory) alongside the rank progression ladder from Colonel to Supreme Allied Commander." width="800">
+</div>
+
+<!-- POSTER: Progression — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 Armies is not a prompt template system. It is a progression system. The agents you deploy today will be measurably more experienced than the ones you deploy next week — because their deployment history is injected into every spawn prompt. A general with two hundred successful deployments and a stack of campaign ribbons is a different entity than a freshly initialized profile with zero XP. The distance between them is real work, accumulated over time, recorded in a service record that travels with them.
 
 This document explains how that accumulation works.
@@ -113,6 +119,12 @@ Supreme Allied Commander deserves special attention. It requires all eight compe
 ---
 
 ## The Malus System
+
+<div align="center">
+<img src="assets/svg/progression-malus-decay.svg" alt="Wartime infographic chart showing malus decay over 84 days for a P0 incident (100 raw points, 14-day half-life), with a flat permanent line for non-decaying malpractice entries." width="700">
+</div>
+
+<!-- POSTER: Progression — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 Malus is entirely separate from XP. They serve different purposes and must not be confused.
 

@@ -1,5 +1,11 @@
 # Creating Profiles
 
+<div align="center">
+<img src="assets/svg/creating-profiles-persona-craft.svg" alt="Field guide illustration on aged parchment showing the five elements of a well-crafted Base Persona in a naturalist's field guide format. A Grace Hopper debugging moth is hidden in the top-right border." width="600">
+</div>
+
+<!-- POSTER: Creating Profiles — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 A profile is a behavioral contract. It tells the Armies engine who an agent is, how
 they think, and what they will and will not do on a mission. The historical figure
 is the anchor — their personality, working style, and known failure modes become
@@ -129,6 +135,8 @@ record shows them genuinely operating in two modes, not for figures you want to
 make more versatile.
 
 ---
+
+<!-- POSTER: Creating Profiles — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 ## Step 3: Write the Base Persona (200–400 words)
 

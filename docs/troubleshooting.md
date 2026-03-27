@@ -1,5 +1,11 @@
 # Troubleshooting
 
+<div align="center">
+<img src="assets/svg/troubleshooting-fox-tracks.svg" alt="A desert fox silhouette trots across a landscape where sand dunes gradually resolve into terminal output text, leaving paw prints in the command lines. A tiny hidden fox paw print appears in the bottom corner." width="700">
+</div>
+
+<!-- POSTER: Troubleshooting — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 Common problems, their causes, and how to fix them. Problems are organized by category.
 
 ---

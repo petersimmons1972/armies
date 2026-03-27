@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420">
+  <title>Command Table — Armies Agent Coordination Engine</title>
+  <desc>WWII propaganda poster style: a silhouetted commander at a war table, the map covered in code snippets, agent profiles arrayed around the edges. Warm gold, cream, and deep burgundy palette.</desc>
+
+  <!-- Background -->
+  <rect width="900" height="420" fill="#1a0a02"/>
+
+  <!-- Aged paper texture overlay bands -->
+  <rect x="0" y="0" width="900" height="2" fill="#c8a050" opacity="0.4"/>
+  <rect x="0" y="418" width="900" height="2" fill="#c8a050" opacity="0.4"/>
+  <rect x="0" y="0" width="2" height="420" fill="#c8a050" opacity="0.4"/>
+  <rect x="898" y="0" width="2" height="420" fill="#c8a050" opacity="0.4"/>
+
+  <!-- Outer decorative border -->
+  <rect x="8" y="8" width="884" height="404" fill="none" stroke="#c8a050" stroke-width="1.5" opacity="0.7"/>
+  <rect x="14" y="14" width="872" height="392" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Corner ornaments - top left -->
+  <polygon points="14,14 40,14 14,40" fill="#c8a050" opacity="0.6"/>
+  <!-- Corner ornaments - top right -->
+  <polygon points="886,14 860,14 886,40" fill="#c8a050" opacity="0.6"/>
+  <!-- Corner ornaments - bottom left -->
+  <polygon points="14,406 40,406 14,380" fill="#c8a050" opacity="0.6"/>
+  <!-- Corner ornaments - bottom right -->
+  <polygon points="886,406 860,406 886,380" fill="#c8a050" opacity="0.6"/>
+
+  <!-- War table surface -->
+  <ellipse cx="450" cy="280" rx="360" ry="120" fill="#2d1505" opacity="0.9"/>
+  <ellipse cx="450" cy="280" rx="360" ry="120" fill="none" stroke="#8b5e2a" stroke-width="2"/>
+
+  <!-- Map on the table — aged parchment -->
+  <ellipse cx="450" cy="275" rx="300" ry="95" fill="#d4b483" opacity="0.85"/>
+  <ellipse cx="450" cy="275" rx="300" ry="95" fill="none" stroke="#8b6030" stroke-width="1"/>
+
+  <!-- Map grid lines -->
+  <g stroke="#8b6030" stroke-width="0.5" opacity="0.5">
+    <line x1="200" y1="240" x2="700" y2="240"/>
+    <line x1="200" y1="260" x2="700" y2="260"/>
+    <line x1="200" y1="280" x2="700" y2="280"/>
+    <line x1="200" y1="300" x2="700" y2="300"/>
+    <line x1="260" y1="190" x2="260" y2="360"/>
+    <line x1="320" y1="190" x2="320" y2="360"/>
+    <line x1="380" y1="190" x2="380" y2="360"/>
+    <line x1="440" y1="190" x2="440" y2="360"/>
+    <line x1="500" y1="190" x2="500" y2="360"/>
+    <line x1="560" y1="190" x2="560" y2="360"/>
+    <line x1="620" y1="190" x2="620" y2="360"/>
+  </g>
+
+  <!-- Code snippets on the map — small text elements -->
+  <g font-family="monospace" font-size="7" fill="#3a1a00" opacity="0.7">
+    <text x="220" y="252">armies spawn grace-hopper</text>
+    <text x="220" y="264">--role implementer</text>
+    <text x="340" y="275">xp: 840</text>
+    <text x="340" y="285">rank: Colonel</text>
+    <text x="460" y="258">coordinator:</text>
+    <text x="460" y="268">  vannevar-bush</text>
+    <text x="520" y="282">malus: 0</text>
+    <text x="400" y="295">eligible: true</text>
+    <text x="290" y="303">## Base Persona</text>
+    <text x="480" y="305">-- role: observer</text>
+    <text x="555" y="268">disallowedTools:</text>
+    <text x="555" y="278">  - Agent</text>
+  </g>
+
+  <!-- Commander silhouette — standing at left of table -->
+  <!-- Body/coat -->
+  <g fill="#0a0501">
+    <!-- Torso -->
+    <rect x="148" y="140" width="52" height="100" rx="4"/>
+    <!-- Shoulders wider -->
+    <rect x="140" y="140" width="68" height="30" rx="3"/>
+    <!-- Head -->
+    <ellipse cx="174" cy="120" rx="22" ry="26"/>
+    <!-- Cap brim -->
+    <rect x="152" y="105" width="44" height="8" rx="2"/>
+    <rect x="148" y="100" width="52" height="10" rx="3"/>
+    <!-- Legs -->
+    <rect x="152" y="235" width="18" height="70" rx="3"/>
+    <rect x="178" y="235" width="18" height="70" rx="3"/>
+    <!-- Left arm extended toward map -->
+    <rect x="196" y="155" width="80" height="14" rx="5" transform="rotate(-15, 196, 155)"/>
+    <!-- Right arm down -->
+    <rect x="190" y="165" width="14" height="55" rx="4"/>
+    <!-- Stars on shoulders -->
+    <polygon points="148,148 153,143 158,148 155,154 148,154" fill="#c8a050" opacity="0.9"/>
+    <polygon points="190,148 195,143 200,148 197,154 190,154" fill="#c8a050" opacity="0.9"/>
+  </g>
+
+  <!-- Second silhouette — standing right, leaning over table -->
+  <g fill="#0a0501" opacity="0.75">
+    <ellipse cx="695" cy="170" rx="18" ry="21"/>
+    <rect x="678" y="185" width="36" height="80" rx="3"/>
+    <rect x="670" y="185" width="52" height="22" rx="3"/>
+    <rect x="648" y="195" width="65" height="11" rx="4" transform="rotate(10, 648, 195)"/>
+    <rect x="680" y="260" width="14" height="55" rx="3"/>
+    <rect x="700" y="260" width="14" height="55" rx="3"/>
+  </g>
+
+  <!-- Map pointer/baton held by commander -->
+  <line x1="255" y1="163" x2="380" y2="255" stroke="#c8a050" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="380" cy="255" r="5" fill="#c8a050" opacity="0.9"/>
+
+  <!-- Agent tokens on the map — circular counters -->
+  <g>
+    <!-- Grace Hopper token -->
+    <circle cx="310" cy="265" r="14" fill="#7a1a1a" stroke="#c8a050" stroke-width="1.5"/>
+    <text x="310" y="260" font-family="sans-serif" font-size="6" font-weight="bold" fill="#c8a050" text-anchor="middle">GH</text>
+    <text x="310" y="269" font-family="sans-serif" font-size="5" fill="#e8d0a0" text-anchor="middle">IMPL</text>
+    <!-- Vannevar Bush token -->
+    <circle cx="450" cy="255" r="14" fill="#1a3a7a" stroke="#c8a050" stroke-width="1.5"/>
+    <text x="450" y="250" font-family="sans-serif" font-size="6" font-weight="bold" fill="#c8a050" text-anchor="middle">VB</text>
+    <text x="450" y="259" font-family="sans-serif" font-size="5" fill="#e8d0a0" text-anchor="middle">COORD</text>
+    <!-- Jane Goodall token -->
+    <circle cx="570" cy="270" r="14" fill="#1a5a1a" stroke="#c8a050" stroke-width="1.5"/>
+    <text x="570" y="265" font-family="sans-serif" font-size="6" font-weight="bold" fill="#c8a050" text-anchor="middle">JG</text>
+    <text x="570" y="274" font-family="sans-serif" font-size="5" fill="#e8d0a0" text-anchor="middle">OBS</text>
+    <!-- Eisenhower token — BLOCKED indicator -->
+    <circle cx="490" cy="295" r="14" fill="#3a1a00" stroke="#8b0000" stroke-width="2"/>
+    <text x="490" y="290" font-family="sans-serif" font-size="6" font-weight="bold" fill="#ff4444" text-anchor="middle">IKE</text>
+    <text x="490" y="299" font-family="sans-serif" font-size="5" fill="#ff6666" text-anchor="middle">BLKD</text>
+    <!-- Small X over Ike token -->
+    <line x1="480" y1="282" x2="500" y2="308" stroke="#8b0000" stroke-width="1.5"/>
+    <line x1="500" y1="282" x2="480" y2="308" stroke="#8b0000" stroke-width="1.5"/>
+  </g>
+
+  <!-- Movement arrows on map -->
+  <g stroke="#8b0000" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M 320 265 Q 380 245 440 255" marker-end="url(#arrowRed)"/>
+  </g>
+  <defs>
+    <marker id="arrowRed" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#8b0000"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#c8a050"/>
+    </marker>
+  </defs>
+
+  <!-- Lamp overhead — single light source effect -->
+  <ellipse cx="450" cy="80" rx="40" ry="15" fill="#c8a050" opacity="0.15"/>
+  <line x1="450" y1="20" x2="450" y2="80" stroke="#8b6030" stroke-width="2"/>
+  <ellipse cx="450" cy="80" rx="30" ry="10" fill="#1a0a02" stroke="#8b6030" stroke-width="1.5"/>
+  <!-- Light cone -->
+  <path d="M 420,80 L 150,290 L 750,290 L 480,80 Z" fill="#c8a050" opacity="0.04"/>
+
+  <!-- Title block at top -->
+  <rect x="230" y="22" width="440" height="55" fill="#1a0a02" opacity="0.85"/>
+  <rect x="230" y="22" width="440" height="55" fill="none" stroke="#c8a050" stroke-width="1"/>
+
+  <!-- Main title -->
+  <text x="450" y="45" font-family="serif" font-size="26" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="6">ARMIES</text>
+  <text x="450" y="65" font-family="serif" font-size="11" fill="#d4b483" text-anchor="middle" letter-spacing="3">AGENT COORDINATION ENGINE</text>
+
+  <!-- Decorative stars flanking title -->
+  <text x="248" y="53" font-family="serif" font-size="18" fill="#c8a050" text-anchor="middle">★</text>
+  <text x="652" y="53" font-family="serif" font-size="18" fill="#c8a050" text-anchor="middle">★</text>
+
+  <!-- Bottom banner -->
+  <rect x="0" y="360" width="900" height="60" fill="#4a1a02" opacity="0.9"/>
+  <rect x="0" y="360" width="900" height="2" fill="#c8a050" opacity="0.6"/>
+
+  <!-- Bottom text -->
+  <text x="450" y="385" font-family="serif" font-size="12" fill="#c8a050" text-anchor="middle" letter-spacing="4">IDENTITY ANCHORS BEHAVIOR</text>
+  <text x="450" y="405" font-family="sans-serif" font-size="9" fill="#d4b483" text-anchor="middle" letter-spacing="2">PROFILES ARE STATEFUL — AGENTS ARE ACCOUNTABLE — HISTORY IS PERMANENT</text>
+
+  <!-- Decorative divider lines in bottom banner -->
+  <line x1="80" y1="385" x2="290" y2="385" stroke="#c8a050" stroke-width="0.5" opacity="0.6"/>
+  <line x1="610" y1="385" x2="820" y2="385" stroke="#c8a050" stroke-width="0.5" opacity="0.6"/>
+  <text x="80" y="389" font-family="serif" font-size="10" fill="#c8a050">★</text>
+  <text x="810" y="389" font-family="serif" font-size="10" fill="#c8a050">★</text>
+
+  <!-- Rope/lanyard accent on commander -->
+  <path d="M 155,155 Q 140,170 145,185" stroke="#c8a050" stroke-width="2" fill="none" opacity="0.8"/>
+
+  <!-- Small pocket watch Easter egg — hanging from commander's coat pocket -->
+  <circle cx="197" cy="202" r="6" fill="none" stroke="#c8a050" stroke-width="1" opacity="0.5"/>
+  <line x1="197" y1="196" x2="197" y2="202" stroke="#c8a050" stroke-width="0.8" opacity="0.5"/>
+  <line x1="197" y1="202" x2="200" y2="204" stroke="#c8a050" stroke-width="0.8" opacity="0.5"/>
+  <!-- Watch chain -->
+  <path d="M 197,196 Q 193,188 195,183" stroke="#c8a050" stroke-width="0.8" fill="none" opacity="0.4"/>
+
+</svg>

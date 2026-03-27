@@ -1,5 +1,11 @@
 # The Coordinator's Guide
 
+<div align="center">
+<img src="assets/svg/coordinator-command-room.svg" alt="WWII command room illustration showing a coordinator silhouette at a dispatch desk with three operational windows on the wall: BRIEF, VERIFY, RECORD. Vannevar Bush's 'As We May Think' essay is visible on the desk." width="800">
+</div>
+
+<!-- POSTER: Coordinator Guide — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 ## The Structural Constraint
 
 The most important fact about coordinators is not behavioral — it is architectural. Coordinators have no Write, Edit, or Bash tools. Not by convention. Not by instruction. By the tool allowlist that governs what a coordinator can physically invoke. A coordinator cannot write code, cannot edit files, cannot run commands. The constraint is enforced before any decision about whether to try.
@@ -41,6 +47,8 @@ Three things. Only three.
 Everything else is delegation. If something needs to happen that requires Write, Edit, or Bash, a specialist gets briefed and dispatched. The coordinator's value is not in their ability to execute — it is in their ability to create conditions where execution can happen at scale.
 
 ---
+
+<!-- POSTER: Coordinator Guide — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 ## Writing a Mission Brief
 

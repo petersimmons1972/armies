@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" width="700" height="360">
+  <title>Troubleshooting — Desert Fox Tracks Across Terminal Output</title>
+  <desc>A desert fox tracks across sand dunes that gradually resolve into terminal output lines. The fox leaves paw prints in the sand/terminal. Amber, orange, alert red palette. A tiny desert fox paw print is hidden in the corner.</desc>
+
+  <!-- Sky gradient — amber dusk -->
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a1800"/>
+      <stop offset="60%" stop-color="#8b3000"/>
+      <stop offset="100%" stop-color="#c06010"/>
+    </linearGradient>
+    <linearGradient id="sandGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c06010"/>
+      <stop offset="100%" stop-color="#1a0800"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="700" height="180" fill="url(#skyGrad)"/>
+
+  <!-- Dune silhouettes -->
+  <path d="M 0,200 Q 100,120 220,160 Q 340,200 500,140 Q 620,100 700,150 L 700,360 L 0,360 Z" fill="#1a0800"/>
+  <path d="M 0,240 Q 150,180 300,220 Q 450,260 600,200 Q 650,185 700,195 L 700,360 L 0,360 Z" fill="#100500"/>
+
+  <!-- Sand texture at bottom -->
+  <rect x="0" y="280" width="700" height="80" fill="#0d0400"/>
+
+  <!-- Border -->
+  <rect x="0" y="0" width="700" height="360" fill="none" stroke="#c06010" stroke-width="2"/>
+  <rect x="3" y="3" width="694" height="354" fill="none" stroke="#c06010" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Terminal output lines emerging from the sand dunes — the dunes ARE the terminal -->
+  <!-- Top section looks like a real landscape, bottom resolves to terminal text -->
+
+  <!-- Terminal text lines — sand dunes becoming code -->
+  <g font-family="monospace" font-size="10" fill="#c06010" opacity="0.8">
+    <!-- These are arranged to look like sand ridges at first glance -->
+    <text x="40" y="205">────────────────────────────────────────────</text>
+    <text x="40" y="222">SYMPTOM: armies roster shows nothing</text>
+    <text x="40" y="239">────────────────────────────────────────────</text>
+    <text x="40" y="256">$ armies init</text>
+    <text x="40" y="273">✓ /home/user/.armies/profiles</text>
+    <text x="40" y="290">✓ /home/user/.armies/accountability</text>
+    <text x="40" y="307">$ cp my-profile.md ~/.armies/profiles/</text>
+    <text x="40" y="324">$ armies roster</text>
+  </g>
+
+  <!-- Terminal "cursor" blinking at end -->
+  <rect x="182" y="315" width="8" height="14" fill="#c06010" opacity="0.7"/>
+
+  <!-- Fox silhouette — trotting across mid-ground -->
+  <!-- Desert fox, small but distinctive, moving left to right -->
+  <g transform="translate(140, 175)" fill="#1a0800">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="25" ry="12" transform="rotate(-10)"/>
+    <!-- Head -->
+    <ellipse cx="28" cy="-8" rx="12" ry="10" transform="rotate(-5, 28, -8)"/>
+    <!-- Fox ears — large and pointed, characteristic of desert fox -->
+    <polygon points="32,-16 26,-32 22,-16" fill="#1a0800"/>
+    <polygon points="24,-16 18,-30 14,-16" fill="#1a0800"/>
+    <!-- Snout -->
+    <polygon points="40,-8 44,-6 38,-4" fill="#1a0800"/>
+    <!-- Eye glint -->
+    <circle cx="34" cy="-9" r="1.5" fill="#c06010" opacity="0.8"/>
+    <!-- Tail — bushy, curved up -->
+    <path d="M -25,-2 Q -45,5 -50,-8 Q -52,-16 -44,-15 Q -36,-14 -30,0" fill="#1a0800"/>
+    <!-- Tail tip -->
+    <ellipse cx="-47" cy="-12" rx="5" ry="3" fill="#3a1800" transform="rotate(30,-47,-12)"/>
+    <!-- Legs in mid-trot -->
+    <rect x="-10" y="10" width="5" height="14" rx="2" transform="rotate(10,-10,10)"/>
+    <rect x="5" y="10" width="5" height="14" rx="2" transform="rotate(-5,5,10)"/>
+    <rect x="15" y="10" width="5" height="14" rx="2" transform="rotate(8,15,10)"/>
+    <rect x="-20" y="8" width="5" height="12" rx="2" transform="rotate(-12,-20,8)"/>
+  </g>
+
+  <!-- Fox paw prints trailing behind in the sand/terminal -->
+  <!-- Paw print is 4 toe dots + main pad, angled left then right alternating -->
+  <g fill="#c06010" opacity="0.5">
+    <!-- Trail of paw prints going left of the fox -->
+    <!-- Print 1 (nearest, most recent) -->
+    <g transform="translate(100, 195)">
+      <ellipse cx="0" cy="0" rx="4" ry="3"/>
+      <circle cx="-4" cy="-5" r="2"/>
+      <circle cx="0" cy="-6" r="2"/>
+      <circle cx="4" cy="-5" r="2"/>
+      <circle cx="-5" cy="-1" r="1.5"/>
+    </g>
+    <!-- Print 2 -->
+    <g transform="translate(80, 205)">
+      <ellipse cx="0" cy="0" rx="3.5" ry="2.5"/>
+      <circle cx="-3" cy="-4" r="1.5"/>
+      <circle cx="0" cy="-5" r="1.5"/>
+      <circle cx="3" cy="-4" r="1.5"/>
+      <circle cx="-4" cy="-1" r="1.3"/>
+    </g>
+    <!-- Print 3 -->
+    <g transform="translate(60, 215)">
+      <ellipse cx="0" cy="0" rx="3" ry="2"/>
+      <circle cx="-2.5" cy="-3.5" r="1.3"/>
+      <circle cx="0" cy="-4.5" r="1.3"/>
+      <circle cx="2.5" cy="-3.5" r="1.3"/>
+      <circle cx="-3.5" cy="-0.5" r="1"/>
+    </g>
+    <!-- Print 4 — smaller/older -->
+    <g transform="translate(42, 225)" opacity="0.6">
+      <ellipse cx="0" cy="0" rx="2.5" ry="2"/>
+      <circle cx="-2" cy="-3" r="1"/>
+      <circle cx="0" cy="-4" r="1"/>
+      <circle cx="2" cy="-3" r="1"/>
+    </g>
+  </g>
+
+  <!-- Title banner -->
+  <rect x="0" y="0" width="700" height="32" fill="#1a0800" opacity="0.85"/>
+  <text x="350" y="22" font-family="serif" font-size="14" font-weight="bold" fill="#c06010" text-anchor="middle" letter-spacing="4">TROUBLESHOOTING GUIDE</text>
+
+  <!-- Sub-labels -->
+  <text x="350" y="342" font-family="serif" font-size="9" fill="#c06010" text-anchor="middle" letter-spacing="3" opacity="0.8">DIAGNOSE — ISOLATE — RESOLVE — DOCUMENT</text>
+
+  <!-- Alert status indicator top right -->
+  <rect x="590" y="6" width="104" height="20" fill="#8b0000" opacity="0.8" rx="2"/>
+  <text x="642" y="20" font-family="monospace" font-size="9" font-weight="bold" fill="#ffb060" text-anchor="middle">⚠ PROBLEMS →</text>
+
+  <!-- ===== EASTER EGG: tiny desert fox paw print hidden in bottom right corner ===== -->
+  <!-- Very small, low opacity, hidden in the dark corner of the terminal area -->
+  <g transform="translate(670, 345)" opacity="0.18" fill="#c06010">
+    <ellipse cx="0" cy="0" rx="5" ry="4"/>
+    <circle cx="-5" cy="-6" r="2.5"/>
+    <circle cx="0" cy="-7.5" r="2.5"/>
+    <circle cx="5" cy="-6" r="2.5"/>
+    <circle cx="-6.5" cy="-1" r="2"/>
+  </g>
+
+</svg>

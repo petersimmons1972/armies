@@ -1,5 +1,12 @@
 # Security
 
+<div align="center">
+<img src="assets/svg/security-classified.svg" alt="CLASSIFIED document style intelligence assessment showing the three identified risk factors (API key exposure, SSH passthrough, profile volume mount) and the Chainguard mitigations, with a hidden CLASSIFIED stamp in the corner." width="700">
+</div>
+
+<!-- POSTER: Security — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+<!-- POSTER: Security — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+
 ---
 
 ## Docker Base Image: Chainguard Python

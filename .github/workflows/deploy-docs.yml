@@ -10,6 +10,8 @@ on:
       - 'requirements-docs.txt'
       - 'docker/Dockerfile.docs'
       - 'docker/nginx-docs.conf'
+      - '.github/workflows/deploy-docs.yml'
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
