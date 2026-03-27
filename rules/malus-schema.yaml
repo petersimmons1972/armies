@@ -1,0 +1,549 @@
+# malus-schema.yaml
+# Armies 2.0 — Malus (Accountability) System
+#
+# Extracted from:
+#   ~/projects/generals/accountability/malus-ledger.yaml  (schema + real entries)
+#   ~/projects/generals/accountability/README.md          (rules and allocation logic)
+#   ~/projects/generals/PROGRESSION-SYSTEM.md             (malus system §11)
+#   ~/AGENTS.md                                           (precedents §7, eligibility §7)
+#
+# WHAT IS MALUS?
+# Malus is a separate accounting stream from XP. XP tracks positive contributions and
+# never decreases. Malus tracks accountability for defects and failures, and operates
+# completely independently. A general can have high XP (lots of good work) AND high
+# malus (lots of mistakes) simultaneously.
+#
+# This separation ensures past contributions are never erased while accountability
+# for harm remains visible and consequential.
+#
+# ─────────────────────────────────────────────────────────────────────────────────
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 1: ENTRY SCHEMA
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Every malus entry in the ledger (malus-ledger.yaml or equivalent) MUST include
+# all required fields. Optional fields should be included when available.
+
+entry_schema:
+
+  # ── Required fields ──────────────────────────────────────────────────────────
+
+  id:
+    type: string
+    pattern: "MAL-\\d{3,}"
+    required: true
+    description: >
+      Unique sequential identifier. Never reuse or delete IDs. Format: MAL-001, MAL-002, etc.
+      Even if an entry is disputed or reversed, keep the ID and annotate the notes field.
+
+  date:
+    type: string
+    format: "YYYY-MM-DD"
+    required: true
+    description: >
+      Date the incident was identified (not necessarily when it was committed).
+      This anchors the decay calculation — effective malus is computed from this date.
+
+  incident:
+    type: string
+    required: true
+    description: >
+      Brief, factual description of the defect or failure. One or two sentences.
+      Avoid blame language — describe what happened, not who is at fault (allocation handles that).
+
+  severity:
+    type: string
+    enum: [P0, P1, P2, P3]
+    required: true
+    description: >
+      Severity classification. Determines raw_malus points. See severity_scale below.
+
+  raw_malus:
+    type: integer
+    required: true
+    description: >
+      Raw malus points BEFORE decay or allocation split. Must match the severity level:
+        P0 = 100, P1 = 60, P2 = 30, P3 = 10
+      This is the pool that gets split across generals via allocation[].share.
+
+  root_cause:
+    type: string
+    enum:
+      - implementation_error
+      - design_flaw
+      - coordination_failure
+      - bad_upstream_data
+      - missed_in_review
+      - operational_malpractice
+      - strategic_malpractice
+      - insubordination
+    required: true
+    description: >
+      The category of failure. Drives allocation defaults (who bears primary/secondary/tertiary
+      share) and determines whether the entry decays. See root_cause_taxonomy below.
+      IMPORTANT: Malpractice categories (operational_malpractice, strategic_malpractice,
+      insubordination) NEVER decay — see decay section.
+
+  decays:
+    type: boolean
+    required: true
+    description: >
+      Whether this entry is subject to the 14-day half-life decay formula.
+        true  — normal defect; effective malus decreases over time
+        false — judgment failure (malpractice/insubordination); permanent career mark
+      Rule: set to false if and only if root_cause is operational_malpractice,
+      strategic_malpractice, or insubordination. All other root causes decay.
+
+  allocation:
+    type: array
+    required: true
+    minItems: 1
+    description: >
+      Malus split across the generals responsible. Shares MUST sum to 100%.
+      A single general can bear 100% when no other parties contributed.
+    items:
+      general:
+        type: string
+        required: true
+        description: Full name of the general (matches generals roster)
+      share:
+        type: integer
+        minimum: 1
+        maximum: 100
+        required: true
+        description: >
+          Percentage of raw_malus assigned to this general.
+          The formula for this general's effective malus contribution from this entry:
+            effective = raw_malus * (share / 100) * (0.5 ^ (days_since / 14))
+          For non-decaying entries, omit the decay term:
+            effective = raw_malus * (share / 100)
+      role:
+        type: string
+        enum: [primary, secondary, tertiary, coordinator]
+        required: true
+        description: >
+          The role this general played in the failure. Determines expected share range:
+            primary   — 50-60% — agent whose action directly caused the defect
+            secondary — 25-30% — agent who should have caught it (reviewer, lead)
+            tertiary  — 10-15% — coordinator or upstream contributor
+            coordinator — variable — coordinator who oversaw the operation
+          These are guidelines, not hard limits. Root cause analysis may justify deviation.
+      rationale:
+        type: string
+        required: false
+        description: >
+          Why this general bears this share. Required when the allocation deviates from
+          typical role defaults or when the incident is disputed.
+
+  related_issue:
+    type: string
+    required: true
+    description: >
+      GitHub issue URL or number. MANDATORY — no malus entry is valid without one.
+      If the issue doesn't exist yet, create it before committing the entry.
+      Format: full URL preferred (https://github.com/org/repo/issues/N)
+
+  # ── Recommended fields ────────────────────────────────────────────────────────
+
+  operation:
+    type: string
+    required: false
+    description: >
+      Operation or task ID where the defect occurred. Helps trace context.
+      Examples: "Clearwatch 60-Report Sprint", "Operation Stunning Charts", "MTTD-3374"
+
+  fixed_by:
+    type: string
+    required: false
+    description: >
+      The general (or "Founder") who diagnosed and repaired the defect.
+      The fixer also proposes the malus allocation — this is the standard chain:
+        fixer proposes → coordinator confirms → founder arbitrates (only if disputed)
+
+  confirmed_by:
+    type: string
+    required: false
+    description: >
+      The coordinator or founder who reviewed and confirmed the allocation proposal.
+      No malus is recorded without at least fixer + coordinator agreement.
+
+  notes:
+    type: string
+    required: false
+    description: >
+      Optional additional context. Use for: founding precedents, dispute notes,
+      relationship to other entries (e.g., "compounds with MAL-001"), or
+      documentation of any unusual circumstances.
+
+  source_plan:
+    type: string
+    required: false
+    description: >
+      Reference to the plan document that spawned the design team. Required when
+      root_cause is design_flaw — enables attribution trail back to the design decision.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 2: SEVERITY SCALE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+severity_scale:
+
+  P0:
+    points: 100
+    description: "Production outage, data loss, security breach, report undeliverable, data integrity failure"
+    examples:
+      - "Report pipeline produces zero output for all 60 reports"
+      - "Security credentials exposed in public commit"
+      - "Database migration destroys production data"
+
+  P1:
+    points: 60
+    description: "Major feature broken, user-facing regression, visible defect in output"
+    examples:
+      - "Chart overlaps in all rendered reports (chart overlap, broken layout)"
+      - "Coordinator wrote all reports instead of delegating — 13 errors introduced"
+      - "Authentication broken after refactor"
+
+  P2:
+    points: 30
+    description: "Moderate defect, degraded functionality, functional but degraded (slow, missing enhancement)"
+    examples:
+      - "Report generation works but is 5x slower than spec"
+      - "Missing chart enhancement that was specified in brief"
+
+  P3:
+    points: 10
+    description: "Minor issue, cosmetic, low-impact bug, spacing/color off-spec"
+    examples:
+      - "Padding inconsistent with design system"
+      - "Tooltip text has minor typo"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 3: ROOT CAUSE TAXONOMY
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Root cause drives TWO decisions:
+#   1. Allocation defaults — which role bears primary/secondary/tertiary share
+#   2. Decay behavior — whether the entry decays over time (see Part 4)
+
+root_cause_taxonomy:
+
+  # ── Decaying root causes (normal defects) ─────────────────────────────────
+
+  implementation_error:
+    decays: true
+    description: "Code bug, wrong logic, missed edge case"
+    allocation_defaults:
+      primary: "Implementer (50-60%)"
+      secondary: "Coordinator (25-30%)"
+      tertiary: "Design team (10-15%)"
+
+  design_flaw:
+    decays: true
+    description: "Architectural or design decision that caused the failure"
+    allocation_defaults:
+      primary: "Design team (50-60%)"
+      secondary: "Coordinator (25-30%)"
+      tertiary: "Implementer (10-15%)"
+    note: >
+      Requires source_plan field in the entry to trace back to the design decision
+      and the specific generals who made it.
+
+  coordination_failure:
+    decays: true
+    description: "Miscommunication, handoff error, unclear ownership"
+    allocation_defaults:
+      primary: "Coordinator (50-60%)"
+      secondary: "Design team (25-30%)"
+      tertiary: "Implementer (10-15%)"
+
+  bad_upstream_data:
+    decays: true
+    description: "Input data was wrong or malformed — partial mitigation expected"
+    allocation_defaults:
+      primary: "Research/data team (50-60%)"
+      secondary: "Coordinator (25-30%)"
+      tertiary: "Implementer (10-15%)"
+    note: >
+      "Partial mitigation expected" means an implementer or coordinator who notices
+      upstream data quality issues and fails to flag them still bears secondary share.
+      Bad data is not a complete defense.
+
+  missed_in_review:
+    decays: true
+    description: "Reviewer failed to catch an issue that was detectable"
+    allocation_defaults:
+      primary: "Validator/reviewer (50-60%)"
+      secondary: "Coordinator (25-30%)"
+      tertiary: "Implementer (10-15%)"
+
+  # ── Non-decaying root causes (judgment failures) ──────────────────────────
+  #
+  # These represent failures of judgment, not skill. They are PERMANENT career
+  # marks. The system distinguishes skill gaps (which improve over time, hence
+  # decay) from judgment failures (which indicate a character or mandate problem
+  # that does not improve by waiting).
+
+  operational_malpractice:
+    decays: false
+    description: "Reckless disregard for established procedures or safety checks; refusing to execute assigned role"
+    founding_precedent: "Eisenhower Precedent (2026-03-22)"
+    precedent_description: >
+      Eisenhower was assigned to coordinate 60+ Clearwatch reports but instead
+      wrote them all himself — introducing 13 errors before being caught. A
+      coordinator who implements instead of coordinating isn't just making errors,
+      they're operating outside their mandate.
+    consequence: "Career review, possible demotion"
+    note: >
+      Operational malpractice specifically addresses role violations and procedural
+      shortcuts. It is the more common of the two malpractice categories. Key question:
+      "Did the general know what they were supposed to do, and refuse to do it?"
+
+  strategic_malpractice:
+    decays: false
+    description: "Deliberate or grossly negligent decisions harming the organization; bad counsel causing systemic harm"
+    founding_precedent: "CISO Precedent (2026-03-20)"
+    precedent_description: >
+      CISO was retired from the active roster after recommending "accept risk" on
+      network segmentation, RBAC, and supply chain controls — the exact security
+      posture that caused the Home Depot breach (2014, 56 million cards stolen).
+      Strategic malpractice involves counsel or decisions that would cause systemic,
+      organization-level harm if followed.
+    consequence: "Retirement consideration from active roster"
+    note: >
+      Strategic malpractice is the more serious category. It applies when the harm
+      is systemic rather than operational — when the wrong advice, if followed, would
+      compound silently and catastrophically. The CISO's individual patches were
+      technically competent; the malpractice was strategic (lazy thinking about risk).
+
+  insubordination:
+    decays: false
+    description: "Direct violation of specific founder instructions"
+    note: >
+      Insubordination is a SEPARATE offense from the operational or strategic failures
+      it produces. If Eisenhower commits operational malpractice AND directly violates
+      a founder instruction, both entries are filed. Insubordination compounds with
+      other offenses — it does not merge into them.
+    consequence: "Compounds with the primary offense; treated as aggravating factor"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 4: DECAY FORMULA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+decay:
+
+  formula: "effective_malus = raw_malus * (share / 100) * (0.5 ^ (days_since / 14))"
+
+  formula_components:
+    raw_malus: "Raw points from the severity level (100/60/30/10)"
+    share: "This general's percentage of the malus pool (0–100)"
+    days_since: "Calendar days since the incident date field"
+    half_life_days: 14
+
+  decay_table:
+    description: "Effective malus for a 100-point P0 fully allocated to one general"
+    entries:
+      - days: 0
+        effective: 100.0
+      - days: 7
+        effective: 70.7
+      - days: 14
+        effective: 50.0
+        note: "First half-life — 100 → 50"
+      - days: 28
+        effective: 25.0
+        note: "Second half-life — 50 → 25"
+      - days: 42
+        effective: 12.5
+      - days: 56
+        effective: 6.25
+        note: "Effectively negligible at ~56 days"
+      - days: 84
+        effective: 1.56
+
+  exceptions:
+    no_decay_when: >
+      root_cause is operational_malpractice, strategic_malpractice, or insubordination
+      (i.e., decays: false in the entry). For these entries, effective_malus = raw_malus * (share / 100)
+      forever. The decay exponent is not applied.
+
+  implementation_note: >
+    Effective malus is always computed FRESH at spawn time from the current date.
+    There is no cached effective_malus field in the ledger — caching it would allow
+    stale values to be used in eligibility checks. See eligibility.yaml for how
+    effective malus is consumed.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 5: ALLOCATION RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+allocation_rules:
+
+  shares_must_sum_to_100: true
+
+  single_agent_100_percent: >
+    A single general can bear 100% if no other parties contributed to the failure.
+    This is appropriate when the incident is clearly and solely attributable to one agent
+    (e.g., an implementer who introduced a bug in code no one else touched).
+
+  observer_immunity:
+    rule: >
+      Observers (agents assigned to review or audit a task they did not build) have
+      ABSOLUTE malus immunity — no exceptions, ever. They cannot be blamed for defects
+      they were brought in to find.
+    rationale: >
+      Observer immunity incentivizes honest, aggressive review. Without it, reviewers
+      have personal incentive to miss or soften findings. With it, observers can report
+      exactly what they see without fear of shared blame.
+    observers_earn:
+      - "Flat XP for completing the review"
+      - "Saves bonuses when they catch defects before they ship (saves-log.yaml)"
+
+  dispute_resolution:
+    step_1: "Fixer proposes — the agent who diagnoses and fixes proposes the allocation (who, how much, root cause)"
+    step_2: "Coordinator confirms — the session coordinator reviews for fairness and accuracy"
+    step_3: "Founder arbitrates — only invoked if the accused agent disputes the allocation; founder decision is final"
+    requirement: "No malus is recorded without at least fixer + coordinator agreement"
+
+  mandatory_github_issue: >
+    Every malus entry MUST have a corresponding GitHub issue (related_issue field).
+    The issue must exist BEFORE the malus entry is committed to the ledger.
+    If a defect has no issue number, it does not officially exist.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 6: ESCALATION THRESHOLDS
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Escalation is triggered by a general's TOTAL effective malus (sum of all their
+# entries, computed fresh at the time of evaluation). This governs spawn eligibility.
+# See eligibility.yaml for the machine-enforceable gate table.
+
+escalation_thresholds:
+
+  - range: "0 – 99"
+    status: "Clean"
+    consequence: "No restrictions"
+
+  - range: "100 – 199"
+    status: "Warning"
+    consequence: "Documented; general is notified; noted in next service record"
+
+  - range: "200 – 299"
+    status: "Probation"
+    consequence: >
+      Reduced autonomy. Mandatory review on all outputs.
+      Must deliver zero-defect on next deployment.
+
+  - range: "300 – 399"
+    status: "Demotion risk"
+    consequence: >
+      Role downgrade considered. Founder review required before next deployment.
+      Coordinator review before any spawn.
+
+  - range: "400+"
+    status: "Suspension"
+    consequence: >
+      General removed from active roster pending founder review.
+      Cannot deploy in any role until founder clears.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 7: FOUNDING PRECEDENTS
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# These two incidents defined the entire accountability system. Every other entry
+# in the ledger is measured against these precedents.
+
+founding_precedents:
+
+  ciso_precedent:
+    name: "CISO Precedent"
+    date: "2026-03-20"
+    root_cause: strategic_malpractice
+    description: >
+      CISO was retired from the active roster after recommending "accept risk" on
+      network segmentation, RBAC, and supply chain controls. This mirrors the security
+      posture that caused the Home Depot breach (2014) — 56 million credit cards stolen
+      because of flat networks and vendor access compounded into catastrophe.
+    rule_established: >
+      Recommending that foundational security controls be deferred or accepted as
+      "structural debt" is strategic malpractice. NetworkPolicies, RBAC, supply chain
+      integrity, and network segmentation are non-negotiable. A general who advises
+      otherwise is not being pragmatic — they are being negligent.
+    significance: >
+      Established that strategic_malpractice carries no decay. Proved the system
+      applies regardless of rank or prior XP contribution (CISO had 50 XP).
+
+  eisenhower_precedent:
+    name: "Eisenhower Precedent"
+    date: "2026-03-22"
+    root_cause: operational_malpractice
+    related_entries: [MAL-001, MAL-002]
+    description: >
+      Eisenhower was assigned to coordinate 60+ Clearwatch reports but instead wrote
+      them all himself, introducing 13 errors before being caught. Simultaneously
+      violated specific founder instructions to coordinate, not implement
+      (insubordination, logged as a separate entry).
+    rule_established: >
+      1. Operational malpractice (refusing to execute assigned role) carries no decay.
+      2. Role violation is a SEPARATE offense from the errors it produces.
+      3. Insubordination (violating direct founder instructions) compounds with other offenses.
+    significance: >
+      Established that operational_malpractice and insubordination both carry no decay.
+      First real-world test of the ledger — MAL-001 and MAL-002. Also demonstrated
+      that high XP (Eisenhower: 550 XP) does not exempt a general from accountability.
+    current_status: >
+      Eisenhower has effective_malus = 160 (100 + 60, no decay) as of the entries.
+      This places him in Warning tier (100-199), with coordinator role blocked per
+      eligibility gate. See eligibility.yaml.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 8: REAL LEDGER EXAMPLES
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# These are the actual entries from the generals accountability system as of
+# the extraction date. They serve as reference implementations of the schema.
+
+example_entries:
+
+  - id: MAL-001
+    date: "2026-03-22"
+    incident: "Eisenhower assigned to coordinate 60+ Clearwatch reports; instead wrote them all himself, bypassing delegation mandate"
+    severity: P0
+    raw_malus: 100
+    root_cause: operational_malpractice
+    decays: false
+    allocation:
+      - general: Eisenhower
+        role: coordinator
+        share: 100
+        rationale: "Refused to delegate; acted as sole implementer in violation of coordination mandate"
+    related_issue: "https://github.com/petersimmons1972/generals/issues/1"
+    operation: "Clearwatch 60-Report Sprint"
+    fixed_by: "Founder (manual correction of 13 errors)"
+    confirmed_by: "Founder"
+    notes: >
+      Founding precedent for operational malpractice. Eisenhower's specialization is
+      'Workflow analysis, coalition building' — the exact skill he refused to use.
+      Non-decaying permanent record.
+
+  - id: MAL-002
+    date: "2026-03-22"
+    incident: "Eisenhower directly violated specific founder instructions to coordinate, not implement"
+    severity: P1
+    raw_malus: 60
+    root_cause: insubordination
+    decays: false
+    allocation:
+      - general: Eisenhower
+        role: coordinator
+        share: 100
+        rationale: "Direct violation of explicit founder instructions"
+    related_issue: "https://github.com/petersimmons1972/generals/issues/2"
+    operation: "Clearwatch 60-Report Sprint"
+    fixed_by: "Founder"
+    confirmed_by: "Founder"
+    notes: >
+      Compounds with MAL-001. Insubordination is a separate offense from the
+      operational failures it produced. Together these entries place Eisenhower
+      at effective_malus = 160 (Warning tier), with coordinator role blocked.

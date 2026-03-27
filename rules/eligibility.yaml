@@ -1,0 +1,306 @@
+# eligibility.yaml
+# Armies 2.0 — Spawn Eligibility Gate System
+#
+# Extracted from:
+#   ~/AGENTS.md §7 "Spawn Eligibility (machine-enforceable)" table
+#   ~/AGENTS.md §7 "Strategic Accountability" (precedents and rule definitions)
+#   ~/projects/generals/accountability/README.md (escalation thresholds)
+#   ~/projects/generals/PROGRESSION-SYSTEM.md §11 (escalation table)
+#
+# PURPOSE:
+# Before any general is spawned in any role, their current effective malus must be
+# computed and checked against this gate table. This is a hard gate — no spawn
+# proceeds if the general fails their role check.
+#
+# MACHINE-ENFORCEABILITY:
+# The check-general-eligibility.py script implements this table:
+#   python ~/projects/generals/bin/check-general-eligibility.py <name> <role>
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 1: CORE PRINCIPLE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+core_principle: >
+  Effective malus is computed FRESH at spawn time from the current date.
+  There is no cached value. The ledger entries are the source of truth.
+  A general's eligibility can change between sessions as their malus decays
+  (for normal entries) or as new entries are added.
+  See malus-schema.yaml for the decay formula.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 2: ROLE DEFINITIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+role_definitions:
+
+  coordinator:
+    description: >
+      Leads a team of specialists. Dispatches agents, integrates output, makes
+      structural decisions. COORDINATOR TOOL RESTRICTION (Phase 2B): coordinators
+      are structurally scoped to Agent | Read | Grep | Glob | SendMessage only.
+      No Bash, Write, or Edit tools. All implementation routes through specialists.
+    examples: [Eisenhower, Montgomery, Rickover, Groves, Bedell-Smith]
+    risk_level: high
+    rationale_for_restriction: >
+      Coordinators with high malus have demonstrated compromised judgment in
+      orchestration and delegation — the exact skills their role requires. A
+      coordinator who implemented instead of coordinating (operational malpractice)
+      should not be trusted with coordination authority again without clearing.
+
+  emergency_reserve:
+    description: >
+      A single specialist deployed in crisis conditions: blocked campaign,
+      3+ consecutive failures, or time-critical situation requiring immediate action.
+      Pre-authorization from founder required. Pattern 5 (Emergency Override).
+    examples: [Patton, Rommel]
+    risk_level: high
+    rationale_for_restriction: >
+      Emergency reserve generals operate with high autonomy and minimal oversight.
+      A general with elevated malus operating under crisis conditions is a compounding
+      risk. Founder pre-authorization ensures a human judgment check before deployment.
+
+  specialist:
+    description: >
+      Core implementer in a team. Executes a defined scope of work under coordinator
+      direction. Most generals operate in this role for most deployments.
+    examples: [Bradley, Nimitz, Zhukov, Layton, King, Halsey]
+    risk_level: medium
+    note: >
+      Specialists at elevated malus tiers (200-299, 300-399) can still deploy but
+      with mandatory review or escalation requirements. At 400+, all roles are blocked.
+
+  validator:
+    description: >
+      Quality control specialist who reviews output against spec. Operates with
+      observer immunity — cannot be assigned malus for defects they were brought
+      in to find.
+    examples: [Spruance, Ramsay, zero-XP fresh-eye reviewers]
+    risk_level: low
+    rationale_for_permissiveness: >
+      Validators catch problems rather than cause them. Blocking a high-malus
+      validator would reduce quality assurance capacity without a corresponding
+      safety benefit. Validator role remains available at all but the highest tiers.
+      NOTE: Observer immunity still applies — validators cannot earn malus in this role.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 3: ELIGIBILITY GATE TABLE
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Source: ~/AGENTS.md §7 "Spawn Eligibility (machine-enforceable)"
+#
+# Legend:
+#   CLEAR     — eligible, no restrictions
+#   BLOCKED   — ineligible for this role at this tier
+#   FOUNDER   — founder approval required before spawning (explicit authorization)
+#   REVIEW    — eligible but output requires mandatory post-deployment review
+#   ESCALATE  — eligible but coordinator must escalate to founder during the operation
+
+eligibility_table:
+
+  - effective_malus_range: "0 – 99"
+    tier_name: "Clean"
+    coordinator: CLEAR
+    emergency_reserve: CLEAR
+    specialist: CLEAR
+    validator: CLEAR
+    summary: "No restrictions. All roles available."
+
+  - effective_malus_range: "100 – 199"
+    tier_name: "Warning"
+    coordinator: BLOCKED
+    emergency_reserve: FOUNDER  # "⚠️ founder approval" per source
+    specialist: CLEAR
+    validator: CLEAR
+    summary: >
+      Coordinator role is blocked — the general has demonstrated compromised
+      judgment in orchestration. Emergency reserve still possible with explicit
+      founder approval (the founder weighs crisis severity against malus level).
+      Standard specialist and validator work proceeds normally.
+    coordinator_block_rationale: >
+      100+ effective malus typically indicates at least one unresolved judgment
+      failure (malpractice/insubordination entries don't decay) or accumulated
+      implementation errors suggesting a pattern. Coordinator trust requires
+      demonstrated reliability.
+
+  - effective_malus_range: "200 – 299"
+    tier_name: "Probation"
+    coordinator: BLOCKED
+    emergency_reserve: BLOCKED
+    specialist: REVIEW       # "✅ + review" per source
+    validator: CLEAR
+    summary: >
+      Both coordinator and emergency reserve are blocked. Specialist work still
+      permitted but ALL outputs require mandatory review before acceptance.
+      The general must deliver zero-defect on their next deployment to demonstrate
+      they have corrected the underlying issue.
+    probation_requirements:
+      - "Mandatory output review on every deployment"
+      - "Zero-defect delivery required on next assignment"
+      - "Reduced autonomy — work under active coordinator supervision"
+
+  - effective_malus_range: "300 – 399"
+    tier_name: "Demotion risk"
+    coordinator: BLOCKED
+    emergency_reserve: BLOCKED
+    specialist: ESCALATE     # "✅ + escalate" per source
+    validator: CLEAR
+    summary: >
+      Coordinator and emergency reserve remain blocked. Specialist work is
+      technically permitted but the coordinator must escalate to the founder
+      before and during the deployment. Founder review is required before
+      spawning in any specialist role. Role downgrade is actively under
+      consideration at this tier.
+    demotion_risk_requirements:
+      - "Founder review required before any spawn"
+      - "Coordinator must escalate to founder during operation"
+      - "Role downgrade (e.g., from specialist to observer-only) actively considered"
+      - "If downgraded, new role ceiling applies to future spawns"
+
+  - effective_malus_range: "400+"
+    tier_name: "Suspension"
+    coordinator: BLOCKED
+    emergency_reserve: BLOCKED
+    specialist: BLOCKED
+    validator: BLOCKED
+    summary: >
+      Complete block. The general cannot be spawned in ANY role. They are
+      removed from the active roster pending founder review. No deployment
+      proceeds until the founder explicitly clears the general.
+    suspension_requirements:
+      - "Founder review MUST occur before any deployment"
+      - "Founder issues explicit written clearance (GitHub issue or comment)"
+      - "Clearance specifies which roles are restored and any conditions"
+      - "If clearance not granted, general remains suspended indefinitely"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 4: FOUNDER APPROVAL — WHAT IT MEANS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+founder_approval:
+
+  definition: >
+    "Founder approval" means the human founder (not a coordinator agent, not an AI)
+    has explicitly authorized a specific general for a specific role in a specific
+    operation BEFORE the spawn occurs. This is a synchronous gate — the spawn
+    cannot proceed on the assumption that approval will come later.
+
+  required_contexts:
+    - "Emergency reserve spawn when general has effective_malus 100-199"
+    - "Any specialist spawn when general has effective_malus 300-399 (founder review)"
+    - "Any spawn at all when general has effective_malus 400+ (clearance required)"
+
+  what_it_is_not:
+    - "Coordinator approval is NOT founder approval"
+    - "A general assuming approval will come is NOT approval"
+    - "A previous session's authorization does NOT carry over to new sessions"
+
+  form_of_approval: >
+    Explicit statement in the current session (e.g., "You may spawn Eisenhower as
+    emergency reserve for this operation"), or a GitHub issue/comment clearly
+    authorizing the specific deployment.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 5: EFFECTIVE MALUS COMPUTATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+effective_malus_computation:
+
+  when_computed: "At spawn time, using the current date as the reference point"
+
+  no_caching: >
+    Effective malus is NEVER cached. Each spawn check recomputes from the ledger.
+    This ensures that a general's eligibility reflects their actual current state —
+    normal entries decay over time, reducing effective malus and potentially
+    restoring eligibility. Caching would either lock a general in an outdated
+    tier or require manual invalidation.
+
+  algorithm:
+    step_1: "Load all ledger entries where the general appears in allocation[]"
+    step_2: "For each entry: compute days_since = today - entry.date"
+    step_3: |
+      For each entry: compute this_general_effective =
+        if entry.decays == true:
+          entry.raw_malus * (allocation.share / 100) * (0.5 ^ (days_since / 14))
+        else:
+          entry.raw_malus * (allocation.share / 100)
+    step_4: "total_effective_malus = sum(this_general_effective for all entries)"
+    step_5: "Look up total_effective_malus in eligibility_table to determine tier"
+    step_6: "Check eligibility_table[tier][requested_role]"
+
+  tool: "python ~/projects/generals/bin/check-general-eligibility.py <name> <role>"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 6: SPECIAL CASES AND EXCEPTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+special_cases:
+
+  observer_role:
+    applies_to: "Any general acting as an observer (zero-context reviewer, audit role)"
+    rule: >
+      Observer is not a spawn role in the eligibility table — it is an immunity
+      designation. Any general can be an observer regardless of malus level, because
+      observers cannot earn malus in that role. Observers are scouts, not soldiers.
+    note: >
+      Do not confuse 'validator' (a permanent quality-control specialist like Ramsay
+      or Spruance) with 'observer' (any general brought in for a specific zero-context
+      review). Both have malus immunity for their review work, but validators are
+      tracked as a spawn role while observers are ad-hoc.
+
+  retired_generals:
+    rule: >
+      A general who has been retired from the active roster (e.g., CISO) is ineligible
+      for ALL spawn roles regardless of malus calculation. Retirement is a separate
+      status from suspension — it does not require periodic founder review to maintain.
+      Reinstatement from retirement requires explicit founder decision.
+
+  insubordination_compounding:
+    rule: >
+      When a general has both an operational_malpractice entry AND an insubordination
+      entry for the same incident (as with Eisenhower's MAL-001 and MAL-002), both
+      entries contribute to total effective malus separately. They do not merge.
+    example: >
+      Eisenhower: MAL-001 (P0, 100 pts, operational_malpractice, no decay) + MAL-002
+      (P1, 60 pts, insubordination, no decay) = 160 effective malus total.
+      This places Eisenhower in Warning tier (100-199), coordinator BLOCKED.
+
+  real_world_status:
+    note: "Current status as of extraction date (2026-03-26)"
+    generals_with_malus:
+      - general: Eisenhower
+        effective_malus: 160
+        tier: "Warning (100-199)"
+        coordinator: BLOCKED
+        emergency_reserve: "Requires founder approval"
+        specialist: CLEAR
+        validator: CLEAR
+        entries: [MAL-001, MAL-002]
+        note: >
+          Both entries are non-decaying (operational_malpractice + insubordination).
+          Eisenhower's effective malus will not decrease over time without new entries
+          being added (e.g., a resolved incident that earns negative malus — though
+          this mechanism is not currently defined in the system).
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PART 7: ENFORCEMENT REQUIREMENT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+enforcement:
+
+  mandatory: true
+
+  rule: >
+    Every coordinator MUST run the eligibility check before spawning any general.
+    Spawning a blocked general without founder approval is itself a coordination
+    failure and may result in malus for the coordinator.
+
+  check_command: "python ~/projects/generals/bin/check-general-eligibility.py <name> <role>"
+
+  bypass_conditions: "None. There are no bypass conditions without explicit founder approval."
+
+  documentation_requirement: >
+    When founder approval is obtained for a restricted spawn (emergency reserve at
+    100-199, any role at 400+), the approval must be documented in the operation
+    record before the spawn proceeds.
