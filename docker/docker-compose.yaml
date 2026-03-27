@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  armies:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - "${HOME}/.armies:/home/armies/.armies"
+      - "${SSH_AUTH_SOCK:-/dev/null}:/ssh-agent"
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent
+      - HOME=/home/armies
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
