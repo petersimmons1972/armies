@@ -34,14 +34,14 @@
   </g>
 
   <!-- Title on the wall map -->
-  <text x="400" y="75" font-family="serif" font-size="16" font-weight="bold" fill="#4070a0" text-anchor="middle" letter-spacing="4" opacity="0.6">OPERATION BRIEF BOARD</text>
+  <text x="400" y="75" font-family="serif" font-size="25.6" font-weight="bold" fill="#4070a0" text-anchor="middle" letter-spacing="4" opacity="0.6">OPERATION BRIEF BOARD</text>
 
   <!-- Three operational "windows" on the wall map — BRIEF / VERIFY / RECORD -->
 
   <!-- Window 1: BRIEF -->
   <rect x="115" y="90" width="160" height="220" fill="#0d1e3a" stroke="#c8a050" stroke-width="1.5" rx="2"/>
   <rect x="115" y="90" width="160" height="24" fill="#2a1a00"/>
-  <text x="195" y="107" font-family="serif" font-size="11" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">BRIEF</text>
+  <text x="195" y="107" font-family="serif" font-size="22" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">BRIEF</text>
 
   <!-- Brief icon: scroll/document -->
   <g transform="translate(195,175)">
@@ -56,19 +56,19 @@
   </g>
 
   <!-- Brief elements text -->
-  <g font-family="monospace" font-size="7" fill="#6090a0">
+  <g font-family="monospace" font-size="17.5" fill="#6090a0">
     <text x="195" y="230" text-anchor="middle">Context</text>
     <text x="195" y="242" text-anchor="middle">Objective</text>
     <text x="195" y="254" text-anchor="middle">Constraints</text>
     <text x="195" y="266" text-anchor="middle">Success Criteria</text>
     <text x="195" y="278" text-anchor="middle">Handoff Requirements</text>
   </g>
-  <text x="195" y="300" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle" font-style="italic">5 components</text>
+  <text x="195" y="300" font-family="sans-serif" font-size="20" fill="#c8a050" text-anchor="middle" font-style="italic">5 components</text>
 
   <!-- Window 2: VERIFY -->
   <rect x="320" y="90" width="160" height="220" fill="#0d1e3a" stroke="#c8a050" stroke-width="1.5" rx="2"/>
   <rect x="320" y="90" width="160" height="24" fill="#2a1a00"/>
-  <text x="400" y="107" font-family="serif" font-size="11" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">VERIFY</text>
+  <text x="400" y="107" font-family="serif" font-size="22" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">VERIFY</text>
 
   <!-- Verify icon: checkmark in magnifying glass -->
   <g transform="translate(400,175)">
@@ -78,18 +78,18 @@
     <path d="M -16,-5 L -6,8 L 16,-12" stroke="#30a050" stroke-width="3" fill="none" stroke-linecap="round"/>
   </g>
 
-  <g font-family="monospace" font-size="7" fill="#6090a0">
+  <g font-family="monospace" font-size="17.5" fill="#6090a0">
     <text x="400" y="234" text-anchor="middle">Check git log</text>
     <text x="400" y="246" text-anchor="middle">Read the file</text>
     <text x="400" y="258" text-anchor="middle">Run the test</text>
     <text x="400" y="270" text-anchor="middle">NOT: agent said done</text>
   </g>
-  <text x="400" y="300" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle" font-style="italic">actual output, not claims</text>
+  <text x="400" y="300" font-family="sans-serif" font-size="20" fill="#c8a050" text-anchor="middle" font-style="italic">actual output, not claims</text>
 
   <!-- Window 3: RECORD -->
   <rect x="525" y="90" width="160" height="220" fill="#0d1e3a" stroke="#c8a050" stroke-width="1.5" rx="2"/>
   <rect x="525" y="90" width="160" height="24" fill="#2a1a00"/>
-  <text x="605" y="107" font-family="serif" font-size="11" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">RECORD</text>
+  <text x="605" y="107" font-family="serif" font-size="22" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="3">RECORD</text>
 
   <!-- Record icon: ledger book with pen -->
   <g transform="translate(605,175)">
@@ -107,14 +107,14 @@
     <path d="M 22,-28 L 30,-20 L 14,-16 Z" fill="#c8a050" opacity="0.7"/>
   </g>
 
-  <g font-family="monospace" font-size="7" fill="#6090a0">
+  <g font-family="monospace" font-size="17.5" fill="#6090a0">
     <text x="605" y="230" text-anchor="middle">date</text>
     <text x="605" y="242" text-anchor="middle">mission + role</text>
     <text x="605" y="254" text-anchor="middle">outcome</text>
     <text x="605" y="266" text-anchor="middle">xp_awarded</text>
     <text x="605" y="278" text-anchor="middle">behavioral observations</text>
   </g>
-  <text x="605" y="300" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle" font-style="italic">institutional memory</text>
+  <text x="605" y="300" font-family="sans-serif" font-size="20" fill="#c8a050" text-anchor="middle" font-style="italic">institutional memory</text>
 
   <!-- Coordinator silhouette at the desk -->
   <g fill="#050c1e">
@@ -147,17 +147,17 @@
   <!-- Vannevar Bush "As We May Think" essay — Easter egg on the desk corner -->
   <g transform="translate(510, 345)" opacity="0.6">
     <rect x="0" y="0" width="38" height="25" fill="#d4c585" stroke="#8b6010" stroke-width="0.8" rx="1"/>
-    <text x="19" y="8" font-family="serif" font-size="4.5" fill="#2a1a00" text-anchor="middle">As We May Think</text>
-    <text x="19" y="14" font-family="serif" font-size="4" fill="#5a3a00" text-anchor="middle">— Vannevar Bush, 1945 —</text>
-    <text x="19" y="20" font-family="serif" font-size="4" fill="#5a3a00" text-anchor="middle">The Atlantic Monthly</text>
+    <text x="19" y="8" font-family="serif" font-size="13.5" fill="#2a1a00" text-anchor="middle">As We May Think</text>
+    <text x="19" y="14" font-family="serif" font-size="12" fill="#5a3a00" text-anchor="middle">— Vannevar Bush, 1945 —</text>
+    <text x="19" y="20" font-family="serif" font-size="12" fill="#5a3a00" text-anchor="middle">The Atlantic Monthly</text>
   </g>
 
   <!-- Title banner at bottom -->
   <rect x="0" y="400" width="800" height="50" fill="#050c1e"/>
   <rect x="0" y="400" width="800" height="2" fill="#1e3a6e"/>
 
-  <text x="400" y="424" font-family="serif" font-size="15" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="5">THE COORDINATOR'S GUIDE</text>
-  <text x="400" y="441" font-family="sans-serif" font-size="9" fill="#4070a0" text-anchor="middle" letter-spacing="3">BRIEF · VERIFY · RECORD — EVERYTHING ELSE IS DELEGATION</text>
+  <text x="400" y="424" font-family="serif" font-size="24" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="5">THE COORDINATOR'S GUIDE</text>
+  <text x="400" y="441" font-family="sans-serif" font-size="18" fill="#4070a0" text-anchor="middle" letter-spacing="3">BRIEF · VERIFY · RECORD — EVERYTHING ELSE IS DELEGATION</text>
 
   <!-- Rope/lanyard on coordinator uniform -->
   <path d="M 338,305 Q 325,318 328,335" stroke="#c8a050" stroke-width="1.5" fill="none" opacity="0.6"/>

@@ -16,14 +16,14 @@
 
   <!-- Top classification stripe -->
   <rect x="30" y="30" width="640" height="30" fill="#8b6010"/>
-  <text x="350" y="51" font-family="serif" font-size="13" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="6">FIELD MANUAL</text>
+  <text x="350" y="51" font-family="serif" font-size="20.8" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="6">FIELD MANUAL</text>
 
   <!-- Document number top right -->
-  <text x="655" y="51" font-family="monospace" font-size="9" fill="#d4c585" text-anchor="end" opacity="0.8">FM 1-00</text>
+  <text x="655" y="51" font-family="monospace" font-size="18" fill="#d4c585" text-anchor="end" opacity="0.8">FM 1-00</text>
 
   <!-- Bottom classification stripe -->
   <rect x="30" y="440" width="640" height="30" fill="#8b6010"/>
-  <text x="350" y="459" font-family="serif" font-size="10" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="4">ARMIES COORDINATION ENGINE</text>
+  <text x="350" y="459" font-family="serif" font-size="20" font-weight="bold" fill="#d4c585" text-anchor="middle" letter-spacing="4">ARMIES COORDINATION ENGINE</text>
 
   <!-- Main content area background -->
   <rect x="50" y="76" width="600" height="348" fill="#c8b870" opacity="0.3"/>
@@ -53,15 +53,15 @@
   </g>
 
   <!-- Main title -->
-  <text x="350" y="200" font-family="serif" font-size="36" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="4">GETTING</text>
-  <text x="350" y="240" font-family="serif" font-size="36" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="4">STARTED</text>
+  <text x="350" y="200" font-family="serif" font-size="57.6" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="4">GETTING</text>
+  <text x="350" y="240" font-family="serif" font-size="57.6" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="4">STARTED</text>
 
   <!-- Decorative rule under title -->
   <rect x="140" y="250" width="420" height="3" fill="#8b6010"/>
   <rect x="140" y="255" width="420" height="1" fill="#8b6010" opacity="0.4"/>
 
   <!-- The 5-step process as a compact list with military numbering -->
-  <g font-family="monospace" font-size="12" fill="#3a2800">
+  <g font-family="monospace" font-size="24" fill="#3a2800">
     <text x="170" y="285">1.  pip install armies</text>
     <text x="170" y="305">2.  armies init</text>
     <text x="170" y="325">3.  cp grace-hopper.md ~/.armies/profiles/</text>
@@ -80,21 +80,21 @@
 
   <!-- Divider and subtitle -->
   <rect x="140" y="378" width="420" height="1" fill="#8b6010" opacity="0.5"/>
-  <text x="350" y="397" font-family="serif" font-size="10" fill="#5a4010" text-anchor="middle" letter-spacing="3" font-style="italic">Zero to first spawn — narrative walkthrough</text>
+  <text x="350" y="397" font-family="serif" font-size="20" fill="#5a4010" text-anchor="middle" letter-spacing="3" font-style="italic">Zero to first spawn — narrative walkthrough</text>
 
   <!-- Corner stamps/seals -->
   <!-- Top left corner: UNCLASSIFIED stamp -->
   <g transform="translate(60,78)">
     <rect x="0" y="0" width="80" height="22" fill="none" stroke="#2a5a00" stroke-width="1.5" rx="2"/>
-    <text x="40" y="15" font-family="sans-serif" font-size="8" font-weight="bold" fill="#2a5a00" text-anchor="middle" letter-spacing="2">UNCLASSIFIED</text>
+    <text x="40" y="15" font-family="sans-serif" font-size="20" font-weight="bold" fill="#2a5a00" text-anchor="middle" letter-spacing="2">UNCLASSIFIED</text>
   </g>
 
   <!-- Top right corner: date/version -->
-  <text x="648" y="90" font-family="monospace" font-size="8" fill="#5a4010" text-anchor="end" opacity="0.7">REV. 1.0</text>
-  <text x="648" y="100" font-family="monospace" font-size="8" fill="#5a4010" text-anchor="end" opacity="0.7">2026-03</text>
+  <text x="648" y="90" font-family="monospace" font-size="20" fill="#5a4010" text-anchor="end" opacity="0.7">REV. 1.0</text>
+  <text x="648" y="100" font-family="monospace" font-size="20" fill="#5a4010" text-anchor="end" opacity="0.7">2026-03</text>
 
   <!-- Bottom left: "See also" reference -->
-  <text x="52" y="432" font-family="sans-serif" font-size="8" fill="#5a4010" opacity="0.8">See: how-it-works.md | creating-profiles.md</text>
+  <text x="52" y="432" font-family="sans-serif" font-size="20" fill="#5a4010" opacity="0.8">See: how-it-works.md | creating-profiles.md</text>
 
   <!-- Notebook wire binding simulation on left edge -->
   <g fill="none" stroke="#6a6030" stroke-width="2" opacity="0.6">

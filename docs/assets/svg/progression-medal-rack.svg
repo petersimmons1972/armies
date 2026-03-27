@@ -13,7 +13,7 @@
 
   <!-- Section title -->
   <rect x="20" y="20" width="340" height="28" fill="#3a1a00"/>
-  <text x="190" y="39" font-family="serif" font-size="12" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4">DECORATIONS &amp; MEDALS</text>
+  <text x="190" y="39" font-family="serif" font-size="24" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4">DECORATIONS &amp; MEDALS</text>
 
   <!-- Medal 1: Commendation (bronze) -->
   <g transform="translate(80, 100)">
@@ -32,8 +32,8 @@
     <!-- Medal symbol: simple star -->
     <polygon points="0,-15 4,-5 15,-5 6,2 10,13 0,7 -10,13 -6,2 -15,-5 -4,-5" fill="#c8a050"/>
     <!-- Medal label -->
-    <text x="0" y="42" font-family="sans-serif" font-size="7" fill="#c8a050" text-anchor="middle">🏅 COMMENDATION</text>
-    <text x="0" y="52" font-family="sans-serif" font-size="6" fill="#8b6010" text-anchor="middle">"good work"</text>
+    <text x="0" y="42" font-family="sans-serif" font-size="17.5" fill="#c8a050" text-anchor="middle">🏅 COMMENDATION</text>
+    <text x="0" y="52" font-family="sans-serif" font-size="15" fill="#8b6010" text-anchor="middle">"good work"</text>
   </g>
 
   <!-- Medal 2: Distinguished Service (silver/blue) -->
@@ -51,8 +51,8 @@
     <rect x="-3" y="-14" width="6" height="28" fill="#c8a050"/>
     <rect x="-14" y="-3" width="28" height="6" fill="#c8a050"/>
     <circle cx="0" cy="0" r="5" fill="#1a3a6e"/>
-    <text x="0" y="42" font-family="sans-serif" font-size="7" fill="#c8a050" text-anchor="middle">🎖️ DISTINGUISHED</text>
-    <text x="0" y="52" font-family="sans-serif" font-size="6" fill="#8b6010" text-anchor="middle">specific praise</text>
+    <text x="0" y="42" font-family="sans-serif" font-size="17.5" fill="#c8a050" text-anchor="middle">🎖️ DISTINGUISHED</text>
+    <text x="0" y="52" font-family="sans-serif" font-size="15" fill="#8b6010" text-anchor="middle">specific praise</text>
   </g>
 
   <!-- Medal 3: Medal of Honor (gold star) -->
@@ -67,8 +67,8 @@
     <!-- Star of honor -->
     <polygon points="0,-16 4,-6 15,-6 7,1 10,12 0,6 -10,12 -7,1 -15,-6 -4,-6" fill="#fff8c0"/>
     <polygon points="0,-10 2,-4 8,-4 3,0 5,7 0,3 -5,7 -3,0 -8,-4 -2,-4" fill="#a08020"/>
-    <text x="0" y="42" font-family="sans-serif" font-size="7" fill="#c8a050" text-anchor="middle">🥇 MEDAL OF HONOR</text>
-    <text x="0" y="52" font-family="sans-serif" font-size="6" fill="#8b6010" text-anchor="middle">emphatic praise</text>
+    <text x="0" y="42" font-family="sans-serif" font-size="17.5" fill="#c8a050" text-anchor="middle">🥇 MEDAL OF HONOR</text>
+    <text x="0" y="52" font-family="sans-serif" font-size="15" fill="#8b6010" text-anchor="middle">emphatic praise</text>
   </g>
 
   <!-- Order of Victory — special, bottom center, larger -->
@@ -89,10 +89,10 @@
     <polygon points="0,-22 5,-8 20,-8 8,1 13,16 0,8 -13,16 -8,1 -20,-8 -5,-8" fill="#e8d060"/>
     <polygon points="0,-14 3,-5 12,-5 5,1 8,10 0,5 -8,10 -5,1 -12,-5 -3,-5" fill="#2a0050"/>
     <!-- ⭐ symbol -->
-    <text x="0" y="5" font-family="serif" font-size="12" fill="#e8d060" text-anchor="middle">★</text>
-    <text x="0" y="48" font-family="sans-serif" font-size="8" font-weight="bold" fill="#e8d060" text-anchor="middle">⭐ ORDER OF VICTORY</text>
-    <text x="0" y="60" font-family="sans-serif" font-size="7" fill="#c8a050" text-anchor="middle">sets a new standard</text>
-    <text x="0" y="70" font-family="sans-serif" font-size="6" fill="#8b6010" text-anchor="middle" font-style="italic">Montgomery: first deployment</text>
+    <text x="0" y="5" font-family="serif" font-size="24" fill="#e8d060" text-anchor="middle">★</text>
+    <text x="0" y="48" font-family="sans-serif" font-size="20" font-weight="bold" fill="#e8d060" text-anchor="middle">⭐ ORDER OF VICTORY</text>
+    <text x="0" y="60" font-family="sans-serif" font-size="17.5" fill="#c8a050" text-anchor="middle">sets a new standard</text>
+    <text x="0" y="70" font-family="sans-serif" font-size="15" fill="#8b6010" text-anchor="middle" font-style="italic">Montgomery: first deployment</text>
   </g>
 
   <!-- Divider between sections -->
@@ -101,10 +101,10 @@
   <!-- Right section: Rank Ladder -->
   <rect x="363" y="20" width="417" height="320" fill="#0d0800" stroke="#5a3a00" stroke-width="1"/>
   <rect x="363" y="20" width="417" height="28" fill="#3a1a00"/>
-  <text x="571" y="39" font-family="serif" font-size="12" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4">RANK PROGRESSION</text>
+  <text x="571" y="39" font-family="serif" font-size="24" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4">RANK PROGRESSION</text>
 
   <!-- Rank ladder items -->
-  <g font-family="monospace" font-size="9" fill="#c8a050">
+  <g font-family="monospace" font-size="18" fill="#c8a050">
     <!-- Colonel (starting) -->
     <g transform="translate(375, 65)">
       <rect x="0" y="0" width="12" height="18" fill="#c8a050" rx="1"/>
@@ -114,7 +114,7 @@
     </g>
     <!-- Vice Admiral (3-star) -->
     <g transform="translate(375, 95)">
-      <text x="0" y="13" font-size="14" fill="#c8a050">⭐⭐⭐</text>
+      <text x="0" y="13" font-size="22.4" fill="#c8a050">⭐⭐⭐</text>
       <text x="62" y="13" fill="#c8a050">Vice Admiral</text>
       <text x="200" y="13" fill="#5a3a00">base</text>
     </g>
@@ -122,28 +122,28 @@
     <line x1="385" y1="115" x2="385" y2="125" stroke="#5a3a00" stroke-width="1.5"/>
     <!-- Admiral (4-star) -->
     <g transform="translate(375, 125)">
-      <text x="0" y="13" font-size="14" fill="#c8a050">⭐⭐⭐⭐</text>
+      <text x="0" y="13" font-size="22.4" fill="#c8a050">⭐⭐⭐⭐</text>
       <text x="76" y="13" fill="#c8a050">Admiral (4★)</text>
       <text x="200" y="13" fill="#5a3a00">1,000 XP</text>
     </g>
     <line x1="385" y1="145" x2="385" y2="155" stroke="#5a3a00" stroke-width="1.5"/>
     <!-- Fleet Admiral (5-star) -->
     <g transform="translate(375, 155)">
-      <text x="0" y="13" font-size="14" fill="#e0c060">⭐⭐⭐⭐⭐</text>
+      <text x="0" y="13" font-size="22.4" fill="#e0c060">⭐⭐⭐⭐⭐</text>
       <text x="90" y="13" fill="#e0c060">Fleet Admiral (5★)</text>
       <text x="200" y="13" fill="#5a3a00">4,000 XP</text>
     </g>
     <line x1="385" y1="175" x2="385" y2="185" stroke="#5a3a00" stroke-width="1.5"/>
     <!-- Fleet Admiral of the Fleet -->
     <g transform="translate(375, 185)">
-      <text x="0" y="13" font-size="14" fill="#e8d070">⭐⭐⭐⭐⭐</text>
+      <text x="0" y="13" font-size="22.4" fill="#e8d070">⭐⭐⭐⭐⭐</text>
       <text x="90" y="13" fill="#e8d070">Adm. of the Fleet</text>
       <text x="200" y="13" fill="#5a3a00">10,000 XP</text>
     </g>
     <line x1="385" y1="205" x2="385" y2="215" stroke="#5a3a00" stroke-width="1.5"/>
     <!-- General of the Armies -->
     <g transform="translate(375, 215)">
-      <text x="0" y="13" font-size="14" fill="#ffe860">⭐⭐⭐⭐⭐</text>
+      <text x="0" y="13" font-size="22.4" fill="#ffe860">⭐⭐⭐⭐⭐</text>
       <text x="90" y="13" fill="#ffe860">Gen. of the Armies</text>
       <text x="200" y="13" fill="#5a3a00">10,000 XP</text>
     </g>
@@ -151,14 +151,14 @@
     <!-- Supreme Allied Commander — special treatment -->
     <g transform="translate(375, 255)">
       <rect x="-5" y="-5" width="400" height="58" fill="#1a0f00" stroke="#c8a050" stroke-width="1.5" rx="3"/>
-      <text x="5" y="12" font-size="16" fill="#e8d070">⭐⭐⭐⭐⭐⭐⭐⭐</text>
-      <text x="5" y="28" font-size="11" font-weight="bold" fill="#ffe860">SUPREME ALLIED COMMANDER</text>
-      <text x="5" y="42" font-size="8" fill="#c8a050">25,000 XP · All 8 categories at Master · 75 ribbons · 1 Order of Victory</text>
+      <text x="5" y="12" font-size="25.6" fill="#e8d070">⭐⭐⭐⭐⭐⭐⭐⭐</text>
+      <text x="5" y="28" font-size="22" font-weight="bold" fill="#ffe860">SUPREME ALLIED COMMANDER</text>
+      <text x="5" y="42" font-size="20" fill="#c8a050">25,000 XP · All 8 categories at Master · 75 ribbons · 1 Order of Victory</text>
     </g>
   </g>
 
   <!-- XP requirement annotations on right side -->
-  <g font-family="monospace" font-size="8" fill="#4a2a00" text-anchor="end">
+  <g font-family="monospace" font-size="20" fill="#4a2a00" text-anchor="end">
     <text x="770" y="138">+1,000 XP</text>
     <text x="770" y="168">+4,000 XP</text>
     <text x="770" y="198">+10,000 XP</text>
@@ -168,6 +168,6 @@
   <!-- Bottom banner -->
   <rect x="0" y="335" width="800" height="25" fill="#1a0f00" stroke="#8b6010" stroke-width="0"/>
   <rect x="0" y="335" width="800" height="2" fill="#8b6010" opacity="0.6"/>
-  <text x="400" y="352" font-family="serif" font-size="9" fill="#8b6010" text-anchor="middle" letter-spacing="3">EXPERTISE IS EARNED THROUGH REPEATED SUCCESS UNDER FIRE</text>
+  <text x="400" y="352" font-family="serif" font-size="18" fill="#8b6010" text-anchor="middle" letter-spacing="3">EXPERTISE IS EARNED THROUGH REPEATED SUCCESS UNDER FIRE</text>
 
 </svg>

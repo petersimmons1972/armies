@@ -30,41 +30,41 @@
 
   <!-- Top header bar -->
   <rect x="0" y="0" width="900" height="38" fill="#1e3a6e"/>
-  <text x="450" y="25" font-family="serif" font-size="14" font-weight="bold" fill="#e8f0ff" text-anchor="middle" letter-spacing="5">OPERATION: PROGRESSIVE LOADING — PROFILE SPAWN PROTOCOL</text>
-  <text x="20" y="25" font-family="monospace" font-size="9" fill="#7090c0" opacity="0.8">TOP SECRET</text>
-  <text x="880" y="25" font-family="monospace" font-size="9" fill="#7090c0" text-anchor="end" opacity="0.8">SOP-001</text>
+  <text x="450" y="25" font-family="serif" font-size="22.4" font-weight="bold" fill="#e8f0ff" text-anchor="middle" letter-spacing="5">OPERATION: PROGRESSIVE LOADING — PROFILE SPAWN PROTOCOL</text>
+  <text x="20" y="25" font-family="monospace" font-size="18" fill="#7090c0" opacity="0.8">TOP SECRET</text>
+  <text x="880" y="25" font-family="monospace" font-size="18" fill="#7090c0" text-anchor="end" opacity="0.8">SOP-001</text>
 
   <!-- PHASE 1: Profile on Disk -->
   <!-- Label -->
-  <text x="120" y="65" font-family="sans-serif" font-size="9" font-weight="bold" fill="#7090c0" text-anchor="middle" letter-spacing="3">ON DISK</text>
+  <text x="120" y="65" font-family="sans-serif" font-size="18" font-weight="bold" fill="#7090c0" text-anchor="middle" letter-spacing="3">ON DISK</text>
   <rect x="30" y="72" width="180" height="270" fill="#0d1e3a" stroke="#1e3a6e" stroke-width="1.5" rx="3"/>
-  <text x="120" y="92" font-family="monospace" font-size="9" fill="#7090c0" text-anchor="middle">profile.md</text>
+  <text x="120" y="92" font-family="monospace" font-size="18" fill="#7090c0" text-anchor="middle">profile.md</text>
   <line x1="30" y1="98" x2="210" y2="98" stroke="#1e3a6e" stroke-width="1"/>
 
   <!-- Frontmatter block — always loads -->
   <rect x="40" y="105" width="160" height="45" fill="#1e4a8e" stroke="#4070c0" stroke-width="1" rx="2"/>
-  <text x="120" y="120" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">FRONTMATTER</text>
-  <text x="120" y="132" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">name · xp · rank · tools</text>
-  <text x="120" y="143" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">model · malus_immunity</text>
+  <text x="120" y="120" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">FRONTMATTER</text>
+  <text x="120" y="132" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">name · xp · rank · tools</text>
+  <text x="120" y="143" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">model · malus_immunity</text>
 
   <!-- Base Persona block — always loads -->
   <rect x="40" y="158" width="160" height="45" fill="#1a5a2a" stroke="#30a050" stroke-width="1" rx="2"/>
-  <text x="120" y="173" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">BASE PERSONA</text>
-  <text x="120" y="185" font-family="monospace" font-size="7" fill="#90e0a0" text-anchor="middle">always loads — who they ARE</text>
-  <text x="120" y="196" font-family="monospace" font-size="7" fill="#90e0a0" text-anchor="middle">history · voice · failure mode</text>
+  <text x="120" y="173" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">BASE PERSONA</text>
+  <text x="120" y="185" font-family="monospace" font-size="17.5" fill="#90e0a0" text-anchor="middle">always loads — who they ARE</text>
+  <text x="120" y="196" font-family="monospace" font-size="17.5" fill="#90e0a0" text-anchor="middle">history · voice · failure mode</text>
 
   <!-- Role: implementer — loads when selected -->
   <rect x="40" y="211" width="160" height="40" fill="#1e3a6e" stroke="#4070c0" stroke-width="1" rx="2"/>
-  <text x="120" y="226" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">ROLE: implementer</text>
-  <text x="120" y="238" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">mission behavior · tools · checklist</text>
+  <text x="120" y="226" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">ROLE: implementer</text>
+  <text x="120" y="238" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">mission behavior · tools · checklist</text>
   <!-- "LOADING" badge -->
   <rect x="82" y="245" width="76" height="10" fill="#2255aa" rx="2"/>
-  <text x="120" y="253" font-family="monospace" font-size="7" fill="#a0c0ff" text-anchor="middle">→ SELECTED</text>
+  <text x="120" y="253" font-family="monospace" font-size="17.5" fill="#a0c0ff" text-anchor="middle">→ SELECTED</text>
 
   <!-- Role: troubleshooter — stays on disk (dimmed) -->
   <rect x="40" y="259" width="160" height="40" fill="#0d1e3a" stroke="#2a3a5a" stroke-width="1" stroke-dasharray="3,2" rx="2" opacity="0.6"/>
-  <text x="120" y="274" font-family="monospace" font-size="8" fill="#4060a0" text-anchor="middle">ROLE: troubleshooter</text>
-  <text x="120" y="286" font-family="monospace" font-size="7" fill="#2a4070" text-anchor="middle">stays on disk — not loaded</text>
+  <text x="120" y="274" font-family="monospace" font-size="20" fill="#4060a0" text-anchor="middle">ROLE: troubleshooter</text>
+  <text x="120" y="286" font-family="monospace" font-size="17.5" fill="#2a4070" text-anchor="middle">stays on disk — not loaded</text>
   <!-- X marker -->
   <line x1="42" y1="261" x2="58" y2="277" stroke="#2a3a5a" stroke-width="1.5"/>
   <line x1="58" y1="261" x2="42" y2="277" stroke="#2a3a5a" stroke-width="1.5"/>
@@ -97,82 +97,82 @@
   <path d="M 200,231 Q 265,231 300,220" stroke="#4070c0" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
   <!-- Role: troubleshooter does NOT flow - stays behind -->
   <path d="M 200,279 Q 230,279 230,300 Q 230,340 200,340" stroke="#2a3a5a" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
-  <text x="232" y="315" font-family="sans-serif" font-size="7" fill="#2a4070" opacity="0.7" transform="rotate(90,232,315)">stays on disk</text>
+  <text x="232" y="315" font-family="sans-serif" font-size="17.5" fill="#2a4070" opacity="0.7" transform="rotate(90,232,315)">stays on disk</text>
 
   <!-- PHASE 2: Spawn Prompt Output -->
-  <text x="450" y="65" font-family="sans-serif" font-size="9" font-weight="bold" fill="#7090c0" text-anchor="middle" letter-spacing="3">SPAWN PROMPT</text>
+  <text x="450" y="65" font-family="sans-serif" font-size="18" font-weight="bold" fill="#7090c0" text-anchor="middle" letter-spacing="3">SPAWN PROMPT</text>
   <rect x="290" y="72" width="220" height="270" fill="#0d1e3a" stroke="#4070c0" stroke-width="2" rx="3"/>
 
   <!-- Prompt header -->
   <rect x="290" y="72" width="220" height="28" fill="#1e3a6e" rx="2"/>
-  <text x="400" y="91" font-family="monospace" font-size="8" fill="#a0c0ff" text-anchor="middle">━━━ SPAWN OUTPUT ━━━</text>
+  <text x="400" y="91" font-family="monospace" font-size="20" fill="#a0c0ff" text-anchor="middle">━━━ SPAWN OUTPUT ━━━</text>
 
   <!-- Frontmatter in prompt -->
   <rect x="300" y="108" width="200" height="45" fill="#1e4a8e" stroke="#4070c0" stroke-width="1" rx="2" opacity="0.9"/>
-  <text x="400" y="123" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">FRONTMATTER</text>
-  <text x="400" y="135" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">name: grace-hopper</text>
-  <text x="400" y="145" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">xp: 840 | rank: Colonel</text>
+  <text x="400" y="123" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">FRONTMATTER</text>
+  <text x="400" y="135" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">name: grace-hopper</text>
+  <text x="400" y="145" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">xp: 840 | rank: Colonel</text>
 
   <!-- Base Persona in prompt -->
   <rect x="300" y="160" width="200" height="45" fill="#1a5a2a" stroke="#30a050" stroke-width="1" rx="2" opacity="0.9"/>
-  <text x="400" y="175" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">BASE PERSONA</text>
-  <text x="400" y="187" font-family="monospace" font-size="7" fill="#90e0a0" text-anchor="middle">You are Grace Hopper —</text>
-  <text x="400" y="197" font-family="monospace" font-size="7" fill="#90e0a0" text-anchor="middle">inventor of the compiler...</text>
+  <text x="400" y="175" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">BASE PERSONA</text>
+  <text x="400" y="187" font-family="monospace" font-size="17.5" fill="#90e0a0" text-anchor="middle">You are Grace Hopper —</text>
+  <text x="400" y="197" font-family="monospace" font-size="17.5" fill="#90e0a0" text-anchor="middle">inventor of the compiler...</text>
 
   <!-- Role block in prompt -->
   <rect x="300" y="212" width="200" height="45" fill="#2a3a6e" stroke="#5070c0" stroke-width="1" rx="2" opacity="0.9"/>
-  <text x="400" y="227" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">ROLE: implementer</text>
-  <text x="400" y="239" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">Your mission: ship working,</text>
-  <text x="400" y="249" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">committed, tested code...</text>
+  <text x="400" y="227" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">ROLE: implementer</text>
+  <text x="400" y="239" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">Your mission: ship working,</text>
+  <text x="400" y="249" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">committed, tested code...</text>
 
   <!-- Service Record in prompt -->
   <rect x="300" y="264" width="200" height="50" fill="#1e3050" stroke="#3050a0" stroke-width="1" rx="2" opacity="0.9"/>
-  <text x="400" y="279" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">SERVICE RECORD</text>
-  <text x="400" y="291" font-family="monospace" font-size="7" fill="#7090c0" text-anchor="middle">2026-01-15: Implemented auth</text>
-  <text x="400" y="301" font-family="monospace" font-size="7" fill="#7090c0" text-anchor="middle">2026-02-03: Fixed pipeline bug</text>
-  <text x="400" y="311" font-family="monospace" font-size="7" fill="#7090c0" text-anchor="middle">+840 XP accumulated</text>
+  <text x="400" y="279" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">SERVICE RECORD</text>
+  <text x="400" y="291" font-family="monospace" font-size="17.5" fill="#7090c0" text-anchor="middle">2026-01-15: Implemented auth</text>
+  <text x="400" y="301" font-family="monospace" font-size="17.5" fill="#7090c0" text-anchor="middle">2026-02-03: Fixed pipeline bug</text>
+  <text x="400" y="311" font-family="monospace" font-size="17.5" fill="#7090c0" text-anchor="middle">+840 XP accumulated</text>
 
   <!-- Arrow to Claude -->
   <path d="M 510,207 L 560,207" stroke="#c8a050" stroke-width="2.5" marker-end="url(#arrowGold2)"/>
-  <text x="535" y="200" font-family="sans-serif" font-size="8" fill="#c8a050" text-anchor="middle">paste</text>
+  <text x="535" y="200" font-family="sans-serif" font-size="20" fill="#c8a050" text-anchor="middle">paste</text>
 
   <!-- PHASE 3: Claude executes -->
-  <text x="700" y="65" font-family="sans-serif" font-size="9" font-weight="bold" fill="#7090c0" text-anchor="middle" letter-spacing="3">AGENT EXECUTES</text>
+  <text x="700" y="65" font-family="sans-serif" font-size="18" font-weight="bold" fill="#7090c0" text-anchor="middle" letter-spacing="3">AGENT EXECUTES</text>
   <rect x="560" y="72" width="220" height="180" fill="#0d1e3a" stroke="#c8a050" stroke-width="2" rx="3"/>
 
   <!-- Agent "active" display -->
   <rect x="560" y="72" width="220" height="28" fill="#2a2000" rx="2"/>
-  <text x="670" y="91" font-family="monospace" font-size="8" fill="#c8a050" text-anchor="middle">◉ GRACE HOPPER — ACTIVE</text>
+  <text x="670" y="91" font-family="monospace" font-size="20" fill="#c8a050" text-anchor="middle">◉ GRACE HOPPER — ACTIVE</text>
 
   <!-- Identity block -->
   <rect x="570" y="108" width="200" height="50" fill="#0d1e3a" stroke="#3050a0" stroke-width="1" rx="2"/>
-  <text x="670" y="123" font-family="monospace" font-size="8" fill="#e8e0a0" text-anchor="middle">Identity anchors behavior</text>
-  <text x="670" y="135" font-family="monospace" font-size="7" fill="#a0a080" text-anchor="middle">"it's easier to ask forgiveness"</text>
-  <text x="670" y="147" font-family="monospace" font-size="7" fill="#a0a080" text-anchor="middle">Ships first. Asks later.</text>
+  <text x="670" y="123" font-family="monospace" font-size="20" fill="#e8e0a0" text-anchor="middle">Identity anchors behavior</text>
+  <text x="670" y="135" font-family="monospace" font-size="17.5" fill="#a0a080" text-anchor="middle">"it's easier to ask forgiveness"</text>
+  <text x="670" y="147" font-family="monospace" font-size="17.5" fill="#a0a080" text-anchor="middle">Ships first. Asks later.</text>
 
   <!-- Tool restrictions display -->
   <rect x="570" y="165" width="200" height="50" fill="#0d1e3a" stroke="#3050a0" stroke-width="1" rx="2"/>
-  <text x="670" y="180" font-family="monospace" font-size="8" fill="#e8f0ff" text-anchor="middle">TOOL RESTRICTIONS</text>
-  <text x="670" y="192" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">disallowedTools: [Agent]</text>
-  <text x="670" y="202" font-family="monospace" font-size="7" fill="#90b0e0" text-anchor="middle">→ Cannot spawn subagents</text>
+  <text x="670" y="180" font-family="monospace" font-size="20" fill="#e8f0ff" text-anchor="middle">TOOL RESTRICTIONS</text>
+  <text x="670" y="192" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">disallowedTools: [Agent]</text>
+  <text x="670" y="202" font-family="monospace" font-size="17.5" fill="#90b0e0" text-anchor="middle">→ Cannot spawn subagents</text>
 
   <!-- Arrow post-mission -->
   <path d="M 670,252 L 670,280" stroke="#c8a050" stroke-width="2" marker-end="url(#arrowGold2)"/>
 
   <!-- Post-mission record -->
   <rect x="560" y="280" width="220" height="55" fill="#1a0a00" stroke="#8b6010" stroke-width="1.5" rx="3"/>
-  <text x="670" y="297" font-family="monospace" font-size="8" fill="#c8a050" text-anchor="middle">ARMIES RECORD</text>
-  <text x="670" y="309" font-family="monospace" font-size="7" fill="#d4b060" text-anchor="middle">armies record grace-hopper</text>
-  <text x="670" y="320" font-family="monospace" font-size="7" fill="#d4b060" text-anchor="middle">"implemented user auth" --xp 100</text>
-  <text x="670" y="331" font-family="monospace" font-size="7" fill="#808060" text-anchor="middle">→ XP 840 → 940 | history grows</text>
+  <text x="670" y="297" font-family="monospace" font-size="20" fill="#c8a050" text-anchor="middle">ARMIES RECORD</text>
+  <text x="670" y="309" font-family="monospace" font-size="17.5" fill="#d4b060" text-anchor="middle">armies record grace-hopper</text>
+  <text x="670" y="320" font-family="monospace" font-size="17.5" fill="#d4b060" text-anchor="middle">"implemented user auth" --xp 100</text>
+  <text x="670" y="331" font-family="monospace" font-size="17.5" fill="#808060" text-anchor="middle">→ XP 840 → 940 | history grows</text>
 
   <!-- Final arrow: Record feeds back to next spawn -->
   <path d="M 680,335 Q 850,350 860,200 Q 865,95 400,340" stroke="#c8a050" stroke-width="1.5" fill="none" stroke-dasharray="5,3" opacity="0.6" marker-end="url(#arrowGold2)"/>
-  <text x="845" y="230" font-family="sans-serif" font-size="8" fill="#c8a050" opacity="0.7" transform="rotate(-90,845,230)">next spawn richer</text>
+  <text x="845" y="230" font-family="sans-serif" font-size="20" fill="#c8a050" opacity="0.7" transform="rotate(-90,845,230)">next spawn richer</text>
 
   <!-- Bottom label bar -->
   <rect x="0" y="346" width="900" height="34" fill="#0a1428"/>
   <rect x="0" y="346" width="900" height="2" fill="#1e3a6e"/>
-  <text x="450" y="368" font-family="serif" font-size="10" fill="#4070c0" text-anchor="middle" letter-spacing="3">THE PROFILE IS STATEFUL — EACH DEPLOYMENT MAKES THE NEXT SPAWN SMARTER</text>
+  <text x="450" y="368" font-family="serif" font-size="20" fill="#4070c0" text-anchor="middle" letter-spacing="3">THE PROFILE IS STATEFUL — EACH DEPLOYMENT MAKES THE NEXT SPAWN SMARTER</text>
 
 </svg>

@@ -19,15 +19,15 @@
 
   <!-- TOP BANNER — classification bar -->
   <rect x="16" y="16" width="718" height="28" fill="#5a4800"/>
-  <text x="375" y="35" font-family="serif" font-size="12" font-weight="bold" fill="#d8c880" text-anchor="middle" letter-spacing="5">ARMIES CLI — QUICK REFERENCE CARD</text>
-  <text x="32" y="35" font-family="monospace" font-size="8" fill="#a09040">FM 1-01</text>
-  <text x="716" y="35" font-family="monospace" font-size="8" fill="#a09040" text-anchor="end">REV 1.0</text>
+  <text x="375" y="35" font-family="serif" font-size="24" font-weight="bold" fill="#d8c880" text-anchor="middle" letter-spacing="5">ARMIES CLI — QUICK REFERENCE CARD</text>
+  <text x="32" y="35" font-family="monospace" font-size="20" fill="#a09040">FM 1-01</text>
+  <text x="716" y="35" font-family="monospace" font-size="20" fill="#a09040" text-anchor="end">REV 1.0</text>
 
   <!-- Two-column layout -->
   <!-- LEFT COLUMN: Primary commands -->
   <rect x="26" y="52" width="340" height="360" fill="#c8b860" opacity="0.2"/>
 
-  <text x="196" y="72" font-family="serif" font-size="10" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="3">PRIMARY COMMANDS</text>
+  <text x="196" y="72" font-family="serif" font-size="20" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="3">PRIMARY COMMANDS</text>
   <line x1="36" y1="76" x2="356" y2="76" stroke="#8b7820" stroke-width="1"/>
 
   <!-- Command blocks -->
@@ -35,48 +35,48 @@
   <g transform="translate(36, 84)">
     <rect x="0" y="0" width="310" height="50" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies roster</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">List all profiles with XP, rank, and eligibility status.</text>
-    <text x="8" y="41" font-family="serif" font-size="8" fill="#5a4000">Reads ~/.armies/profiles/ — computes live malus if ledger exists.</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies roster</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">List all profiles with XP, rank, and eligibility status.</text>
+    <text x="8" y="41" font-family="serif" font-size="20" fill="#5a4000">Reads ~/.armies/profiles/ — computes live malus if ledger exists.</text>
   </g>
 
   <!-- armies spawn -->
   <g transform="translate(36, 144)">
     <rect x="0" y="0" width="310" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies spawn &lt;agent&gt; --role &lt;role&gt;</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">Generate spawn prompt: frontmatter + Base Persona + role block.</text>
-    <text x="8" y="40" font-family="serif" font-size="8" fill="#5a4000">Paste output into Claude Code agent invocation.</text>
-    <text x="8" y="52" font-family="monospace" font-size="8" fill="#2a1800">--role: coordinator | implementer | researcher | ...</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies spawn &lt;agent&gt; --role &lt;role&gt;</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Generate spawn prompt: frontmatter + Base Persona + role block.</text>
+    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Paste output into Claude Code agent invocation.</text>
+    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">--role: coordinator | implementer | researcher | ...</text>
   </g>
 
   <!-- armies record -->
   <g transform="translate(36, 216)">
     <rect x="0" y="0" width="310" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies record &lt;agent&gt; &lt;note&gt; --xp N</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">Write service record entry. Update XP in profile frontmatter.</text>
-    <text x="8" y="40" font-family="serif" font-size="8" fill="#5a4000">Must be committed to git — uncommitted records are not real.</text>
-    <text x="8" y="52" font-family="monospace" font-size="8" fill="#2a1800">--xp: XP earned this deployment (integer)</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies record &lt;agent&gt; &lt;note&gt; --xp N</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Write service record entry. Update XP in profile frontmatter.</text>
+    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Must be committed to git — uncommitted records are not real.</text>
+    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">--xp: XP earned this deployment (integer)</text>
   </g>
 
   <!-- armies eligible -->
   <g transform="translate(36, 288)">
     <rect x="0" y="0" width="310" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies eligible &lt;agent&gt;</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">Compute effective malus fresh from ledger. Show eligibility gates.</text>
-    <text x="8" y="40" font-family="serif" font-size="8" fill="#5a4000">Never cached — recomputed from current date every invocation.</text>
-    <text x="8" y="52" font-family="monospace" font-size="8" fill="#2a1800">Tiers: Clean | Warning | Probation | Demotion | Suspension</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies eligible &lt;agent&gt;</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Compute effective malus fresh from ledger. Show eligibility gates.</text>
+    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Never cached — recomputed from current date every invocation.</text>
+    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">Tiers: Clean | Warning | Probation | Demotion | Suspension</text>
   </g>
 
   <!-- armies init -->
   <g transform="translate(36, 360)">
     <rect x="0" y="0" width="310" height="50" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="310" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies init</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">Create ~/.armies/ directory structure. Idempotent — safe to rerun.</text>
-    <text x="8" y="41" font-family="serif" font-size="8" fill="#5a4000">Optional: set remote_url for git-backed profile sync.</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies init</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Create ~/.armies/ directory structure. Idempotent — safe to rerun.</text>
+    <text x="8" y="41" font-family="serif" font-size="20" fill="#5a4000">Optional: set remote_url for git-backed profile sync.</text>
   </g>
 
   <!-- DIVIDER -->
@@ -85,34 +85,34 @@
   <!-- RIGHT COLUMN: Supporting commands + quick reference -->
   <rect x="376" y="52" width="346" height="360" fill="#c8b860" opacity="0.2"/>
 
-  <text x="549" y="72" font-family="serif" font-size="10" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="3">ADDITIONAL COMMANDS</text>
+  <text x="549" y="72" font-family="serif" font-size="20" font-weight="bold" fill="#3a2800" text-anchor="middle" letter-spacing="3">ADDITIONAL COMMANDS</text>
   <line x1="386" y1="76" x2="714" y2="76" stroke="#8b7820" stroke-width="1"/>
 
   <!-- armies sync -->
   <g transform="translate(386, 84)">
     <rect x="0" y="0" width="316" height="50" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="316" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies sync</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">Git pull + push to configured remote. Requires remote_url in</text>
-    <text x="8" y="41" font-family="serif" font-size="8" fill="#5a4000">~/.armies/config.yaml. Forwards SSH agent via SSH_AUTH_SOCK.</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies sync</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Git pull + push to configured remote. Requires remote_url in</text>
+    <text x="8" y="41" font-family="serif" font-size="20" fill="#5a4000">~/.armies/config.yaml. Forwards SSH agent via SSH_AUTH_SOCK.</text>
   </g>
 
   <!-- armies research -->
   <g transform="translate(386, 144)">
     <rect x="0" y="0" width="316" height="62" fill="#c0a840" opacity="0.2" rx="2"/>
     <rect x="0" y="0" width="316" height="14" fill="#5a4800" opacity="0.4" rx="2"/>
-    <text x="8" y="10" font-family="monospace" font-size="9" font-weight="bold" fill="#3a2000">$ armies research &lt;role&gt; [--mode api]</text>
-    <text x="8" y="28" font-family="serif" font-size="8" fill="#3a2800">Generate draft research prompt for creating a new profile.</text>
-    <text x="8" y="40" font-family="serif" font-size="8" fill="#5a4000">Saved to profiles/drafts/ — feed to Claude Code Agent tool.</text>
-    <text x="8" y="52" font-family="monospace" font-size="8" fill="#2a1800">Roles: coordinator|implementer|planner|researcher|...</text>
+    <text x="8" y="10" font-family="monospace" font-size="18" font-weight="bold" fill="#3a2000">$ armies research &lt;role&gt; [--mode api]</text>
+    <text x="8" y="28" font-family="serif" font-size="20" fill="#3a2800">Generate draft research prompt for creating a new profile.</text>
+    <text x="8" y="40" font-family="serif" font-size="20" fill="#5a4000">Saved to profiles/drafts/ — feed to Claude Code Agent tool.</text>
+    <text x="8" y="52" font-family="monospace" font-size="20" fill="#2a1800">Roles: coordinator|implementer|planner|researcher|...</text>
   </g>
 
   <!-- Eligibility tier quick-ref table -->
   <g transform="translate(386, 218)">
-    <text x="0" y="12" font-family="serif" font-size="9" font-weight="bold" fill="#3a2800" letter-spacing="2">ELIGIBILITY TIER QUICK REFERENCE</text>
+    <text x="0" y="12" font-family="serif" font-size="18" font-weight="bold" fill="#3a2800" letter-spacing="2">ELIGIBILITY TIER QUICK REFERENCE</text>
     <line x1="0" y1="16" x2="316" y2="16" stroke="#8b7820" stroke-width="0.5"/>
     <!-- Table header -->
-    <g font-family="monospace" font-size="7" fill="#5a4000">
+    <g font-family="monospace" font-size="17.5" fill="#5a4000">
       <text x="0" y="28">TIER</text>
       <text x="80" y="28">MALUS</text>
       <text x="130" y="28">COORD</text>
@@ -122,7 +122,7 @@
     </g>
     <line x1="0" y1="32" x2="316" y2="32" stroke="#8b7820" stroke-width="0.5"/>
     <!-- Rows -->
-    <g font-family="monospace" font-size="7">
+    <g font-family="monospace" font-size="17.5">
       <text x="0" y="44" fill="#3a2800">Clean</text>
       <text x="80" y="44" fill="#3a2800">0–99</text>
       <text x="130" y="44" fill="#2a5a20">CLR</text>
@@ -166,9 +166,9 @@
 
   <!-- Profile paths quick ref -->
   <g transform="translate(386, 358)">
-    <text x="0" y="12" font-family="serif" font-size="9" font-weight="bold" fill="#3a2800" letter-spacing="2">KEY PATHS</text>
+    <text x="0" y="12" font-family="serif" font-size="18" font-weight="bold" fill="#3a2800" letter-spacing="2">KEY PATHS</text>
     <line x1="0" y1="16" x2="316" y2="16" stroke="#8b7820" stroke-width="0.5"/>
-    <g font-family="monospace" font-size="7" fill="#3a2800">
+    <g font-family="monospace" font-size="17.5" fill="#3a2800">
       <text x="0" y="30">~/.armies/profiles/       agent .md files</text>
       <text x="0" y="42">~/.armies/accountability/  malus-ledger.yaml</text>
       <text x="0" y="54">~/.armies/service-records/ per-agent YAML</text>
@@ -177,6 +177,6 @@
 
   <!-- Bottom banner -->
   <rect x="16" y="408" width="718" height="16" fill="#5a4800"/>
-  <text x="375" y="420" font-family="serif" font-size="8" fill="#d8c880" text-anchor="middle" letter-spacing="3">IF IT'S NOT COMMITTED — IT DIDN'T HAPPEN</text>
+  <text x="375" y="420" font-family="serif" font-size="20" fill="#d8c880" text-anchor="middle" letter-spacing="3">IF IT'S NOT COMMITTED — IT DIDN'T HAPPEN</text>
 
 </svg>
