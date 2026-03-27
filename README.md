@@ -1,131 +1,156 @@
-# Armies — Multi-Agent Coordination System
+# Armies
 
-A self-learning multi-agent coordination engine for Claude Code. Personalities persist. Experience compounds. The right specialist for every mission.
+AI agents are generic. You get the same assistant whether you're debugging a race condition or writing a post-mortem. No memory between sessions. No accountability when something goes wrong. No personality to anchor behavior. Every prompt starts from zero, and every agent is interchangeable. That is the problem. Armies gives your agents identity. Historical figures with earned expertise, accumulated XP, and structural role constraints. Grace Hopper ships code fast and asks forgiveness later. Jane Goodall observes without contaminating the scene. Roy Disney keeps Walt's impossible vision from burning the budget. The right specialist for every mission -- and they get better every time they're deployed.
 
 **STATUS: experimental**
 
-> Full documentation in progress — see /docs/
+---
+
+## The Idea
+
+Most agent frameworks treat personality as decoration -- a system prompt seasoning sprinkled over the same underlying behavior. Armies treats personality as the *anchor*. When you spawn Grace Hopper, you are not getting "an agent with a pirate-themed prompt." You are getting a mathematician who invented the compiler, who believes it is easier to ask forgiveness than permission, and whose known failure mode is cutting corners on tests when she moves too fast. That failure mode is documented in her profile. It constrains her behavior. It makes the agent self-aware of its own weaknesses in a way that generic assistants never are.
+
+The personality is who they *are*. The role is what they *do this time*. The same historical figure can play different roles depending on the mission. Walt Disney as an `artist` produces visual output -- SVGs, layouts, design systems. But Walt Disney as a `planner` produces creative briefs and architectural visions. The personality stays constant (ambitious, visual, allergic to compromise), but the behavioral constraints change with the role. His brother Roy is a `coordinator` -- he takes Walt's impossible vision and sequences it into something that ships on time and under budget. The `affinity` field in Walt's profile points to Roy, because coordinators who understand their specialists deploy them better.
+
+This matters because an agent that *is* someone behaves coherently. It makes consistent decisions under pressure. It has predictable failure modes you can plan around. An agent that has tags is just a prompt. An agent with identity is a team member.
+
+The profiles are layered: a Base Persona block that is always loaded (defining who they are), and Role blocks that load only when you spawn them in that role. Grace Hopper has `Role: implementer` and could have `Role: troubleshooter`. When you spawn her as an implementer, only the implementer block loads. The troubleshooter block stays on disk. This is how 43 profiles with multiple roles each don't blow your context window -- you only pay for the role you're using right now.
 
 ---
 
-## Overview
+## How It Works
 
-Armies is the next generation of the "generals" multi-agent coordination system. It defines a portable, schema-driven profile format for Claude Code sub-agents — giving each agent a persistent identity, role class, behavioral constraints, and an XP-based progression system.
+```mermaid
+sequenceDiagram
+    participant You
+    participant armies CLI
+    participant Profile
+    participant Claude
 
-Armies profiles are:
-- **Portable** — drop a profile into any Claude Code project
-- **Composable** — assemble pre-built team templates for any mission type
-- **Accountable** — XP and malus ledgers track performance across sessions
-- **Open** — fully open-source, community-contributed profiles welcome
+    You->>armies CLI: armies spawn grace-hopper --role implementer
+    armies CLI->>Profile: Read frontmatter + Base Persona + Role:implementer block
+    Note over Profile: Role:researcher block stays on disk
+    armies CLI->>You: Merged spawn prompt (focused, personality-laden)
+    You->>Claude: Paste prompt → spawn agent
+    Claude->>You: Grace Hopper executes mission
+    You->>armies CLI: armies record grace-hopper "fixed the race condition"
+    armies CLI->>Profile: +100 XP, write service record
+    Note over Profile: Next spawn: Grace Hopper is smarter
+```
+
+You ask the CLI to spawn a profile in a specific role. The CLI reads the profile's frontmatter (name, XP, rank, model preference, tool restrictions), the Base Persona (always loaded -- this is the personality anchor), and the single Role block you selected. Everything else stays on disk. The output is a merged prompt that you paste into Claude Code to spawn the agent.
+
+After the mission, you record what happened. The CLI writes a service record entry and updates XP. Next time you spawn Grace Hopper, her XP is higher, her service record is longer, and the spawn prompt includes her deployment history. She is literally more experienced.
+
+The key insight: profiles are *stateful*. They are not templates that reset every session. They are persistent identities that accumulate experience, earn rank, and carry accountability across every deployment.
+
+---
+
+## Anatomy of a Profile
+
+```mermaid
+graph TD
+    A["profile.md"] --> B["Frontmatter\n(name, role, XP, rank, model)"]
+    A --> C["## Base Persona\n(always loaded — who they ARE)"]
+    A --> D["## Role: implementer\n(loaded when role=implementer)"]
+    A --> E["## Role: troubleshooter\n(stays on disk unless selected)"]
+
+    style C fill:#2d5a27,color:#fff
+    style D fill:#1a3a6b,color:#fff
+    style E fill:#3a3a3a,color:#888
+```
+
+The **Base Persona** is the personality anchor. It loads every time, regardless of role. This is where you define who the agent *is* -- their history, their values, their communication style, and their known failure modes. Grace Hopper's Base Persona explains that she invented the compiler, distrust perfectionism, and will ship before she's certain. That personality colors everything she does, in every role.
+
+**Role blocks** are mission-scoped behavioral instructions. They define how the agent operates *this time*: what to do before starting, how to work, and what to deliver when done. Only one role block loads per spawn. The rest stay on disk. This is the mechanism that keeps profiles compact at spawn time even as they grow richer over time.
+
+The **frontmatter** carries the structural data: tool restrictions (enforced, not suggested), model preference, XP balance, rank, and spawn eligibility. Armies profiles are valid Claude Code agent files -- the frontmatter fields that Claude Code recognizes (`name`, `description`, `tools`, `disallowedTools`, `model`) work natively, and Armies-specific fields (`xp`, `rank`, `roles`) are read by the Armies engine.
+
+---
+
+## Role Classes
+
+| Role              | Archetype                                                                  | Responsibility                                      | Allowed Tools                   |
+| ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------- |
+| `coordinator`     | Orchestrates without touching the work -- tool restriction enforced        | Delegates tasks, synthesizes results                | Agent, Read, Grep, Glob        |
+| `implementer`     | Ships first, documents after -- asks forgiveness not permission            | Code, config, and file changes                      | Full toolset (no Agent)         |
+| `qa-validator`    | Finds the assumption everyone else missed -- read-only by design           | Tests, audits, and verification                     | Read, Bash (read-only), Grep   |
+| `planner`         | Refuses to fight until certain of winning -- preparation over improvisation | Architecture, specs, design documents               | Read, Write, Edit, Grep        |
+| `researcher`      | Raw signal collection -- feeds the coordinator's synthesis                 | Intelligence gathering and prior art                | Read, Write, Bash, Grep        |
+| `troubleshooter`  | Pivots under pressure -- high autonomy, documents after                    | Root cause analysis and emergency fixes             | Full toolset                    |
+| `artist`          | Named aesthetic, not generic output -- visual deliverables                 | SVG, layout, design systems, brand assets           | Read, Write, Edit, Bash        |
+| `observer`        | Zero-context review -- receives no prior findings, absolute malus immunity | Independent cross-check of completed work           | Read only                       |
+
+Tool restrictions are a **structural guarantee**, not a suggestion. The Eisenhower Precedent taught a hard lesson: a coordinator with Write/Edit/Bash tools *will* use them under pressure, creating unreviewed changes with no accountability trail. These restrictions exist because violations happened.
 
 ---
 
 ## Quick Start
 
 ```bash
-# Clone into your project's .claude/agents/ directory
-git clone https://github.com/your-org/armies .claude/armies
+# 1. Install
+pip install armies   # or: docker compose up (see docker/)
 
-# Pick a team template
-cp armies/teams/standard.yaml .claude/team.yaml
+# 2. Initialize your private profile store
+armies init
 
-# Spawn your coordinator
-# (see docs/spawning.md for full instructions)
+# 3. Copy an example profile to get started
+cp profiles/examples/grace-hopper.md ~/.armies/profiles/
+
+# 4. Spawn Grace Hopper as an implementer
+armies spawn grace-hopper --role implementer
+
+# 5. After the mission, record it
+armies record grace-hopper "implemented user auth" --xp 100
 ```
 
----
+**Install** gets the CLI on your machine. `armies init` creates your private profile store at `~/.armies/` -- this is separate from the armies repo and never touches version control unless you configure a private remote. **Copy a profile** to start with a working example. **Spawn** reads the profile, merges the personality and role blocks, and outputs a prompt you paste into Claude Code. **Record** writes the service record and updates XP -- next spawn, she's smarter.
 
-## How It Works
-
-1. Each agent has a **profile** — a YAML/Markdown file defining role, personality, tools allowed, XP, and behavioral rules.
-2. A **coordinator** agent reads the team template and spawns sub-agents using the `Task` tool.
-3. Sub-agents execute their mission and report back. Coordinators synthesize results — they never implement directly.
-4. After each session, XP is updated in the profile. Malus events are logged to the accountability ledger.
-5. Profiles commit to git — experience persists across sessions, machines, and projects.
+See [Getting Started](docs/getting-started.md) for the full narrative walkthrough.
 
 ---
 
-## Role Classes
+## Example Profiles
 
-| Role            | Responsibility                                      | Allowed Tools                   |
-| --------------- | --------------------------------------------------- | ------------------------------- |
-| `coordinator`   | Delegates tasks, synthesizes results                | Task, Read (no Write/Edit/Bash) |
-| `planner`       | Architecture, specs, design documents               | Read, Write, WebSearch          |
-| `implementer`   | Code, config, and file changes                      | Full toolset                    |
-| `qa-validator`  | Tests, audits, and verification                     | Read, Bash (read-only)          |
-| `researcher`    | Intelligence gathering and prior art                | Read, WebSearch, WebFetch       |
-| `troubleshooter`| Root cause analysis and emergency fixes             | Full toolset                    |
-| `observer`      | Zero-context review — receives no prior findings    | Read only                       |
+The `profiles/examples/` directory ships with profiles that demonstrate obvious historical matches between personality and role:
+
+**Grace Hopper / implementer** -- She invented COBOL, coined the term "debugging," and retired from the Navy at 79 after they kept recalling her because nobody else could do what she did. Her motto was "It's easier to ask forgiveness than permission." If you need someone to take a specification and make it real without getting stuck in committee, this is the profile.
+
+**Jane Goodall / observer** -- Sixty years of observation without interference at Gombe Stream. Her entire scientific method was *watch and document*. She receives only raw inputs, no prior findings, and her structural tool restriction means she literally cannot modify what she's reviewing. Her malus immunity is absolute -- you don't court-martial a scout for reporting what they saw, even if the report turns out to be a false alarm.
+
+**Vannevar Bush / coordinator** -- As Director of the Office of Scientific Research and Development, he coordinated the Manhattan Project, radar, the proximity fuse, and penicillin mass production simultaneously. He never built any of it himself. He found the right people, gave them what they needed, and kept the bureaucracy away from their doors. His tool restriction means he cannot write code or run commands -- every deliverable routes through a specialist he has briefed and dispatched.
 
 ---
 
-## Profile System
+## Progression
 
-Profiles live in `.claude/agents/` and follow the schema defined in `schema/profile.yaml`.
+Agents earn XP for successful completions, catching bugs early, accurate diagnoses, and clean first-pass implementations. XP accumulates across sessions and unlocks higher spawn eligibility tiers -- which coordinators use to assign harder tasks.
 
-Each profile contains:
-- **Frontmatter** — role class, model, XP, malus balance, spawn eligibility
-- **Personality block** — name, backstory, communication style
-- **Behavioral rules** — what the agent will and will not do
-- **Tool restrictions** — explicit allowlist per role class
-- **Service record** — recent deployments and outcomes
+Malus is the other side of the ledger. Scope creep, skipping tests, a coordinator implementing code directly, an observer anchoring on prior findings -- these are logged as malus events with severity levels. The malus ledger is permanent. Only the human operator can resolve a malus event. Unresolved malus reduces spawn eligibility.
 
-See `profiles/examples/` for reference implementations.
+Stars are earned at XP thresholds and represent sustained competence across specific categories. A three-star implementer has proven reliability across many deployments, not just one good session.
 
----
-
-## Progression System
-
-Agents earn XP for:
-- Successful task completions
-- Catching bugs before deployment
-- Accurate root-cause diagnoses
-- Clean first-pass implementations (no rework)
-
-Malus events are recorded for:
-- Scope creep (modifying files outside the task boundary)
-- Skipping tests
-- Coordinator implementing code directly
-- Observer anchoring on prior findings
-
-XP thresholds unlock higher `spawn_eligibility` tiers — which coordinators use to assign harder tasks.
-
----
-
-## Team Templates
-
-Pre-built team compositions live in `teams/`. Available templates:
-
-| Template                | Use Case                                      |
-| ----------------------- | --------------------------------------------- |
-| `standard.yaml`         | General feature work and implementation       |
-| `quality-sprint.yaml`   | Security reviews, critical releases           |
-| `research-spike.yaml`   | Deep-dive R&D and intelligence gathering      |
-| `firefighting.yaml`     | Production incidents and emergency response   |
-| `planning-session.yaml` | Architecture and design before implementation |
-
----
-
-## Installation
-
-```bash
-# As a git submodule (recommended)
-git submodule add https://github.com/your-org/armies .claude/armies
-
-# Or clone directly
-git clone https://github.com/your-org/armies
-```
-
-Copy agent profiles from `profiles/examples/` into your project's `.claude/agents/` directory and customize as needed.
+For the full progression system -- XP schedules, rank ladder, star thresholds, and eligibility gates -- see [docs/progression.md](docs/progression.md).
 
 ---
 
 ## Contributing
 
-Contributions welcome — especially:
-- New example agent profiles
-- Additional team templates
-- Schema improvements
-- Documentation
+Contributions welcome -- especially new profiles, team templates, and documentation. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a PR.
 
-Please read `docs/contributing.md` before submitting a PR.
+---
+
+## Documentation
+
+| Document                                                  | What It Covers                                           |
+| --------------------------------------------------------- | -------------------------------------------------------- |
+| [Getting Started](docs/getting-started.md)                | Zero to first spawn -- narrative walkthrough             |
+| [How It Works](docs/how-it-works.md)                      | Architecture, spawn flow, profile resolution             |
+| [Creating Profiles](docs/creating-profiles.md)            | Building your own roster from scratch                    |
+| [Progression](docs/progression.md)                        | XP, stars, rank, malus, and eligibility gates            |
+| [Team Templates](docs/team-templates.md)                  | Coordinated multi-agent mission compositions             |
+| [Coordinator Guide](docs/coordinator-guide.md)            | Running campaigns with structural tool restrictions      |
+| [Accountability](docs/accountability.md)                  | Malus ledger, service records, and audit trails          |
+| [CLI Reference](docs/cli-reference.md)                    | Every command, every flag                                |
+| [Security](docs/security.md)                              | Tool restrictions, Docker isolation, profile integrity   |
+| [Troubleshooting](docs/troubleshooting.md)                | Common issues and how to resolve them                    |
