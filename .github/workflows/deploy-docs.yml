@@ -35,11 +35,16 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{\"clientId\":\"$INFISICAL_CLIENT_ID\",\"clientSecret\":\"$INFISICAL_CLIENT_SECRET\"}" \
             | jq -r '.accessToken')
-          ARMIES_KUBECONFIG=$(curl -s \
+          VALUE=$(curl -s \
             "https://infisical.petersimmons.com/api/v3/secrets/raw/ARMIES_KUBECONFIG?workspaceSlug=homelab-jz5w&environment=prod&secretPath=/" \
             -H "Authorization: Bearer $TOKEN" \
             | jq -r '.secret.secretValue')
-          echo "ARMIES_KUBECONFIG=$ARMIES_KUBECONFIG" >> $GITHUB_ENV
+          # Use GitHub Actions multiline env syntax for base64 values
+          {
+            echo "ARMIES_KUBECONFIG<<EOF"
+            echo "$VALUE"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
         env:
           INFISICAL_CLIENT_ID: ${{ secrets.INFISICAL_CLIENT_ID }}
           INFISICAL_CLIENT_SECRET: ${{ secrets.INFISICAL_CLIENT_SECRET }}
