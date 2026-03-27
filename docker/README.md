@@ -147,8 +147,8 @@ If armies can't write to `~/.armies/`, the directory may not exist yet:
 mkdir -p ~/.armies
 ```
 
-The container runs as the `armies` user (non-root). The volume mount maps
-`~/.armies` on your host to `/home/armies/.armies` inside the container.
+The container runs as `nonroot` (UID 65532, non-root). The volume mount maps
+`~/.armies` on your host to `/home/nonroot/.armies` inside the container.
 
 ### Building fails with "No module named armies"
 
@@ -171,3 +171,11 @@ Do not run `docker build` directly from the repo root without specifying
 The `docker-compose.yaml` sets the build context to the parent directory (`..`)
 so the full armies source tree is available to `pip install -e .` during the
 build. The `Dockerfile` lives in `docker/` but operates on the entire repo.
+
+---
+
+## Security
+
+The Docker image uses [Chainguard Python](https://edu.chainguard.dev/chainguard/chainguard-images/) as the base image — a minimal, distroless-style image with 0-2 CVEs (vs. 40+ for standard Python images). It runs as non-root user UID 65532 by default.
+
+See [docs/security.md](../docs/security.md) for the full security posture.

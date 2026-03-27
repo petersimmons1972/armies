@@ -1,31 +1,25 @@
-FROM python:3.11-slim
+FROM cgr.dev/chainguard/python:3.11
 
-# Install system dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        git \
-        openssh-client \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create non-root user
-RUN useradd --create-home --shell /bin/bash armies
+# Install git and openssh-client for sync functionality
+# Chainguard Python is Alpine-based; use apk
+USER root
+RUN apk add --no-cache git openssh-client
+USER nonroot
 
 # Set working directory
 WORKDIR /workspace
 
-# Copy project files for installation
-COPY --chown=armies:armies . /armies-src
+# Copy project files
+# Chainguard runs as UID 65532 (nonroot) by default — use that user/group
+COPY --chown=nonroot:nonroot . .
 
-# Install the armies package in editable mode
-RUN pip install --no-cache-dir -e /armies-src
-
-# Switch to non-root user
-USER armies
+# Install armies package
+RUN pip install -e . --no-cache-dir
 
 # Profile data lives in a volume mount — never inside the image
-VOLUME ["/home/armies/.armies"]
+VOLUME ["/home/nonroot/.armies"]
 
-ENV HOME=/home/armies
+ENV HOME=/home/nonroot
 
 ENTRYPOINT ["armies"]
 CMD ["--help"]
