@@ -29,26 +29,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fetch secrets from Infisical
-        run: |
-          TOKEN=$(curl -s -X POST https://infisical.petersimmons.com/api/v1/auth/universal-auth/login \
-            -H "Content-Type: application/json" \
-            -d "{\"clientId\":\"$INFISICAL_CLIENT_ID\",\"clientSecret\":\"$INFISICAL_CLIENT_SECRET\"}" \
-            | jq -r '.accessToken')
-          VALUE=$(curl -s \
-            "https://infisical.petersimmons.com/api/v3/secrets/raw/ARMIES_KUBECONFIG?workspaceSlug=homelab-jz5w&environment=prod&secretPath=/" \
-            -H "Authorization: Bearer $TOKEN" \
-            | jq -r '.secret.secretValue')
-          # Use GitHub Actions multiline env syntax for base64 values
-          {
-            echo "ARMIES_KUBECONFIG<<EOF"
-            echo "$VALUE"
-            echo "EOF"
-          } >> "$GITHUB_ENV"
-        env:
-          INFISICAL_CLIENT_ID: ${{ secrets.INFISICAL_CLIENT_ID }}
-          INFISICAL_CLIENT_SECRET: ${{ secrets.INFISICAL_CLIENT_SECRET }}
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -72,9 +52,11 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy to K8s
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
         run: |
           mkdir -p ~/.kube
-          echo "$ARMIES_KUBECONFIG" | base64 -d > ~/.kube/config
+          echo "$KUBECONFIG_DATA" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
           kubectl set image deployment/armies-docs \
             nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
