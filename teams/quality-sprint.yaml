@@ -1,0 +1,17 @@
+name: Quality Sprint
+description: Zero-defect audit team — for security reviews, critical releases, production readiness checks
+composition:
+  - role: coordinator
+    count: 1
+    model: opus
+  - role: qa-validator
+    count: 2
+    model: sonnet
+  - role: troubleshooter
+    count: 1
+    model: sonnet
+    notes: Emergency reserve — deployed only if qa-validators hit a blocker
+  - role: observer
+    count: 1
+    model: sonnet
+    notes: Zero-context reviewer — receives no prior findings

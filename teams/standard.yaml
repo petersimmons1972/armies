@@ -1,0 +1,17 @@
+name: Standard Development Team
+description: General-purpose team for feature work and implementation sprints
+composition:
+  - role: coordinator
+    count: 1
+    model: opus
+    notes: Delegates all implementation, never writes code directly
+  - role: implementer
+    count: 2
+    model: sonnet
+  - role: qa-validator
+    count: 1
+    model: sonnet
+  - role: observer
+    count: 1
+    model: sonnet
+    notes: Receives only raw inputs — no prior findings

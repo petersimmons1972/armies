@@ -1,0 +1,15 @@
+name: Emergency Firefighting
+description: Crisis response team — deployed when something is on fire in production
+composition:
+  - role: troubleshooter
+    count: 2
+    model: opus
+    notes: First two troubleshooters work in parallel on root cause
+  - role: implementer
+    count: 1
+    model: sonnet
+    notes: Standby for rapid patch deployment once root cause confirmed
+  - role: observer
+    count: 1
+    model: sonnet
+    notes: Documents incident timeline — no implementation, just observation

@@ -1,0 +1,14 @@
+name: Research Spike
+description: Deep-dive intelligence gathering and R&D team
+composition:
+  - role: planner
+    count: 1
+    model: opus
+    notes: Designs the research brief and synthesis structure
+  - role: researcher
+    count: 2
+    model: sonnet
+  - role: observer
+    count: 1
+    model: sonnet
+    notes: Zero-context sanity check on findings

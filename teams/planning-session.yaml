@@ -1,0 +1,14 @@
+name: Planning Session
+description: Architecture and design team — produces specs before any implementation begins
+composition:
+  - role: planner
+    count: 2
+    model: opus
+    notes: Two planners produce competing designs — coordinator picks the better one
+  - role: coordinator
+    count: 1
+    model: opus
+  - role: researcher
+    count: 1
+    model: sonnet
+    notes: Provides prior art and technical context to inform planners
