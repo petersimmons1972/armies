@@ -32,39 +32,40 @@
   <!-- Workbench surface glow -->
   <ellipse cx="375" cy="210" rx="300" ry="130" fill="url(#cp-light)"/>
 
-  <!-- Main document/profile sheet — center -->
-  <rect x="240" y="68" width="270" height="290" fill="url(#cp-paper)" rx="3" stroke="#8b7820" stroke-width="1.5"/>
+  <!-- Main document/profile sheet — center, wider to prevent clipping -->
+  <rect x="230" y="68" width="300" height="300" fill="url(#cp-paper)" rx="3" stroke="#8b7820" stroke-width="1.5"/>
   <!-- Document ruled lines -->
   <g stroke="#8b7820" stroke-width="0.8" opacity="0.5">
-    <line x1="258" y1="100" x2="492" y2="100"/>
-    <line x1="258" y1="118" x2="492" y2="118"/>
-    <line x1="258" y1="136" x2="492" y2="136"/>
-    <line x1="258" y1="154" x2="492" y2="154"/>
-    <line x1="258" y1="172" x2="492" y2="172"/>
-    <line x1="258" y1="190" x2="492" y2="190"/>
-    <line x1="258" y1="208" x2="492" y2="208"/>
-    <line x1="258" y1="226" x2="492" y2="226"/>
-    <line x1="258" y1="244" x2="492" y2="244"/>
-    <line x1="258" y1="262" x2="492" y2="262"/>
-    <line x1="258" y1="280" x2="492" y2="280"/>
-    <line x1="258" y1="298" x2="492" y2="298"/>
-    <line x1="258" y1="316" x2="492" y2="316"/>
+    <line x1="248" y1="100" x2="512" y2="100"/>
+    <line x1="248" y1="118" x2="512" y2="118"/>
+    <line x1="248" y1="136" x2="512" y2="136"/>
+    <line x1="248" y1="154" x2="512" y2="154"/>
+    <line x1="248" y1="172" x2="512" y2="172"/>
+    <line x1="248" y1="190" x2="512" y2="190"/>
+    <line x1="248" y1="208" x2="512" y2="208"/>
+    <line x1="248" y1="226" x2="512" y2="226"/>
+    <line x1="248" y1="244" x2="512" y2="244"/>
+    <line x1="248" y1="262" x2="512" y2="262"/>
+    <line x1="248" y1="280" x2="512" y2="280"/>
+    <line x1="248" y1="298" x2="512" y2="298"/>
+    <line x1="248" y1="316" x2="512" y2="316"/>
+    <line x1="248" y1="358" x2="512" y2="358"/>
   </g>
   <!-- Document header area -->
-  <rect x="240" y="68" width="270" height="24" fill="#5a4800" rx="3"/>
-  <text x="375" y="84" font-family="monospace" font-size="10" fill="#d8c880" text-anchor="middle" letter-spacing="2">--- PROFILE FRONTMATTER ---</text>
+  <rect x="230" y="68" width="300" height="24" fill="#5a4800" rx="3"/>
+  <text x="380" y="84" font-family="monospace" font-size="10" fill="#d8c880" text-anchor="middle" letter-spacing="2">--- PROFILE FRONTMATTER ---</text>
   <!-- YAML-like entries (decorative) -->
   <g font-family="monospace" font-size="9" fill="#3a2800" opacity="0.8">
-    <text x="258" y="99">name: grace-hopper</text>
-    <text x="258" y="117">display_name: "Admiral Grace Hopper"</text>
-    <text x="258" y="135">roles:</text>
-    <text x="266" y="153">  primary: implementer</text>
-    <text x="258" y="171">xp: 0</text>
-    <text x="258" y="189">rank: "Private"</text>
+    <text x="248" y="99">name: grace-hopper</text>
+    <text x="248" y="117">display_name: "Admiral Grace Hopper"</text>
+    <text x="248" y="135">roles:</text>
+    <text x="256" y="153">  primary: implementer</text>
+    <text x="248" y="171">xp: 0</text>
+    <text x="248" y="189">rank: "Private"</text>
   </g>
   <!-- Section divider on document -->
-  <line x1="250" y1="200" x2="500" y2="200" stroke="#5a4800" stroke-width="1.5" opacity="0.8"/>
-  <text x="375" y="215" font-family="monospace" font-size="8" fill="#5a4800" text-anchor="middle" opacity="0.8">## Base Persona</text>
+  <line x1="240" y1="200" x2="520" y2="200" stroke="#5a4800" stroke-width="1.5" opacity="0.8"/>
+  <text x="380" y="215" font-family="monospace" font-size="8" fill="#5a4800" text-anchor="middle" opacity="0.8">## Base Persona</text>
   <!-- More lines below section break -->
   <g stroke="#8b7820" stroke-width="0.8" opacity="0.4">
     <line x1="258" y1="225" x2="490" y2="225"/>
