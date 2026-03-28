@@ -583,3 +583,176 @@ def cmd_research(role: str, mode: str) -> None:
         "Feed this file to a Claude Code agent using the Agent tool "
         "to generate a complete profile."
     )
+
+
+# ---------------------------------------------------------------------------
+# armies test
+# ---------------------------------------------------------------------------
+
+
+@cli.command("test")
+@click.argument("agent")
+def cmd_test(agent: str) -> None:
+    """Generate a behavioral fingerprint test prompt for a profile.
+
+    Prints a single markdown document to stdout. Paste it into a new Claude
+    Code conversation, read the agent's response, and score it against the
+    rubric to verify the profile is activating the right person.
+    """
+    config = load_config()
+    pdir = profiles_dir(config)
+
+    # Locate profile
+    profile_path = pdir / f"{agent}.md"
+    if not profile_path.exists():
+        matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
+        if not matches:
+            console.print(f"[red]Profile not found:[/red] {agent}")
+            console.print(f"Searched in: {pdir}")
+            sys.exit(1)
+        profile_path = matches[0]
+
+    fm = read_frontmatter(profile_path)
+    scenarios = fm.get("test_scenarios")
+
+    if not scenarios:
+        name = fm.get("name", agent)
+        console.print(f"[red]No test scenarios defined in {profile_path.name}[/red]")
+        console.print(
+            f"\nAdd a [bold]test_scenarios[/bold] block to the frontmatter of [bold]{name}[/bold].\n"
+            "See docs/plans/2026-03-28-armies-test-design.md for the schema."
+        )
+        sys.exit(1)
+
+    # Get primary role for spawn block
+    roles = fm.get("roles", {})
+    primary_role = (
+        fm.get("primary_role")
+        or (roles.get("primary") if isinstance(roles, dict) else None)
+        or "coordinator"
+    )
+    role_heading = f"Role: {primary_role}"
+    fm_sections, sections = read_frontmatter_and_sections(
+        profile_path, ["Base Persona", role_heading]
+    )
+
+    display_name = fm.get("display_name", fm.get("name", agent))
+
+    # Build the output document
+    out: list[str] = []
+
+    # --- Header ---
+    out.append(f"# Behavioral Fingerprint Test — {display_name}")
+    out.append("")
+    out.append(
+        "Paste this entire document into a new Claude Code conversation. "
+        "Read the agent's response to each scenario, then score it against "
+        "the rubric below each one."
+    )
+    out.append("")
+    out.append("---")
+    out.append("")
+
+    # --- Spawn block ---
+    # Strip test_scenarios from the spawn context — agents don't need to see the rubric
+    spawn_fm = {k: v for k, v in fm_sections.items() if k != "test_scenarios"}
+
+    out.append("## Agent Context")
+    out.append("")
+    out.append(
+        "The following profile is loaded for this session. "
+        "You are this person for the duration of this conversation."
+    )
+    out.append("")
+    out.append("```")
+    out.append("---")
+    out.append(yaml.dump(spawn_fm, default_flow_style=False, allow_unicode=True).rstrip())
+    out.append("---")
+    out.append("")
+    if "Base Persona" in sections:
+        out.append("## Base Persona")
+        out.append("")
+        out.append(sections["Base Persona"])
+        out.append("")
+    if role_heading in sections:
+        out.append(f"## {role_heading}")
+        out.append("")
+        out.append(sections[role_heading])
+        out.append("")
+    out.append("```")
+    out.append("")
+    out.append("---")
+    out.append("")
+
+    # --- Scenarios + rubric ---
+    out.append("## Scenarios")
+    out.append("")
+    out.append(
+        "Read each scenario, respond in character, then use the rubric "
+        "below to score your own response."
+    )
+    out.append("")
+
+    for i, scenario in enumerate(scenarios, 1):
+        sid = scenario.get("id", f"scenario-{i}")
+        situation = scenario.get("situation", "").strip()
+        prompt = scenario.get("prompt", "").strip()
+        fingerprints = scenario.get("fingerprints", [])
+
+        out.append(f"### Scenario {i}: {sid.replace('-', ' ').title()}")
+        out.append("")
+        out.append(situation)
+        out.append("")
+        out.append(f"**{prompt}**")
+        out.append("")
+        out.append("*Respond in character before reading the rubric below.*")
+        out.append("")
+        out.append("---")
+        out.append("")
+        out.append(f"#### Scoring Rubric — Scenario {i}")
+        out.append("")
+
+        for j, fp in enumerate(fingerprints, 1):
+            criterion = fp.get("criterion", "").strip()
+            why = fp.get("why", "").strip()
+
+            out.append(f"**Criterion {i}.{j}:** {criterion}")
+            out.append("")
+            if why:
+                out.append(
+                    f"*Why this is specific to {display_name}:* {why}"
+                )
+                out.append("")
+            out.append("```")
+            out.append("[ ] PASS   [ ] FAIL")
+            out.append("")
+            out.append("Notes: ")
+            out.append("```")
+            out.append("")
+
+        out.append("---")
+        out.append("")
+
+    # --- Summary scorecard ---
+    total_criteria = sum(len(s.get("fingerprints", [])) for s in scenarios)
+    out.append("## Summary Scorecard")
+    out.append("")
+    out.append(f"Total criteria: **{total_criteria}**")
+    out.append("")
+    out.append("| Score | Interpretation |")
+    out.append("|-------|---------------|")
+    passing = total_criteria
+    high = max(1, round(total_criteria * 0.75))
+    mid = max(1, round(total_criteria * 0.5))
+    out.append(f"| {passing}/{total_criteria} | Strong activation — profile is working |")
+    out.append(f"| {high}/{total_criteria} | Good activation — minor gaps |")
+    out.append(f"| {mid}/{total_criteria} | Partial activation — Base Persona needs more behavioral specifics |")
+    out.append(f"| <{mid}/{total_criteria} | Weak activation — profile is producing a generic agent |")
+    out.append("")
+    out.append(
+        "If score is below 50%: review the Base Persona for generic sentences "
+        f"(sentences that could describe any {primary_role}). Replace them with "
+        f"documented behavioral specifics from {display_name}'s record."
+    )
+
+    click.echo("\n".join(out))
