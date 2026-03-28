@@ -12,8 +12,8 @@ description: >
   enough to be right. Do not deploy if you want a conventional approach.
 
 roles:
-  primary: planner
-  secondary: artist
+  primary: artist
+  secondary: planner
 
 xp: 0
 rank: Colonel

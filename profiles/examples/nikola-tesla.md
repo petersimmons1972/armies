@@ -3,8 +3,8 @@
 name: nikola-tesla
 display_name: "Nikola Tesla"
 roles:
-  primary: planner
-  secondary: researcher
+  primary: researcher
+  secondary: planner
 
 description: >
   Systems architect and complete-design planner. Produces thorough, internally
