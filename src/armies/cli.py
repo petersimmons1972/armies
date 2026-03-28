@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.resources
 import subprocess
 import sys
 from datetime import date
@@ -375,6 +376,40 @@ def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
     console.print(f"[green]✓[/green] Service record written: {record_path.name}")
     console.print(f"[green]✓[/green] XP updated: {current_xp} → {new_xp}")
     console.print(f"[dim]Commit the profile to make it permanent:[/dim] git -C ~/.armies commit -am 'record({agent}): {note}'")
+
+
+# ---------------------------------------------------------------------------
+# armies seed
+# ---------------------------------------------------------------------------
+
+
+@cli.command("seed")
+@click.option("--force", is_flag=True, default=False, help="Overwrite existing profiles.")
+def cmd_seed(force: bool) -> None:
+    """Install the bundled general profiles into ~/.armies/profiles/."""
+    config = load_config()
+    pdir = profiles_dir(config)
+    pdir.mkdir(parents=True, exist_ok=True)
+
+    pkg = importlib.resources.files("armies") / "examples" / "generals"
+    installed = 0
+    skipped = 0
+
+    for resource in pkg.iterdir():
+        if not resource.name.endswith(".md"):
+            continue
+        dest = pdir / resource.name
+        if dest.exists() and not force:
+            console.print(f"[dim]skip[/dim]  {resource.name} (already exists — use --force to overwrite)")
+            skipped += 1
+            continue
+        dest.write_text(resource.read_text(encoding="utf-8"), encoding="utf-8")
+        console.print(f"[green]✓[/green]     {resource.name}")
+        installed += 1
+
+    console.print(f"\n{installed} installed, {skipped} skipped.")
+    if installed:
+        console.print("Run [bold]armies roster[/bold] to see them.")
 
 
 # ---------------------------------------------------------------------------
