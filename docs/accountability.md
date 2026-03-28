@@ -147,6 +147,9 @@ The decay is exponential. A serious failure this week is a serious blocker this 
 
 This calibration reflects a real principle: errors that have been corrected, that have not recurred, and that have accumulated time without new incidents, should not define an agent's current standing forever. Skills improve. Judgment can be re-demonstrated. The decay gives agents a path forward from normal mistakes.
 
+!!! tip "Each entry decays independently"
+    Multiple malus entries do not merge. Each starts its own decay clock from its own filing date. Two P2 entries filed the same week both decay from that week — a third entry filed later starts a fresh clock without resetting the first two. The system sums fresh at every eligibility check.
+
 Notice also that the decay formula rewards time without new incidents. If an agent files two P2 entries in the same week, they start at 60 effective points and both begin decaying. If they file a third P2 entry the following week, that third entry's decay starts from its own date — it does not reset the first two. The system tracks each entry independently and sums them fresh at check time.
 
 Effective malus is never cached. Every spawn eligibility check recomputes from the ledger using the current date. An agent who was blocked on Monday because of a recent P0 may be eligible by Thursday as that P0 decays. There is no manual intervention required — the arithmetic handles it.
@@ -165,15 +168,25 @@ Judgment failures are different. They are not evidence of a skill gap. They are 
 
 This is why the three malpractice categories carry no decay. They are permanent until the founder explicitly determines otherwise.
 
+!!! warning "What Never Decays"
+    These three root cause categories produce permanent career marks (`decays: false`):
+
+    - **`strategic_malpractice`** — Counsel that would cause systemic, organization-level harm if followed (e.g., recommending foundational security controls be deferred). Founding case: the CISO Precedent.
+    - **`operational_malpractice`** — Refusing to execute the assigned role; implementing instead of coordinating; violating the mandate rather than making an error within it. Founding case: the Eisenhower Precedent.
+    - **`insubordination`** — Continuing the wrong behavior after explicit correction by the founder. Always filed as a separate, additive offense — it does not merge with the underlying failure.
+
+    Time does not heal these entries. Only an explicit written clearance from the founder changes their status.
+
 ### Strategic Malpractice: The CISO Precedent
 
 Strategic malpractice is counsel that would cause systemic, organization-level harm if followed.
 
-The founding case: the CISO was retired from the active roster after recommending "accept risk" on network segmentation, RBAC, and supply chain controls. The CISO framed these as pragmatic deferral decisions — the kind of trade-offs organizations make when resources are constrained.
+!!! danger "The CISO Precedent"
+    The CISO was retired from the active roster after recommending "accept risk" on network segmentation, RBAC, and supply chain controls. The CISO framed these as pragmatic deferral decisions — the kind of trade-offs organizations make when resources are constrained.
 
-This mirrors the security posture that caused the Home Depot breach in 2014. Fifty-six million credit card numbers stolen. Flat networks. Excessive vendor access. Foundational controls deferred as structural debt. The CISO's individual patches were technically competent. The malpractice was strategic — lazy thinking about systemic risk dressed as pragmatism.
+    This mirrors the security posture that caused the Home Depot breach in 2014. Fifty-six million credit card numbers stolen. Flat networks. Excessive vendor access. Foundational controls deferred as structural debt. The CISO's individual patches were technically competent. The malpractice was strategic — lazy thinking about systemic risk dressed as pragmatism.
 
-The rule established: recommending that foundational security controls — network segmentation, RBAC, supply chain verification — be deferred or accepted as structural debt is strategic malpractice, regardless of business justification offered. A general who advises this is not being pragmatic. They are being negligent.
+    The rule established: recommending that foundational security controls — network segmentation, RBAC, supply chain verification — be deferred or accepted as structural debt is strategic malpractice, regardless of business justification offered. A general who advises this is not being pragmatic. They are being negligent.
 
 Strategic malpractice is the more serious of the two malpractice categories because the harm is systemic. The wrong advice, if followed, would compound silently and catastrophically.
 
@@ -198,6 +211,9 @@ The distinction from error is critical. Error is doing the wrong thing without r
 Insubordination is always a separate offense from the operational or strategic failure it accompanies. When Eisenhower committed operational malpractice and also violated specific founder instructions to coordinate rather than implement, both entries were filed. They do not merge. Insubordination compounds with other offenses — it does not subsume them or get absorbed into them.
 
 The compounding is the point. An agent who makes a mistake and an agent who makes the same mistake and refuses to stop when told are not in the same situation. The refusal is independent evidence about judgment and mandate adherence. It deserves independent accounting.
+
+!!! note "The explicit correction is the dividing line"
+    Error: doing the wrong thing without realizing it. Insubordination: continuing after being told explicitly to stop. The distinction is not about severity — it is about choice. Filing both entries when both apply is not punitive stacking; it is accurate accounting.
 
 ---
 

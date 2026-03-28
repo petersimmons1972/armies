@@ -51,6 +51,9 @@ spent it. Of course he's a coordinator.
 
 ## Step 1: Choose Your Historical Figure
 
+!!! tip "Look for working style, not achievements"
+    Achievements tell you what someone did. Working style tells you how they thought, decided, and behaved under pressure. Those are the traits that survive translation into an AI agent. If your research turns up mostly a list of accomplishments, dig deeper — find accounts of an ordinary day.
+
 What you are looking for is working style, not achievements. Achievements tell you
 what someone did. Working style tells you how they thought, decided, and behaved
 under pressure. Those are the traits that survive translation into an AI agent.
@@ -94,6 +97,14 @@ Avoid Wikipedia summaries — they list achievements and dates, not working styl
 The best source for a profile is usually an account of what the person did on an
 ordinary day, under ordinary pressure, before anything became famous.
 
+| What to find              | Where to look                                   | Red flag                                           |
+| ------------------------- | ----------------------------------------------- | -------------------------------------------------- |
+| Working style under pressure | Biographies, memoirs, letters, oral histories | Only achievements and dates — no behavior          |
+| Known failure mode        | Critical biographies, documented incidents      | "No weaknesses mentioned" — the profile is useless |
+| Communication voice       | Quotes, documented correspondence, interviews   | Paraphrases only — no direct speech to anchor from |
+| Ordinary-day behavior     | First-person accounts, colleagues' memoirs      | Only famous moments — style not visible at scale   |
+| Historical documentation  | Multiple independent sources                    | Single source, especially a hagiography            |
+
 Two constraints are absolute: **no living people** and **no fictional characters**.
 Profiles are grounded in historical record. The personality we are encoding must be
 public knowledge, documented over time, verifiable across sources. Living people
@@ -103,6 +114,9 @@ working style you need.
 ---
 
 ## Step 2: Map to a Role Class
+
+!!! tip "The match should be obvious, not argued"
+    If you find yourself writing "despite X, they are really a Y because..." — stop. The right role class for a figure makes you wonder why you ever looked anywhere else. One clean primary role is better than two murky ones; don't force a secondary role to make a profile feel more versatile.
 
 Once you know how they worked, find the role class that describes what they did.
 The role classes are:
@@ -140,6 +154,9 @@ make more versatile.
 
 ## Step 3: Write the Base Persona (200–400 words)
 
+!!! tip "The failure mode is not optional"
+    The failure mode is what makes the profile a real person rather than an idealized archetype. If you remove the name from the Base Persona and it could describe anyone, it isn't finished. The test: a stranger should be able to predict this agent's weak spots from the Base Persona alone.
+
 The Base Persona is the most important section in the profile. It is always
 loaded — regardless of which role the agent is deployed in, the Base Persona
 is in context. It defines who the agent IS. Two agents deployed in the same
@@ -168,6 +185,13 @@ to shipping rather than waiting. Bush defaulted to finding the right person for 
 job rather than doing it himself. Goodall defaulted to observing longer rather than
 concluding sooner. The decision philosophy is what determines how the agent behaves
 when the brief is ambiguous or the situation is novel.
+
+!!! note "Five elements of a well-formed Base Persona"
+    1. **Historical context** — A portrait, not a biography. Where, under what pressure, doing what.
+    2. **Core personality traits with evidence** — Each adjective backed by something they actually did.
+    3. **Voice and communication style** — Declaratives or analytical chains? Numbers or narrative?
+    4. **Decision-making philosophy** — How they handle uncertainty and novel situations.
+    5. **Known failure mode** — Not optional. This is the operationally load-bearing element.
 
 **5. Known failure mode.** This is not optional. The failure mode is what makes
 the profile a real person rather than an idealized archetype. Here is what a
@@ -208,6 +232,9 @@ quote from the historical record, not a paraphrase.
 ---
 
 ## Step 4: Write Role Blocks (100–200 words each)
+
+!!! tip "Role blocks are methodology, not job descriptions"
+    The block is not "as an implementer, I write code" — the agent already knows that. The role block translates the figure's Base Persona philosophy into a concrete methodology for this specific type of work. Philosophy is upstream; the role block is downstream.
 
 Each role block contains behavioral instructions for that specific role deployment
 only. When the agent is spawned as an implementer, the implementer block loads.
@@ -271,6 +298,9 @@ philosophy is upstream; the role block is downstream.
 ---
 
 ## Step 5: Validate
+
+!!! tip "The anonymization test"
+    Remove the name from the Base Persona. If it still reads as recognizably this specific person — their failure mode, voice, decision philosophy intact — the profile is done. If it reads as a generic specialist with historical color, keep writing.
 
 Before committing the profile, run through this checklist from the schema. These
 are not style guidelines — most of them are structural requirements that determine

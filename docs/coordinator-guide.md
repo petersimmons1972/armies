@@ -16,11 +16,12 @@ This matters because instructions can be argued with, habits can be rationalized
 
 ### Why: The Eisenhower Precedent
 
-Eisenhower was assigned to coordinate the production of 60+ Clearwatch report sections. He had the experience. He had the context. He understood the task. He did what any competent person might be tempted to do when they understand a problem clearly and have capable hands: he did it himself.
+!!! danger "The Eisenhower Precedent"
+    Eisenhower was assigned to coordinate the production of 60+ Clearwatch report sections. He had the experience. He had the context. He understood the task. He did what any competent person might be tempted to do when they understand a problem clearly and have capable hands: he did it himself.
 
-The result: 13 errors introduced before the work was caught and corrected by the founder. Not because Eisenhower was careless, but because the coordinator role exists for reasons that go beyond individual competence. Coordination produces a different kind of quality than individual execution — and when a coordinator implements instead of coordinating, you get neither. You get one person's implementation pretending to be a coordinated team's output, and you get a coordinator who is no longer watching the systems that need watching.
+    The result: 13 errors introduced before the work was caught and corrected by the founder. Not because Eisenhower was careless, but because the coordinator role exists for reasons that go beyond individual competence. Coordination produces a different kind of quality than individual execution — and when a coordinator implements instead of coordinating, you get neither. You get one person's implementation pretending to be a coordinated team's output, and you get a coordinator who is no longer watching the systems that need watching.
 
-This is now called the Eisenhower Precedent, and it is why coordinator tool restriction exists. The rule is not punitive. It is preventive. Even excellent coordinators are not immune to the drift toward implementation when the implementation is visible and the coordination feels abstract.
+    This is now called the Eisenhower Precedent, and it is why coordinator tool restriction exists. The rule is not punitive. It is preventive. Even excellent coordinators are not immune to the drift toward implementation when the implementation is visible and the coordination feels abstract.
 
 ### The Model: Vannevar Bush
 
@@ -56,6 +57,14 @@ A brief is complete when a specialist can execute it without asking clarifying q
 
 Every brief has five components.
 
+| Component           | Purpose                                                          | If missing                                                        |
+| ------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Context**         | Why does this mission exist? What decision will the output inform? | Specialist optimizes locally; makes wrong calls at edge cases     |
+| **Objective**       | One clear sentence: what is the deliverable?                     | Specialist interprets scope arbitrarily; delivers the wrong thing |
+| **Constraints**     | What should the specialist NOT do, even if it seems helpful?     | Specialist over-scopes; audit fixes things that should be observed |
+| **Success Criteria**| How will the coordinator verify the work is complete and correct? | "The agent says done" becomes the verification; defects ship      |
+| **Handoff Requirements** | Format, location, and notification for the output          | Excellent work lands somewhere the coordinator cannot find it     |
+
 ### Context
 
 Why does this mission exist? What problem are we solving, and what decision will this output inform?
@@ -65,6 +74,9 @@ This is the component most often abbreviated or skipped, and skipping it produce
 Edge cases are where specifications fail. They are exactly the moments where context would have made the difference, and exactly the moments where a context-free brief produces the wrong answer. A specialist told to "audit the authentication flow" without knowing why the audit was requested might file a comprehensive vulnerability report. A specialist who knows the audit was prompted by a potential production incident will triage differently, communicate differently, and escalate differently.
 
 Context is not extra information. It is the information that makes all the other information useful.
+
+!!! tip "Context is load-bearing"
+    A specialist told only the objective makes locally optimal decisions. A specialist who understands why the mission exists makes globally optimal decisions — and better judgment calls at the edge cases the brief never anticipated.
 
 ### Objective
 
@@ -84,6 +96,9 @@ Constraints often matter as much as objectives. An audit specialist told to "rev
 
 Constraints protect the integrity of the mission. They also protect the specialist: a constraint like "read-only — do not modify any files" frees the specialist from the decision about whether to fix things they notice. That decision has been made for them. They can observe without obligation.
 
+!!! info "Constraints protect the specialist, not just the mission"
+    A read-only constraint is not a limitation on the specialist's capability — it is a gift. It removes the decision burden about whether to fix things they notice. The specialist can observe and report without obligation to act on every finding.
+
 ### Success Criteria
 
 How will the coordinator know the work is done and correct?
@@ -99,6 +114,9 @@ What does the specialist return, and where does it go?
 Specify the format of the output (YAML, markdown, git commit, GitHub comment), the location (which file path, which branch, which issue number), and any notification requirement (message the coordinator when done, update a specific issue, etc.).
 
 Handoff requirements prevent the common failure where a specialist produces excellent work and leaves it somewhere the coordinator cannot find it. The deliverable that isn't committed didn't happen.
+
+!!! warning "The deliverable that isn't committed didn't happen"
+    Specify format, file path, branch, and notification requirement in every brief. A specialist who produces excellent work and commits it to the wrong branch, or leaves it as a local file, has not delivered. The coordinator is responsible for making the destination unambiguous.
 
 ### Worked Example: QA Validator Brief
 
@@ -141,6 +159,9 @@ An observer's value is independence. They have not seen what other agents found.
 This independence is not a nice-to-have. It is the entire mechanism. An observer who has been told that "the validator found three P1 issues" will evaluate the artifact in light of those three P1 issues. Their attention will cluster around what was already found. They will be less likely to find a P0 issue in a different part of the system, because their brain has already been given a frame.
 
 This is not a failure of discipline or intelligence. It is how cognition works. Anchoring bias is not a character flaw — it is an automatic feature of pattern-matching. The only defense against it is not to provide the anchor in the first place.
+
+!!! danger "Observer independence is the mechanism, not a courtesy"
+    An observer who has been told prior findings will cluster their attention around what was already found. They are less likely to catch a P0 in a different part of the system. A contaminated observation is worse than no observation — it masquerades as independent verification while providing none.
 
 ### Briefing an Observer Correctly
 
