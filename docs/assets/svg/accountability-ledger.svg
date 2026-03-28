@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 400" width="750" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 420" width="750" height="420">
   <title>Accountability — On the Record</title>
   <defs>
     <radialGradient id="al-glow" cx="50%" cy="50%" r="45%">
@@ -13,20 +13,20 @@
   </defs>
 
   <!-- Background -->
-  <rect width="750" height="400" fill="#0d0800"/>
-  <rect width="750" height="400" fill="none" stroke="#c8a050" stroke-width="3"/>
-  <rect x="6" y="6" width="738" height="388" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
+  <rect width="750" height="420" fill="#0d0800"/>
+  <rect width="750" height="420" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="738" height="408" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
 
   <!-- Top band -->
   <rect x="0" y="0" width="750" height="44" fill="#3a1a00"/>
   <text x="375" y="29" font-family="serif" font-size="28" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="7">ON THE RECORD</text>
 
   <!-- Bottom band -->
-  <rect x="0" y="356" width="750" height="44" fill="#3a1a00"/>
-  <text x="375" y="380" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">IF IT'S NOT COMMITTED — IT DIDN'T HAPPEN</text>
+  <rect x="0" y="376" width="750" height="44" fill="#3a1a00"/>
+  <text x="375" y="400" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">IF IT'S NOT COMMITTED — IT DIDN'T HAPPEN</text>
 
   <!-- Desk surface suggestion -->
-  <rect x="0" y="320" width="750" height="40" fill="#1a0a00" opacity="0.6"/>
+  <rect x="0" y="340" width="750" height="40" fill="#1a0a00" opacity="0.6"/>
 
   <!-- Center glow -->
   <ellipse cx="375" cy="195" rx="280" ry="130" fill="url(#al-glow)"/>
@@ -114,8 +114,9 @@
   <line x1="396" y1="94" x2="650" y2="94" stroke="#3a2000" stroke-width="1.5"/>
   <!-- MALUS LEDGER stamp on right page, angled -->
   <g transform="translate(520, 220) rotate(-15)">
-    <rect x="-72" y="-18" width="144" height="36" fill="none" stroke="#8b0000" stroke-width="3" rx="3"/>
-    <text x="0" y="8" font-family="serif" font-size="22" font-weight="bold" fill="#8b0000" text-anchor="middle" letter-spacing="3" opacity="0.7">MALUS LEDGER</text>
+    <rect x="-100" y="-24" width="200" height="48" fill="none" stroke="#8b0000" stroke-width="3" rx="3"/>
+    <rect x="-96" y="-20" width="192" height="40" fill="none" stroke="#8b0000" stroke-width="1" rx="2"/>
+    <text x="0" y="9" font-family="serif" font-size="20" font-weight="bold" fill="#8b0000" text-anchor="middle" letter-spacing="3" opacity="0.7">MALUS LEDGER</text>
   </g>
   <text x="516" y="316" font-family="serif" font-size="10" fill="#3a2000" text-anchor="middle" opacity="0.6">— 48 —</text>
 
