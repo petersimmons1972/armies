@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 440" width="740" height="440">
   <title>Progression — Service Rewarded</title>
   <defs>
     <radialGradient id="pm-glow" cx="50%" cy="45%" r="45%">
@@ -9,23 +9,23 @@
   </defs>
 
   <!-- Background -->
-  <rect width="700" height="400" fill="#0d0800"/>
-  <rect width="700" height="400" fill="none" stroke="#c8a050" stroke-width="3"/>
-  <rect x="6" y="6" width="688" height="388" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
+  <rect width="740" height="440" fill="#0d0800"/>
+  <rect width="740" height="440" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="728" height="428" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
 
   <!-- Top band -->
-  <rect x="0" y="0" width="700" height="44" fill="#3a1a00"/>
-  <text x="350" y="29" font-family="serif" font-size="26" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="7">SERVICE REWARDED</text>
+  <rect x="0" y="0" width="740" height="44" fill="#3a1a00"/>
+  <text x="370" y="29" font-family="serif" font-size="26" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="7">SERVICE REWARDED</text>
 
   <!-- Bottom band -->
-  <rect x="0" y="356" width="700" height="44" fill="#3a1a00"/>
-  <text x="350" y="380" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">XP ACCUMULATES — RANK ADVANCES — LEGEND AWAITS</text>
+  <rect x="0" y="396" width="740" height="44" fill="#3a1a00"/>
+  <text x="370" y="420" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">XP ACCUMULATES — RANK ADVANCES — LEGEND AWAITS</text>
 
   <!-- Center glow -->
-  <ellipse cx="350" cy="200" rx="250" ry="120" fill="url(#pm-glow)"/>
+  <ellipse cx="370" cy="210" rx="270" ry="130" fill="url(#pm-glow)"/>
 
   <!-- Uniform panel background -->
-  <rect x="140" y="60" width="420" height="280" fill="#1a1000" rx="4" stroke="#4a3000" stroke-width="1.5"/>
+  <rect x="130" y="60" width="480" height="320" fill="#1a1000" rx="4" stroke="#4a3000" stroke-width="1.5"/>
 
   <!-- Medal ribbon bar — row 1: 6 ribbons -->
   <g transform="translate(180, 90)">
@@ -94,22 +94,24 @@
     <text x="244" y="50" font-family="serif" font-size="8" fill="#c8a050" text-anchor="middle">✦</text>
 
     <!-- Medal 5: Supreme Allied Commander — largest -->
-    <rect x="298" y="-4" width="58" height="12" fill="#c8a050" rx="2"/>
-    <line x1="327" y1="8" x2="327" y2="28" stroke="#c8a050" stroke-width="2.5"/>
-    <!-- Cross-shaped medal -->
-    <rect x="315" y="28" width="24" height="52" rx="3" fill="#1a0800" stroke="#c8a050" stroke-width="1.5"/>
-    <rect x="303" y="40" width="48" height="24" rx="3" fill="#1a0800" stroke="#c8a050" stroke-width="1.5"/>
-    <circle cx="327" cy="52" r="10" fill="#0d0800" stroke="#c8a050" stroke-width="1.5"/>
-    <text x="327" y="56" font-family="serif" font-size="9" fill="#c8a050" text-anchor="middle">✦</text>
-    <circle cx="327" cy="52" r="5" fill="#c8a050" opacity="0.4"/>
+    <rect x="292" y="-6" width="70" height="14" fill="#c8a050" rx="2"/>
+    <rect x="292" y="-6" width="70" height="14" fill="none" stroke="#8b6010" stroke-width="1"/>
+    <line x1="327" y1="8" x2="327" y2="26" stroke="#c8a050" stroke-width="2.5"/>
+    <!-- Cross-shaped medal — enlarged -->
+    <rect x="312" y="26" width="30" height="64" rx="4" fill="#1a0800" stroke="#c8a050" stroke-width="2"/>
+    <rect x="297" y="42" width="60" height="30" rx="4" fill="#1a0800" stroke="#c8a050" stroke-width="2"/>
+    <circle cx="327" cy="57" r="13" fill="#0d0800" stroke="#c8a050" stroke-width="2"/>
+    <text x="327" y="62" font-family="serif" font-size="12" fill="#c8a050" text-anchor="middle">✦</text>
+    <circle cx="327" cy="57" r="6" fill="#c8a050" opacity="0.4"/>
   </g>
 
   <!-- Uniform decorative elements -->
   <!-- Rank insignia block -->
-  <g transform="translate(180, 270)">
-    <rect x="0" y="0" width="340" height="48" fill="#1e1400" rx="3" stroke="#4a3000" stroke-width="1"/>
-    <text x="170" y="20" font-family="serif" font-size="14" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4">RANK PROGRESSION</text>
-    <text x="170" y="38" font-family="monospace" font-size="11" fill="#8b6010" text-anchor="middle" letter-spacing="2">PRIVATE → COLONEL → FIELD MARSHAL → SUPREME</text>
+  <g transform="translate(155, 310)">
+    <rect x="0" y="0" width="430" height="64" fill="#1e1400" rx="3" stroke="#4a3000" stroke-width="1"/>
+    <text x="215" y="22" font-family="serif" font-size="14" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4">RANK PROGRESSION</text>
+    <text x="215" y="42" font-family="monospace" font-size="10" fill="#8b6010" text-anchor="middle" letter-spacing="1">PRIVATE → COLONEL → FIELD MARSHAL</text>
+    <text x="215" y="58" font-family="monospace" font-size="10" fill="#8b6010" text-anchor="middle" letter-spacing="1">→ SUPREME ALLIED COMMANDER</text>
   </g>
 
 </svg>
