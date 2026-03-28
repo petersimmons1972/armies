@@ -445,56 +445,134 @@ def cmd_research(role: str, mode: str) -> None:
         # Research Prompt: {role} Agent Profile
         Generated: {today}
 
-        ## Task
+        ## What You Are Building
 
-        You are a Claude Code agent. Your task is to research and draft a complete
-        agent profile for the role class `{role}`.
+        An activation profile — not a biography, not a summary, not a list of achievements.
+        The model you are running on already knows every well-documented historical figure
+        deeply. Your job is not to teach it who the person is. Your job is to find the
+        specific behavioral pointers that unlock the right slice of that knowledge and focus
+        it on the `{role}` role.
 
-        ## Step 1 — Research
+        A profile that describes achievements produces a generic agent.
+        A profile that describes how someone moved, decided, failed, and recovered
+        produces a useful one.
 
-        Research 3–5 historical figures whose personality traits, working style,
-        and domain expertise naturally fit the `{role}` role class in a software
-        engineering context.
+        ## Step 1 — Select the Figure
 
-        For each candidate, note:
-        - Name and brief bio (2–3 sentences)
-        - Why their traits map to the `{role}` role
-        - Potential weaknesses or malus risk factors
-        - Relevance to modern software/AI workflows
+        Research 3–5 real historical figures who naturally fit the `{role}` role class.
+
+        Selection criteria — in order of importance:
+        1. **Documentation depth**: Has history argued about this person for decades?
+           Are there multiple biographies that disagree with each other? Primary sources
+           (letters, memoirs, contemporaries' accounts)? The richer the record, the
+           stronger the activation. Avoid figures known primarily through one source.
+        2. **Behavioral specificity**: Do we know HOW they worked, not just WHAT they
+           achieved? How they ran a meeting. How they delivered bad news. How they made
+           decisions under uncertainty. How they failed specifically.
+        3. **Role fit**: Do their documented working patterns naturally map to `{role}`
+           behaviors — not just their job title or reputation?
+
+        For each candidate note:
+        - Why the documentation record is deep enough to activate well
+        - One specific behavioral detail (not an achievement) that maps to `{role}`
+        - Their specific, documented failure mode — not a generic weakness
 
         ## Step 2 — Select the Best Candidate
 
-        Choose the single best candidate. Explain your selection rationale in
-        2–3 sentences covering: trait fit, uniqueness (not already in the roster),
-        and practical value for software coordination tasks.
+        Choose the single best candidate. Prioritize documentation depth over fame.
+        A less famous figure with a rich behavioral record outperforms a famous figure
+        with a thin one. Explain why this figure's documented behavioral patterns
+        make them the strongest activation key for the `{role}` role.
 
-        ## Step 3 — Draft the Profile
+        ## Step 3 — Research the Second Layer
 
-        Using the selected historical figure, draft a complete agent profile
-        following the schema at `{profile_schema_path}`.
+        Before writing the profile, do the deep research. Do not write from memory.
+        Search for:
 
-        The profile MUST include:
-        - YAML frontmatter with: name, display_name, primary_role, xp (start at 0),
-          rank, archetype, specialties (list), tool_access (list), memory (project field)
-        - `## Base Persona` section: voice, decision style, working approach (~200 words)
-        - `## Role: {role}` section: specific instructions for this role (~150 words)
-        - `## Service Record` section: empty table with headers
+        - How they actually ran a room — specific documented behaviors, not general reputation
+        - The decisions they made under pressure that reveal character
+        - Contemporaries' accounts — what did people who worked with them say?
+        - The specific failure that cost them something real and documented
+        - The thing they did that surprised people who expected something different
+        - Anything that contradicts the surface reputation
 
-        ## Step 4 — Save
+        The surface reputation is what everyone already knows. The model already has it.
+        You are looking for the second layer — the behavioral detail that is documented
+        but not famous. That is what makes the profile work.
+
+        ## Step 4 — Write the Profile
+
+        Use the following format:
+
+        ```
+        ---
+        name: [kebab-case]
+        display_name: "[Full Title and Name]"
+        description: >
+          [3-4 sentences — behavioral description for THIS role specifically.
+           Not achievements. Not reputation. How they operate and when to use them.]
+        roles:
+          primary: {role}
+          secondary: [if applicable]
+        xp: 0
+        rank: "[Historical rank or title]"
+        model: [opus for coordinator/planner/researcher; sonnet for implementer/troubleshooter]
+        [disallowedTools: — only if coordinator role]
+        [  - Write]
+        [  - Edit]
+        [  - Bash]
+        ---
+
+        ## Base Persona
+
+        [300-400 words of behavioral prose. Write in second person ("You are...").
+         Include:
+         - Formation: what made them who they are. Specific, not generic.
+         - How they actually work: the specific behaviors that distinguish them
+           from a type. Not "decisive" but what decisive looked like for this person.
+         - A specific relationship or training experience that shaped their method.
+         - **Named failure mode**: one specific, documented failure with real
+           consequences — not a character flaw, a real thing that happened.
+           This is load-bearing. It creates accountability and makes the agent
+           feel real rather than oracular.
+         - One behavioral detail that contradicts or complicates the surface reputation.]
+
+        ## Role: {role}
+
+        [150-200 words of operational instructions for this specific role.
+         Pre-mission checklist. How they work. What they deliver. What "done" looks like.
+         These are not generic role instructions — they are how THIS person approaches
+         THIS role based on their documented working patterns.]
+        ```
+
+        ## Step 5 — Verify Before Saving
+
+        Read the Base Persona back. Ask:
+        - Does this feel like a specific person or a type?
+        - Could this description apply to three other people in the same role? If yes, it is too generic.
+        - Is the failure mode a real documented event with real consequences? Or a character note?
+        - Does the description tell you HOW they moved, or just WHAT they achieved?
+
+        If the answers are wrong, research more before saving.
+
+        ## Step 6 — Save and Commit
 
         Save the completed profile to:
 
             ~/.armies/profiles/<name>.md
 
-        where `<name>` is the agent's lowercase hyphenated identifier
-        (e.g., `florence-nightingale` → `florence-nightingale.md`).
+        where `<name>` is the agent's lowercase hyphenated identifier.
 
-        ## Constraints
+        Commit: `git -C ~/.armies commit -am "profile(<name>): {role} role — [figure name]"`
 
-        - Do NOT invent facts about the historical figure — use only well-documented traits.
+        ## Hard Constraints
+
+        - Real historical figures only. No fictional characters — they lack the
+          multi-source documentation depth that produces strong activation.
+        - Do NOT write from the Wikipedia lede. That is the surface. Go deeper.
         - Do NOT re-use figures already in ~/.armies/profiles/.
+        - Do NOT start at 0 words on the failure mode. Every profile needs one.
         - The profile must pass `armies roster` without errors after saving.
-        - Commit the new profile: `git -C ~/.armies commit -am "profile(<name>): initial draft for {role} role"`
     """)
 
     draft_path.write_text(prompt_content, encoding="utf-8")
