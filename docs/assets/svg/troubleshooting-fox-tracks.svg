@@ -1,135 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" width="700" height="360">
-  <title>Troubleshooting — Desert Fox Tracks Across Terminal Output</title>
-  <desc>A desert fox tracks across sand dunes that gradually resolve into terminal output lines. The fox leaves paw prints in the sand/terminal. Amber, orange, alert red palette. A tiny desert fox paw print is hidden in the corner.</desc>
-
-  <!-- Sky gradient — amber dusk -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 280" width="780" height="280">
+  <title>Armies — Field Guide to Faults</title>
   <defs>
-    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a1800"/>
-      <stop offset="60%" stop-color="#8b3000"/>
-      <stop offset="100%" stop-color="#c06010"/>
-    </linearGradient>
-    <linearGradient id="sandGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#c06010"/>
-      <stop offset="100%" stop-color="#1a0800"/>
-    </linearGradient>
+    <radialGradient id="ft-lantern" cx="74%" cy="58%" r="28%">
+      <stop offset="0%" stop-color="#e8b860" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#c8a050" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#c8a050" stop-opacity="0"/>
+    </radialGradient>
   </defs>
 
-  <!-- Sky -->
-  <rect width="700" height="180" fill="url(#skyGrad)"/>
+  <!-- Background -->
+  <rect width="780" height="280" fill="#0d0800"/>
+  <!-- Lantern warm glow -->
+  <rect width="780" height="280" fill="url(#ft-lantern)"/>
+  <!-- Outer border -->
+  <rect width="780" height="280" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="768" height="268" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.3"/>
 
-  <!-- Dune silhouettes -->
-  <path d="M 0,200 Q 100,120 220,160 Q 340,200 500,140 Q 620,100 700,150 L 700,360 L 0,360 Z" fill="#1a0800"/>
-  <path d="M 0,240 Q 150,180 300,220 Q 450,260 600,200 Q 650,185 700,195 L 700,360 L 0,360 Z" fill="#100500"/>
+  <!-- Top band -->
+  <rect x="0" y="0" width="780" height="36" fill="#3a1a00"/>
+  <!-- Left corner bracket ornament -->
+  <text x="22" y="24" font-family="serif" font-size="14" fill="#c8a050" text-anchor="middle" opacity="0.7">★</text>
+  <text x="42" y="24" font-family="serif" font-size="14" fill="#c8a050" text-anchor="middle" opacity="0.5">★</text>
+  <text x="390" y="25" font-family="serif" font-size="16" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="7">FIELD  GUIDE  TO  FAULTS</text>
+  <text x="738" y="24" font-family="serif" font-size="14" fill="#c8a050" text-anchor="middle" opacity="0.5">★</text>
+  <text x="758" y="24" font-family="serif" font-size="14" fill="#c8a050" text-anchor="middle" opacity="0.7">★</text>
 
-  <!-- Sand texture at bottom -->
-  <rect x="0" y="280" width="700" height="80" fill="#0d0400"/>
+  <!-- Sub-rule under top band -->
+  <line x1="30" y1="42" x2="750" y2="42" stroke="#8b6914" stroke-width="0.8" opacity="0.6"/>
 
-  <!-- Border -->
-  <rect x="0" y="0" width="700" height="360" fill="none" stroke="#c06010" stroke-width="2"/>
-  <rect x="3" y="3" width="694" height="354" fill="none" stroke="#c06010" stroke-width="0.5" opacity="0.4"/>
+  <!-- ═══ TERRAIN LINES — subtle contour map feel across the mid-section ═══ -->
+  <path d="M 30,100 Q 120,90 200,105 Q 280,118 360,96 Q 440,76 520,100 Q 600,120 680,100 Q 720,90 750,95"
+        fill="none" stroke="#8b6914" stroke-width="0.6" opacity="0.25"/>
+  <path d="M 30,118 Q 110,108 190,122 Q 270,134 350,112 Q 430,92 510,115 Q 590,136 670,116 Q 720,106 750,110"
+        fill="none" stroke="#8b6914" stroke-width="0.6" opacity="0.2"/>
+  <path d="M 30,136 Q 105,126 185,140 Q 265,152 345,130 Q 425,108 505,130 Q 585,150 665,132 Q 720,122 750,126"
+        fill="none" stroke="#8b6914" stroke-width="0.6" opacity="0.15"/>
 
-  <!-- Terminal output lines emerging from the sand dunes — the dunes ARE the terminal -->
-  <!-- Top section looks like a real landscape, bottom resolves to terminal text -->
+  <!-- ═══ LEFT SECTION: Fox paw-print trail ═══ -->
+  <!-- Trail of paw prints moving left-to-right, spaced like a trotting fox -->
+  <!-- Each paw: main pad (ellipse) + 4 toe pads (circles) -->
+  <!-- Prints alternate left/right foot, slight angle variation -->
 
-  <!-- Terminal text lines — sand dunes becoming code -->
-  <g font-family="monospace" font-size="20" fill="#c06010" opacity="0.8">
-    <!-- These are arranged to look like sand ridges at first glance -->
-    <text x="40" y="205">────────────────────────────────────────────</text>
-    <text x="40" y="222">SYMPTOM: armies roster shows nothing</text>
-    <text x="40" y="239">────────────────────────────────────────────</text>
-    <text x="40" y="256">$ armies init</text>
-    <text x="40" y="273">✓ /home/user/.armies/profiles</text>
-    <text x="40" y="290">✓ /home/user/.armies/accountability</text>
-    <text x="40" y="307">$ cp my-profile.md ~/.armies/profiles/</text>
-    <text x="40" y="324">$ armies roster</text>
+  <!-- Print 1 — left foot, near left edge -->
+  <g transform="translate(62, 155) rotate(-8)" fill="#c8a050" opacity="0.55">
+    <ellipse cx="0" cy="0" rx="6" ry="5"/>
+    <circle cx="-6" cy="-7" r="2.5"/>
+    <circle cx="-1" cy="-9" r="2.5"/>
+    <circle cx="4" cy="-8" r="2.5"/>
+    <circle cx="7" cy="-4" r="2"/>
   </g>
 
-  <!-- Terminal "cursor" blinking at end -->
-  <rect x="182" y="315" width="8" height="14" fill="#c06010" opacity="0.7"/>
-
-  <!-- Fox silhouette — trotting across mid-ground -->
-  <!-- Desert fox, small but distinctive, moving left to right -->
-  <g transform="translate(140, 175)" fill="#1a0800">
-    <!-- Body -->
-    <ellipse cx="0" cy="0" rx="25" ry="12" transform="rotate(-10)"/>
-    <!-- Head -->
-    <ellipse cx="28" cy="-8" rx="12" ry="10" transform="rotate(-5, 28, -8)"/>
-    <!-- Fox ears — large and pointed, characteristic of desert fox -->
-    <polygon points="32,-16 26,-32 22,-16" fill="#1a0800"/>
-    <polygon points="24,-16 18,-30 14,-16" fill="#1a0800"/>
-    <!-- Snout -->
-    <polygon points="40,-8 44,-6 38,-4" fill="#1a0800"/>
-    <!-- Eye glint -->
-    <circle cx="34" cy="-9" r="1.5" fill="#c06010" opacity="0.8"/>
-    <!-- Tail — bushy, curved up -->
-    <path d="M -25,-2 Q -45,5 -50,-8 Q -52,-16 -44,-15 Q -36,-14 -30,0" fill="#1a0800"/>
-    <!-- Tail tip -->
-    <ellipse cx="-47" cy="-12" rx="5" ry="3" fill="#3a1800" transform="rotate(30,-47,-12)"/>
-    <!-- Legs in mid-trot -->
-    <rect x="-10" y="10" width="5" height="14" rx="2" transform="rotate(10,-10,10)"/>
-    <rect x="5" y="10" width="5" height="14" rx="2" transform="rotate(-5,5,10)"/>
-    <rect x="15" y="10" width="5" height="14" rx="2" transform="rotate(8,15,10)"/>
-    <rect x="-20" y="8" width="5" height="12" rx="2" transform="rotate(-12,-20,8)"/>
+  <!-- Print 2 — right foot -->
+  <g transform="translate(94, 162) rotate(6)" fill="#c8a050" opacity="0.55">
+    <ellipse cx="0" cy="0" rx="6" ry="5"/>
+    <circle cx="-5" cy="-7" r="2.5"/>
+    <circle cx="0" cy="-9" r="2.5"/>
+    <circle cx="5" cy="-7" r="2.5"/>
+    <circle cx="-7" cy="-3" r="2"/>
   </g>
 
-  <!-- Fox paw prints trailing behind in the sand/terminal -->
-  <!-- Paw print is 4 toe dots + main pad, angled left then right alternating -->
-  <g fill="#c06010" opacity="0.5">
-    <!-- Trail of paw prints going left of the fox -->
-    <!-- Print 1 (nearest, most recent) -->
-    <g transform="translate(100, 195)">
-      <ellipse cx="0" cy="0" rx="4" ry="3"/>
-      <circle cx="-4" cy="-5" r="2"/>
-      <circle cx="0" cy="-6" r="2"/>
-      <circle cx="4" cy="-5" r="2"/>
-      <circle cx="-5" cy="-1" r="1.5"/>
-    </g>
-    <!-- Print 2 -->
-    <g transform="translate(80, 205)">
-      <ellipse cx="0" cy="0" rx="3.5" ry="2.5"/>
-      <circle cx="-3" cy="-4" r="1.5"/>
-      <circle cx="0" cy="-5" r="1.5"/>
-      <circle cx="3" cy="-4" r="1.5"/>
-      <circle cx="-4" cy="-1" r="1.3"/>
-    </g>
-    <!-- Print 3 -->
-    <g transform="translate(60, 215)">
-      <ellipse cx="0" cy="0" rx="3" ry="2"/>
-      <circle cx="-2.5" cy="-3.5" r="1.3"/>
-      <circle cx="0" cy="-4.5" r="1.3"/>
-      <circle cx="2.5" cy="-3.5" r="1.3"/>
-      <circle cx="-3.5" cy="-0.5" r="1"/>
-    </g>
-    <!-- Print 4 — smaller/older -->
-    <g transform="translate(42, 225)" opacity="0.6">
-      <ellipse cx="0" cy="0" rx="2.5" ry="2"/>
-      <circle cx="-2" cy="-3" r="1"/>
-      <circle cx="0" cy="-4" r="1"/>
-      <circle cx="2" cy="-3" r="1"/>
-    </g>
+  <!-- Print 3 — left foot -->
+  <g transform="translate(128, 152) rotate(-10)" fill="#c8a050" opacity="0.58">
+    <ellipse cx="0" cy="0" rx="6" ry="5"/>
+    <circle cx="-6" cy="-7" r="2.5"/>
+    <circle cx="-1" cy="-9" r="2.5"/>
+    <circle cx="4" cy="-8" r="2.5"/>
+    <circle cx="7" cy="-4" r="2"/>
   </g>
 
-  <!-- Title banner -->
-  <rect x="0" y="0" width="700" height="32" fill="#1a0800" opacity="0.85"/>
-  <text x="350" y="22" font-family="serif" font-size="22.4" font-weight="bold" fill="#c06010" text-anchor="middle" letter-spacing="4">TROUBLESHOOTING GUIDE</text>
-
-  <!-- Sub-labels -->
-  <text x="350" y="342" font-family="serif" font-size="18" fill="#c06010" text-anchor="middle" letter-spacing="3" opacity="0.8">DIAGNOSE — ISOLATE — RESOLVE — DOCUMENT</text>
-
-  <!-- Alert status indicator top right -->
-  <rect x="590" y="6" width="104" height="20" fill="#8b0000" opacity="0.8" rx="2"/>
-  <text x="642" y="20" font-family="monospace" font-size="18" font-weight="bold" fill="#ffb060" text-anchor="middle">⚠ PROBLEMS →</text>
-
-  <!-- ===== EASTER EGG: tiny desert fox paw print hidden in bottom right corner ===== -->
-  <!-- Very small, low opacity, hidden in the dark corner of the terminal area -->
-  <g transform="translate(670, 345)" opacity="0.18" fill="#c06010">
-    <ellipse cx="0" cy="0" rx="5" ry="4"/>
-    <circle cx="-5" cy="-6" r="2.5"/>
-    <circle cx="0" cy="-7.5" r="2.5"/>
-    <circle cx="5" cy="-6" r="2.5"/>
-    <circle cx="-6.5" cy="-1" r="2"/>
+  <!-- Print 4 — right foot -->
+  <g transform="translate(160, 160) rotate(5)" fill="#c8a050" opacity="0.60">
+    <ellipse cx="0" cy="0" rx="6" ry="5"/>
+    <circle cx="-5" cy="-7" r="2.5"/>
+    <circle cx="0" cy="-9" r="2.5"/>
+    <circle cx="5" cy="-7" r="2.5"/>
+    <circle cx="-7" cy="-3" r="2"/>
   </g>
+
+  <!-- Print 5 -->
+  <g transform="translate(194, 150) rotate(-7)" fill="#c8a050" opacity="0.65">
+    <ellipse cx="0" cy="0" rx="6" ry="5"/>
+    <circle cx="-6" cy="-7" r="2.5"/>
+    <circle cx="-1" cy="-9" r="2.5"/>
+    <circle cx="4" cy="-8" r="2.5"/>
+    <circle cx="7" cy="-4" r="2"/>
+  </g>
+
+  <!-- Print 6 -->
+  <g transform="translate(228, 158) rotate(8)" fill="#c8a050" opacity="0.68">
+    <ellipse cx="0" cy="0" rx="6" ry="5"/>
+    <circle cx="-5" cy="-7" r="2.5"/>
+    <circle cx="0" cy="-9" r="2.5"/>
+    <circle cx="5" cy="-7" r="2.5"/>
+    <circle cx="-7" cy="-3" r="2"/>
+  </g>
+
+  <!-- Print 7 -->
+  <g transform="translate(262, 148) rotate(-6)" fill="#c8a050" opacity="0.72">
+    <ellipse cx="0" cy="0" rx="6.5" ry="5.5"/>
+    <circle cx="-6" cy="-7" r="2.8"/>
+    <circle cx="-1" cy="-9" r="2.8"/>
+    <circle cx="4" cy="-8" r="2.8"/>
+    <circle cx="7" cy="-4" r="2.2"/>
+  </g>
+
+  <!-- Print 8 -->
+  <g transform="translate(298, 156) rotate(7)" fill="#c8a050" opacity="0.75">
+    <ellipse cx="0" cy="0" rx="6.5" ry="5.5"/>
+    <circle cx="-5" cy="-7" r="2.8"/>
+    <circle cx="0" cy="-9.5" r="2.8"/>
+    <circle cx="5" cy="-7" r="2.8"/>
+    <circle cx="-7" cy="-3" r="2.2"/>
+  </g>
+
+  <!-- Print 9 — larger, getting closer to fox -->
+  <g transform="translate(336, 146) rotate(-9)" fill="#c8a050" opacity="0.80">
+    <ellipse cx="0" cy="0" rx="7" ry="6"/>
+    <circle cx="-6.5" cy="-8" r="3"/>
+    <circle cx="-1" cy="-10" r="3"/>
+    <circle cx="5" cy="-8.5" r="3"/>
+    <circle cx="7.5" cy="-4" r="2.5"/>
+  </g>
+
+  <!-- Print 10 — right below the fox -->
+  <g transform="translate(374, 153) rotate(6)" fill="#c8a050" opacity="0.85">
+    <ellipse cx="0" cy="0" rx="7" ry="6"/>
+    <circle cx="-6" cy="-8" r="3"/>
+    <circle cx="0" cy="-10" r="3"/>
+    <circle cx="6" cy="-8" r="3"/>
+    <circle cx="-8" cy="-3" r="2.5"/>
+  </g>
+
+  <!-- ═══ FOX SILHOUETTE — trotting right, nose toward lantern ═══ -->
+  <!-- Small geometric/art-deco fox, gold on dark -->
+  <g transform="translate(430, 155)" fill="#c8a050">
+    <!-- Body — geometric elongated oval -->
+    <ellipse cx="0" cy="0" rx="28" ry="13" opacity="0.9"/>
+    <!-- Neck -->
+    <rect x="20" y="-10" width="10" height="14" rx="4" opacity="0.9"/>
+    <!-- Head — angular, art-deco -->
+    <polygon points="28,-14 48,-8 46,4 28,6" opacity="0.9"/>
+    <!-- Large ear 1 — fennec style, very tall -->
+    <polygon points="32,-12 36,-32 44,-12" opacity="0.9"/>
+    <!-- Large ear 2 -->
+    <polygon points="40,-10 46,-28 52,-10" opacity="0.9"/>
+    <!-- Snout — pointed -->
+    <polygon points="46,-4 58,-2 46,3" opacity="0.9"/>
+    <!-- Eye — bright dot -->
+    <circle cx="40" cy="-5" r="2.5" fill="#0d0800"/>
+    <circle cx="40" cy="-5" r="1" fill="#e8b860"/>
+    <!-- Legs — 4 angular strokes -->
+    <rect x="-16" y="10" width="5" height="18" rx="3" transform="rotate(12,-16,10)" opacity="0.85"/>
+    <rect x="-2" y="11" width="5" height="16" rx="3" transform="rotate(-6,-2,11)" opacity="0.85"/>
+    <rect x="10" y="10" width="5" height="18" rx="3" transform="rotate(10,10,10)" opacity="0.85"/>
+    <rect x="-22" y="8" width="5" height="14" rx="3" transform="rotate(-14,-22,8)" opacity="0.85"/>
+    <!-- Bushy tail curving up to the left -->
+    <path d="M -28,4 Q -55,0 -60,-14 Q -63,-24 -52,-22 Q -42,-20 -34,0" fill="#c8a050" opacity="0.80"/>
+    <!-- Tail tip — bright highlight -->
+    <ellipse cx="-56" cy="-18" rx="6" ry="4" fill="#e8b860" transform="rotate(25,-56,-18)" opacity="0.75"/>
+  </g>
+
+  <!-- ═══ RIGHT SECTION: Lantern ═══ -->
+  <!-- Military field lantern — geometric art-deco -->
+  <g transform="translate(600, 110)">
+    <!-- Handle loop -->
+    <path d="M 20,0 Q 20,-18 35,-18 Q 50,-18 50,0" fill="none" stroke="#c8a050" stroke-width="3"/>
+    <!-- Lantern body — hexagonal top -->
+    <polygon points="10,8 60,8 68,28 68,82 2,82 2,28" fill="#1a1000" stroke="#c8a050" stroke-width="2"/>
+    <!-- Inner frame for glass panels -->
+    <polygon points="16,14 54,14 62,30 62,76 8,76 8,30" fill="none" stroke="#8b6914" stroke-width="1" opacity="0.6"/>
+    <!-- Glass panels — lit amber glow -->
+    <!-- Front panel center glow -->
+    <ellipse cx="35" cy="48" rx="20" ry="26" fill="#e8b860" opacity="0.18"/>
+    <!-- Wick/flame at center -->
+    <ellipse cx="35" cy="44" rx="5" ry="7" fill="#e8b860" opacity="0.6"/>
+    <ellipse cx="35" cy="44" rx="3" ry="5" fill="#ffffff" opacity="0.4"/>
+    <!-- Flame flicker top -->
+    <polygon points="35,34 31,44 39,44" fill="#e8b860" opacity="0.7"/>
+    <!-- Horizontal bars on glass -->
+    <line x1="8" y1="44" x2="62" y2="44" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+    <line x1="8" y1="60" x2="62" y2="60" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+    <line x1="8" y1="28" x2="62" y2="28" stroke="#8b6914" stroke-width="1.5" opacity="0.7"/>
+    <!-- Base plate -->
+    <rect x="2" y="82" width="66" height="8" rx="2" fill="#2a1a00" stroke="#c8a050" stroke-width="1.5"/>
+    <!-- Feet -->
+    <rect x="6" y="88" width="12" height="5" rx="2" fill="#3a1a00" stroke="#8b6914" stroke-width="1"/>
+    <rect x="52" y="88" width="12" height="5" rx="2" fill="#3a1a00" stroke="#8b6914" stroke-width="1"/>
+  </g>
+
+  <!-- ═══ COMPASS ROSE — bottom left ═══ -->
+  <g transform="translate(68, 215)">
+    <!-- Outer ring -->
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#8b6914" stroke-width="1" opacity="0.5"/>
+    <circle cx="0" cy="0" r="24" fill="none" stroke="#8b6914" stroke-width="0.5" opacity="0.3"/>
+    <!-- Cardinal points -->
+    <polygon points="0,-24 4,-10 0,-14 -4,-10" fill="#c8a050" opacity="0.8"/>
+    <polygon points="0,24 4,10 0,14 -4,10" fill="#8b6914" opacity="0.6"/>
+    <polygon points="24,0 10,4 14,0 10,-4" fill="#8b6914" opacity="0.6"/>
+    <polygon points="-24,0 -10,4 -14,0 -10,-4" fill="#8b6914" opacity="0.6"/>
+    <!-- N label -->
+    <text x="0" y="-28" font-family="monospace" font-size="9" fill="#e8b860" text-anchor="middle" font-weight="bold">N</text>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="3" fill="#c8a050" opacity="0.8"/>
+  </g>
+
+  <!-- ═══ TITLE BLOCK ═══ -->
+  <text x="390" y="72" font-family="serif" font-size="36" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="4" opacity="0.07">TROUBLESHOOTING</text>
+
+  <!-- Subtitle label in mid-section -->
+  <text x="390" y="200" font-family="serif" font-size="11" fill="#8b6914" text-anchor="middle" letter-spacing="4" opacity="0.6">FOLLOW  THE  TRAIL  ·  FIND  THE  FAULT</text>
+
+  <!-- Dashed trail line connecting prints to lantern -->
+  <path d="M 60,148 Q 200,130 380,148 Q 460,158 500,150 Q 540,142 580,140"
+        fill="none" stroke="#8b6914" stroke-width="1" stroke-dasharray="4,6" opacity="0.4"/>
+
+  <!-- ═══ Bottom band ═══ -->
+  <rect x="0" y="244" width="780" height="36" fill="#3a1a00"/>
+  <text x="390" y="267" font-family="serif" font-size="12" fill="#c8a050" text-anchor="middle" letter-spacing="5" opacity="0.8">DIAGNOSE · ISOLATE · RESOLVE · DOCUMENT</text>
 
 </svg>
