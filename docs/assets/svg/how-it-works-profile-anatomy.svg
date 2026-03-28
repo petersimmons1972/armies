@@ -1,0 +1,299 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" width="900" height="460">
+  <defs>
+    <!-- Chevron arrowhead marker — bold gold -->
+    <marker id="arrow-gold" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 L3,5 Z" fill="#D4A574"/>
+    </marker>
+    <!-- Subtle inner shadow for output panel -->
+    <filter id="panel-glow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#D4A574" flood-opacity="0.08" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="glow"/>
+      <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- BACKGROUND                                          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <rect width="900" height="460" fill="#0F172A"/>
+
+  <!-- Structural grid lines — Cassandre architectural underpinning -->
+  <line x1="0"   y1="70"  x2="900" y2="70"  stroke="#1a2540" stroke-width="1"/>
+  <line x1="0"   y1="410" x2="900" y2="410" stroke="#1a2540" stroke-width="1"/>
+
+  <!-- Faint vertical axis lines between columns -->
+  <line x1="300" y1="88"  x2="300" y2="388" stroke="#1a2540" stroke-width="1"/>
+  <line x1="576" y1="88"  x2="576" y2="388" stroke="#1a2540" stroke-width="1"/>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- HEADER                                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Gold rule above heading -->
+  <rect x="290" y="14" width="320" height="2" fill="#D4A574"/>
+
+  <text x="450" y="48"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="22" font-weight="bold" letter-spacing="6"
+        fill="#f8fafc" text-anchor="middle">ANATOMY OF A PROFILE</text>
+
+  <!-- Gold rule below heading -->
+  <rect x="290" y="57" width="320" height="2" fill="#D4A574"/>
+
+  <!-- Flanking corner marks — architectural precision -->
+  <line x1="40"  y1="14" x2="60"  y2="14" stroke="#D4A574" stroke-width="1.5" opacity="0.5"/>
+  <line x1="40"  y1="14" x2="40"  y2="34" stroke="#D4A574" stroke-width="1.5" opacity="0.5"/>
+  <line x1="860" y1="14" x2="840" y2="14" stroke="#D4A574" stroke-width="1.5" opacity="0.5"/>
+  <line x1="860" y1="14" x2="860" y2="34" stroke="#D4A574" stroke-width="1.5" opacity="0.5"/>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- LEFT COLUMN — BASE PERSONA                          -->
+  <!-- Panel: x=48, y=88, width=216, height=280           -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Panel body -->
+  <rect x="48" y="88" width="216" height="280" rx="2" fill="#1e293b"/>
+  <!-- Gold left border (4px) -->
+  <rect x="48" y="88" width="4"   height="280" fill="#D4A574"/>
+
+  <!-- Panel header band -->
+  <rect x="52" y="88" width="212" height="46" rx="0" fill="#243047"/>
+
+  <!-- Label -->
+  <text x="76" y="112"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="14" font-weight="bold" letter-spacing="3"
+        fill="#D4A574">BASE PERSONA</text>
+
+  <!-- Subtitle -->
+  <text x="76" y="127"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="11" letter-spacing="1.5"
+        fill="#f8fafc">THE CASTING BRIEF</text>
+
+  <!-- Thin divider -->
+  <line x1="64" y1="140" x2="252" y2="140" stroke="#334155" stroke-width="1"/>
+
+  <!-- Content lines — text stubs representing profile YAML -->
+  <rect x="76" y="152" width="124" height="6" rx="1" fill="#334155"/>
+  <rect x="76" y="165" width="142" height="6" rx="1" fill="#334155"/>
+  <rect x="76" y="178" width="108" height="6" rx="1" fill="#334155"/>
+  <rect x="76" y="191" width="136" height="6" rx="1" fill="#334155"/>
+  <rect x="76" y="204" width="88"  height="6" rx="1" fill="#2d3a4e"/>
+
+  <!-- Dashed divider -->
+  <line x1="64" y1="220" x2="252" y2="220" stroke="#2d3f55" stroke-width="1" stroke-dasharray="4,5"/>
+
+  <!-- Theater mask icon — geometric Cassandre abstraction -->
+  <!-- Comedy mask (upper-left): upward arc mouth -->
+  <g transform="translate(156, 280)">
+    <!-- Comedy mask body -->
+    <ellipse cx="-18" cy="-12" rx="24" ry="20" fill="none" stroke="#D4A574" stroke-width="2.5"/>
+    <!-- Comedy eyes -->
+    <ellipse cx="-24" cy="-18" rx="4" ry="3" fill="#D4A574"/>
+    <ellipse cx="-10" cy="-18" rx="4" ry="3" fill="#D4A574"/>
+    <!-- Comedy smile — upward arc -->
+    <path d="M-28,-4 Q-18,10 -6,-4" fill="none" stroke="#D4A574" stroke-width="2.5"/>
+
+    <!-- Tragedy mask body (offset lower-right) -->
+    <ellipse cx="18" cy="8" rx="24" ry="20" fill="none" stroke="#D4A574" stroke-width="2.5"/>
+    <!-- Tragedy eyes -->
+    <ellipse cx="10" cy="2" rx="4" ry="3" fill="#D4A574"/>
+    <ellipse cx="26" cy="2" rx="4" ry="3" fill="#D4A574"/>
+    <!-- Tragedy frown — downward arc -->
+    <path d="M6,22 Q18,10 30,22" fill="none" stroke="#D4A574" stroke-width="2.5"/>
+  </g>
+
+  <!-- Caption below icon -->
+  <text x="156" y="338"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="2"
+        fill="#D4A574" text-anchor="middle" opacity="0.8">PERSONA</text>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ARROW: LEFT → MIDDLE                                -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <line x1="270" y1="228" x2="320" y2="228"
+        stroke="#D4A574" stroke-width="3"
+        marker-end="url(#arrow-gold)"/>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- MIDDLE COLUMN — ROLE BLOCK                          -->
+  <!-- Panel: x=328, y=88, width=216, height=280          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Panel body -->
+  <rect x="328" y="88" width="216" height="280" rx="2" fill="#1e293b"/>
+  <!-- Gold left border (4px) -->
+  <rect x="328" y="88" width="4"   height="280" fill="#D4A574"/>
+
+  <!-- Panel header band -->
+  <rect x="332" y="88" width="212" height="46" fill="#243047"/>
+
+  <!-- Label -->
+  <text x="356" y="112"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="14" font-weight="bold" letter-spacing="3"
+        fill="#D4A574">ROLE BLOCK</text>
+
+  <!-- Subtitle -->
+  <text x="356" y="127"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="11" letter-spacing="1.5"
+        fill="#f8fafc">THE STAGE DIRECTIONS</text>
+
+  <!-- Thin divider -->
+  <line x1="344" y1="140" x2="532" y2="140" stroke="#334155" stroke-width="1"/>
+
+  <!-- Content lines -->
+  <rect x="356" y="152" width="134" height="6" rx="1" fill="#334155"/>
+  <rect x="356" y="165" width="114" height="6" rx="1" fill="#334155"/>
+  <rect x="356" y="178" width="148" height="6" rx="1" fill="#334155"/>
+  <rect x="356" y="191" width="92"  height="6" rx="1" fill="#334155"/>
+  <rect x="356" y="204" width="128" height="6" rx="1" fill="#2d3a4e"/>
+
+  <!-- Dashed divider -->
+  <line x1="344" y1="220" x2="532" y2="220" stroke="#2d3f55" stroke-width="1" stroke-dasharray="4,5"/>
+
+  <!-- Geometric chevron icon — streamlined, pointing right -->
+  <g transform="translate(436, 276)">
+    <!-- Triple nested chevron — Cassandre velocity motif -->
+    <polyline points="-32,-20 0,0 -32,20"
+              fill="none" stroke="#D4A574" stroke-width="3.5"
+              stroke-linejoin="miter" stroke-linecap="square"/>
+    <polyline points="-16,-20 12,0 -16,20"
+              fill="none" stroke="#D4A574" stroke-width="3.5"
+              stroke-linejoin="miter" stroke-linecap="square"
+              opacity="0.65"/>
+    <polyline points="0,-20 28,0 0,20"
+              fill="none" stroke="#D4A574" stroke-width="3.5"
+              stroke-linejoin="miter" stroke-linecap="square"
+              opacity="0.35"/>
+  </g>
+
+  <!-- Caption below icon -->
+  <text x="436" y="338"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="2"
+        fill="#D4A574" text-anchor="middle" opacity="0.8">DIRECTIVES</text>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ARROW: MIDDLE → RIGHT                               -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <line x1="550" y1="228" x2="600" y2="228"
+        stroke="#D4A574" stroke-width="3"
+        marker-end="url(#arrow-gold)"/>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- RIGHT COLUMN — BEHAVIOR OUTPUT                      -->
+  <!-- Panel: x=608, y=78, width=244, height=300          -->
+  <!-- (slightly taller + all-border treatment)            -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- Panel body — deeper background, more gravitas -->
+  <rect x="608" y="78" width="244" height="300" rx="2" fill="#18253d" filter="url(#panel-glow)"/>
+  <!-- All-around gold border (2px) -->
+  <rect x="608" y="78" width="244" height="300" rx="2"
+        fill="none" stroke="#D4A574" stroke-width="2"/>
+
+  <!-- Corner accent ticks — architectural registration marks -->
+  <line x1="608" y1="104" x2="630" y2="104" stroke="#D4A574" stroke-width="1.5" opacity="0.55"/>
+  <line x1="852" y1="104" x2="830" y2="104" stroke="#D4A574" stroke-width="1.5" opacity="0.55"/>
+  <line x1="608" y1="354" x2="630" y2="354" stroke="#D4A574" stroke-width="1.5" opacity="0.55"/>
+  <line x1="852" y1="354" x2="830" y2="354" stroke="#D4A574" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- Panel header band -->
+  <rect x="610" y="80" width="240" height="52" fill="#1f3254"/>
+
+  <!-- Label — large, commanding -->
+  <text x="730" y="112"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="18" font-weight="bold" letter-spacing="5"
+        fill="#D4A574" text-anchor="middle">BEHAVIOR</text>
+
+  <!-- Subtitle — small caps style -->
+  <text x="730" y="128"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="2.5"
+        fill="#f8fafc" text-anchor="middle">COLLAPSED &amp; CONSISTENT</text>
+
+  <!-- Divider with gold treatment -->
+  <line x1="624" y1="138" x2="836" y2="138" stroke="#D4A574" stroke-width="1" opacity="0.35"/>
+
+  <!-- Converging output lines — visual metaphor: space collapsing to focus -->
+  <!-- Widest at top, narrowing toward center -->
+  <rect x="636" y="150" width="188" height="6" rx="1" fill="#253650"/>
+  <rect x="652" y="163" width="156" height="6" rx="1" fill="#253650"/>
+  <rect x="668" y="176" width="124" height="6" rx="1" fill="#2a3f5a"/>
+  <rect x="684" y="189" width="92"  height="6" rx="1" fill="#2a3f5a"/>
+  <rect x="700" y="202" width="60"  height="6" rx="1" fill="#2f4870"/>
+
+  <!-- Convergence lines pointing to the figure -->
+  <line x1="624" y1="218" x2="730" y2="238" stroke="#D4A574" stroke-width="1" opacity="0.3"/>
+  <line x1="836" y1="218" x2="730" y2="238" stroke="#D4A574" stroke-width="1" opacity="0.3"/>
+
+  <!-- Focal point dot -->
+  <circle cx="730" cy="238" r="3" fill="#D4A574" opacity="0.6"/>
+
+  <!-- Dashed divider -->
+  <line x1="624" y1="248" x2="836" y2="248" stroke="#2d3f55" stroke-width="1" stroke-dasharray="4,5"/>
+
+  <!-- Figure silhouette — circle head + trapezoid shoulders + torso block -->
+  <!-- Geometric and bold, Cassandre human form -->
+  <g transform="translate(730, 312)">
+    <!-- Torso block -->
+    <rect x="-20" y="8" width="40" height="22" rx="1" fill="#D4A574"/>
+    <!-- Shoulder trapezoid -->
+    <path d="M-40,8 L-22,-6 L22,-6 L40,8 Z" fill="#D4A574"/>
+    <!-- Neck -->
+    <rect x="-8" y="-18" width="16" height="14" rx="1" fill="#D4A574"/>
+    <!-- Head -->
+    <circle cx="0" cy="-32" r="20" fill="#D4A574"/>
+    <!-- Eye left highlight — gives the silhouette life -->
+    <ellipse cx="-7" cy="-34" rx="3.5" ry="3" fill="#0F172A" opacity="0.6"/>
+    <!-- Eye right -->
+    <ellipse cx="7"  cy="-34" rx="3.5" ry="3" fill="#0F172A" opacity="0.6"/>
+  </g>
+
+  <!-- Caption below figure -->
+  <text x="730" y="368"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="2"
+        fill="#D4A574" text-anchor="middle" opacity="0.8">FOCUSED OUTPUT</text>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- COLUMN FOOTER LABELS                                -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <text x="156" y="387"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="1.5"
+        fill="#475569" text-anchor="middle">01 — WHO THEY ARE</text>
+
+  <text x="436" y="387"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="1.5"
+        fill="#475569" text-anchor="middle">02 — HOW THEY ACT</text>
+
+  <text x="730" y="387"
+        font-family="'Arial', 'Helvetica', sans-serif"
+        font-size="10" letter-spacing="1.5"
+        fill="#475569" text-anchor="middle">03 — WHAT EMERGES</text>
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- BOTTOM CAPTION                                      -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- Rule above caption -->
+  <line x1="80" y1="413" x2="820" y2="413" stroke="#1e293b" stroke-width="1"/>
+
+  <text x="450" y="437"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="12" letter-spacing="0.5"
+        fill="#94a3b8" text-anchor="middle" font-style="italic">Together, the two blocks collapse an enormous space of possible outputs into something narrow and consistent.</text>
+
+</svg>
