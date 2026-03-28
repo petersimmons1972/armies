@@ -102,11 +102,6 @@ def read_frontmatter_and_sections(
         m = re.match(r"^## (.+)$", line)
         if m:
             heading = m.group(1).strip()
-            # If we were capturing a section and now we've hit a new heading,
-            # check whether we already have all wanted sections with content.
-            # Only stop early here — after finishing the previous section's body.
-            if wanted and set(collected.keys()) == wanted:
-                break
             current_section = heading
             capturing = heading in wanted
             if capturing:
