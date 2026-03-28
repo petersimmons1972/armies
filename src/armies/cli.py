@@ -545,7 +545,65 @@ def cmd_research(role: str, mode: str) -> None:
          THIS role based on their documented working patterns.]
         ```
 
-        ## Step 5 — Verify Before Saving
+        ## Step 5 — Write the Behavioral Fingerprints
+
+        After the profile body, add a `test_scenarios` block to the frontmatter.
+        This is how you verify the profile is activating the right person, not
+        producing a generic agent with the correct name.
+
+        Write exactly 3 scenarios using these archetypes — every profile gets all three:
+
+        1. **ambiguous-order**: A task with a missing constraint. Watch how they seek clarity.
+        2. **pressure-test**: A deadline compressed mid-campaign. Watch how they push back.
+        3. **scope-creep-trap**: An out-of-scope request added mid-campaign. Watch the negotiation.
+
+        For each scenario, write 2 fingerprint criteria. Each criterion must:
+        - Describe a specific behavior you would expect from THIS person that a generic
+          `{role}` agent would never produce
+        - Include a `why` field explaining what the generic version looks like and why
+          this person's documented behavior differs — cite the specific research that
+          supports it (a relationship, an incident, a documented habit)
+
+        Format:
+
+        ```yaml
+        test_scenarios:
+          - id: ambiguous-order
+            situation: >
+              [2-3 sentences describing the situation. Make it realistic and role-appropriate.]
+            prompt: "[The single question or instruction the agent must respond to.]"
+            fingerprints:
+              - criterion: [Specific behavior expected — one sentence, observable]
+                why: >
+                  [What the generic version looks like. Why this person's documented
+                   history produces a different response. Cite the specific source —
+                   an incident, a relationship, a documented working habit.]
+              - criterion: [Second behavior]
+                why: >
+                  [Same structure.]
+          - id: pressure-test
+            [same structure]
+          - id: scope-creep-trap
+            [same structure]
+        ```
+
+        The `why` field is load-bearing. Without it, the rubric is just a checklist.
+        With it, the person scoring the test knows exactly what they are listening for
+        and why a generic response fails.
+
+        Bad fingerprint (too generic):
+          criterion: "Asks clarifying questions before proceeding"
+          why: "Good coordinators ask questions."
+
+        Good fingerprint (specific to person):
+          criterion: "Names the missing constraint before issuing any assignments"
+          why: >
+            "A generic coordinator assumes or asks vaguely. Eisenhower's documented habit —
+             from his Abilene poker education through every command — was to write down
+             what he did not know before committing. He would not brief specialists on an
+             ambiguous order. If the response assigns work without naming the gap, this fails."
+
+        ## Step 6 — Verify Before Saving
 
         Read the Base Persona back. Ask:
         - Does this feel like a specific person or a type?
@@ -553,15 +611,22 @@ def cmd_research(role: str, mode: str) -> None:
         - Is the failure mode a real documented event with real consequences? Or a character note?
         - Does the description tell you HOW they moved, or just WHAT they achieved?
 
+        Read the fingerprints. Ask:
+        - Would a generic {role} agent produce this behavior? If yes, the fingerprint is too weak.
+        - Does the `why` field cite a specific documented behavior, or does it just explain the criterion?
+        - Could you score a response against this criterion, or is it too vague to judge?
+
         If the answers are wrong, research more before saving.
 
-        ## Step 6 — Save and Commit
+        ## Step 7 — Save and Commit
 
         Save the completed profile to:
 
             ~/.armies/profiles/<name>.md
 
         where `<name>` is the agent's lowercase hyphenated identifier.
+
+        Verify it works: `armies test <name>` should print the full test document without errors.
 
         Commit: `git -C ~/.armies commit -am "profile(<name>): {role} role — [figure name]"`
 
@@ -572,6 +637,7 @@ def cmd_research(role: str, mode: str) -> None:
         - Do NOT write from the Wikipedia lede. That is the surface. Go deeper.
         - Do NOT re-use figures already in ~/.armies/profiles/.
         - Do NOT start at 0 words on the failure mode. Every profile needs one.
+        - Do NOT skip test_scenarios. Every profile must pass `armies test` on creation.
         - The profile must pass `armies roster` without errors after saving.
     """)
 
