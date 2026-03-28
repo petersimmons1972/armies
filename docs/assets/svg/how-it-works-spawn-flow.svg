@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="900" height="480">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
   <title>How It Works — The Spawn Cycle</title>
   <defs>
     <radialGradient id="hw-mapglow" cx="50%" cy="60%" r="45%">
@@ -14,17 +14,17 @@
   </defs>
 
   <!-- Background -->
-  <rect width="900" height="480" fill="#0a0700"/>
-  <rect width="900" height="480" fill="none" stroke="#c8a050" stroke-width="3"/>
-  <rect x="6" y="6" width="888" height="468" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
+  <rect width="900" height="500" fill="#0a0700"/>
+  <rect width="900" height="500" fill="none" stroke="#c8a050" stroke-width="3"/>
+  <rect x="6" y="6" width="888" height="488" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.25"/>
 
   <!-- Top band -->
   <rect x="0" y="0" width="900" height="44" fill="#3a1a00"/>
   <text x="450" y="29" font-family="serif" font-size="28" font-weight="bold" fill="#c8a050" text-anchor="middle" letter-spacing="8">THE SPAWN CYCLE</text>
 
   <!-- Bottom band -->
-  <rect x="0" y="436" width="900" height="44" fill="#3a1a00"/>
-  <text x="450" y="464" font-family="serif" font-size="14" fill="#c8a050" text-anchor="middle" letter-spacing="6" opacity="0.8">MATCH → SPAWN → EXECUTE → RECORD → AWARD</text>
+  <rect x="0" y="456" width="900" height="44" fill="#3a1a00"/>
+  <text x="450" y="476" font-family="serif" font-size="13" fill="#c8a050" text-anchor="middle" letter-spacing="4" opacity="0.8">MATCH → SPAWN → EXECUTE → RECORD → AWARD</text>
 
   <!-- Screen glow on back wall -->
   <rect x="200" y="60" width="500" height="220" fill="#050f1a" rx="8" stroke="#2a4a6a" stroke-width="2"/>
@@ -60,8 +60,8 @@
   <ellipse cx="450" cy="370" rx="300" ry="50" fill="#1a0f00" stroke="#c8a050" stroke-width="1.5"/>
   <ellipse cx="450" cy="370" rx="280" ry="44" fill="none" stroke="#8b6010" stroke-width="0.5" opacity="0.5"/>
   <!-- Table legs suggestion -->
-  <line x1="180" y1="390" x2="170" y2="432" stroke="#8b6010" stroke-width="3"/>
-  <line x1="720" y1="390" x2="730" y2="432" stroke="#8b6010" stroke-width="3"/>
+  <line x1="180" y1="390" x2="170" y2="444" stroke="#8b6010" stroke-width="3"/>
+  <line x1="720" y1="390" x2="730" y2="444" stroke="#8b6010" stroke-width="3"/>
 
   <!-- Officer silhouettes around table -->
   <!-- Center officer — pointing at table -->
