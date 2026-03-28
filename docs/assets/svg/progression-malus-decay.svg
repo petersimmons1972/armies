@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380">
   <title>Malus Decay Chart — Effective Malus Over Time</title>
   <desc>Wartime infographic chart showing how a P0 malus entry (100 raw points) decays from 100 to near-zero over 84 days.</desc>
 
   <!-- Background -->
-  <rect width="760" height="340" fill="#1a0f00"/>
-  <rect x="0" y="0" width="760" height="340" fill="none" stroke="#8b6010" stroke-width="2"/>
+  <rect width="760" height="380" fill="#1a0f00"/>
+  <rect x="0" y="0" width="760" height="380" fill="none" stroke="#8b6010" stroke-width="2"/>
 
   <!-- Title band -->
   <rect x="0" y="0" width="760" height="34" fill="#3a1a00"/>
@@ -105,20 +105,24 @@
   <!-- Permanent line label — kept left to avoid right overflow -->
   <text x="200" y="42" font-family="sans-serif" font-size="12" fill="#8b0000" text-anchor="middle" font-weight="bold">PERMANENT (malpractice)</text>
 
-  <!-- Eisenhower annotation — moved to avoid overlap with "effectively negligible" -->
-  <text x="698" y="42" font-family="sans-serif" font-size="12" fill="#8b0000" text-anchor="end" font-style="italic">Eisenhower: 160pt</text>
+  <!-- Eisenhower annotation — placed in title band area, right-aligned -->
+  <text x="698" y="28" font-family="sans-serif" font-size="11" fill="#8b0000" text-anchor="end" font-style="italic">Eisenhower: 160pt (permanent)</text>
 
-  <!-- FIXED LEGEND — two rows, font-size 14, within SVG bounds -->
+  <!-- LEGEND — two rows below axis labels, no overlap -->
   <!-- Row 1 -->
-  <g transform="translate(60, 288)">
+  <g transform="translate(60, 320)">
     <line x1="0" y1="8" x2="20" y2="8" stroke="#c83030" stroke-width="2.5"/>
     <circle cx="10" cy="8" r="3" fill="#c83030"/>
-    <text x="26" y="12" font-family="sans-serif" font-size="14" fill="#c8a050">Normal defect (decays: true) — 14-day half-life</text>
+    <text x="26" y="12" font-family="sans-serif" font-size="12" fill="#c8a050">Normal defect (decays: true) — 14-day half-life</text>
   </g>
   <!-- Row 2 -->
-  <g transform="translate(60, 310)">
+  <g transform="translate(60, 344)">
     <line x1="0" y1="8" x2="20" y2="8" stroke="#8b0000" stroke-width="3" stroke-dasharray="6,3"/>
-    <text x="26" y="12" font-family="sans-serif" font-size="14" fill="#c8a050">Permanent (malpractice) — never decays</text>
+    <text x="26" y="12" font-family="sans-serif" font-size="12" fill="#c8a050">Permanent (malpractice) — never decays</text>
+  </g>
+  <!-- Row 3 — Eisenhower note -->
+  <g transform="translate(60, 368)">
+    <text x="0" y="8" font-family="sans-serif" font-size="11" fill="#8b0000" opacity="0.8" font-style="italic">Current example: Eisenhower 160.0 pt permanent (malpractice class)</text>
   </g>
 
 </svg>
