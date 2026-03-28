@@ -320,6 +320,64 @@ def _init_git(remote_url: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# armies record
+# ---------------------------------------------------------------------------
+
+
+@cli.command("record")
+@click.argument("agent")
+@click.argument("note")
+@click.option("--xp", default=0, type=int, show_default=True, help="XP earned this deployment.")
+@click.option("--outcome", default="success", type=click.Choice(["success", "partial", "failure"]), show_default=True)
+def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
+    """Write a service record entry and update XP in the profile."""
+    config = load_config()
+    pdir = profiles_dir(config)
+    profile_path = pdir / f"{agent}.md"
+
+    if not profile_path.exists():
+        matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
+        if not matches:
+            console.print(f"[red]Profile not found:[/red] {agent}")
+            sys.exit(1)
+        profile_path = matches[0]
+
+    # Read current profile text and frontmatter
+    raw = profile_path.read_text(encoding="utf-8")
+    fm = read_frontmatter(profile_path)
+    current_xp = int(fm.get("xp", 0))
+    new_xp = current_xp + xp
+
+    # Rewrite xp in the profile frontmatter
+    import re
+    raw = re.sub(r"^xp:\s*\d+", f"xp: {new_xp}", raw, flags=re.MULTILINE)
+    profile_path.write_text(raw, encoding="utf-8")
+
+    # Append service record entry
+    service_records_dir = ARMIES_DIR / "service-records"
+    service_records_dir.mkdir(parents=True, exist_ok=True)
+    record_path = service_records_dir / f"{agent}.yaml"
+
+    existing: list = []
+    if record_path.exists():
+        existing = yaml.safe_load(record_path.read_text(encoding="utf-8")) or []
+
+    entry = {
+        "date": date.today().isoformat(),
+        "task": note,
+        "outcome": outcome,
+        "xp_earned": xp,
+        "xp_total": new_xp,
+    }
+    existing.append(entry)
+    record_path.write_text(yaml.dump(existing, default_flow_style=False), encoding="utf-8")
+
+    console.print(f"[green]✓[/green] Service record written: {record_path.name}")
+    console.print(f"[green]✓[/green] XP updated: {current_xp} → {new_xp}")
+    console.print(f"[dim]Commit the profile to make it permanent:[/dim] git -C ~/.armies commit -am 'record({agent}): {note}'")
+
+
+# ---------------------------------------------------------------------------
 # armies research
 # ---------------------------------------------------------------------------
 
