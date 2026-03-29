@@ -3,6 +3,8 @@
 These rules apply to ALL agent sessions operating within the Armies project.
 They are NON-NEGOTIABLE and override any agent's default behavior.
 
+**Founder profile**: `profiles/examples/founder.md` — read before writing any content as Peter or making decisions on his behalf. Contains his authentic voice patterns, decision philosophy, and what earns/loses his trust.
+
 ---
 
 ## XP Integrity
