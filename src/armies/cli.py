@@ -471,8 +471,17 @@ def cmd_research(role: str, mode: str) -> None:
             "[yellow]API mode not yet implemented. Default prompt mode used.[/yellow]"
         )
 
+    config = load_config()
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
+
     today = date.today().isoformat()
-    draft_dir = Path.cwd() / "profiles" / "drafts"
+    # Write drafts under the configured profiles directory, not the current
+    # working directory — cwd is unpredictable in CLI usage (issue #39).
+    draft_dir = pdir / "drafts"
     draft_dir.mkdir(parents=True, exist_ok=True)
     draft_filename = f"draft-{role}-{today}.md"
     draft_path = draft_dir / draft_filename
