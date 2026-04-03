@@ -15,6 +15,15 @@ from typing import Any, Generator
 
 import yaml
 
+# Maximum allowed profile file size (1 MB).  Files larger than this are
+# rejected before reading to prevent memory exhaustion from crafted profiles
+# (issue #29).
+_MAX_PROFILE_BYTES = 1024 * 1024
+
+# Required frontmatter fields.  A profile missing any of these is malformed
+# and must not be used (issue #28).
+_REQUIRED_FIELDS = ("name", "xp")
+
 
 # ---------------------------------------------------------------------------
 # Low-level streaming helpers
@@ -55,6 +64,47 @@ def read_frontmatter(path: Path) -> dict[str, Any]:
         return {}
 
 
+def _check_file_size(path: Path) -> None:
+    """Raise ValueError if path exceeds _MAX_PROFILE_BYTES (issue #29)."""
+    size = path.stat().st_size
+    if size > _MAX_PROFILE_BYTES:
+        raise ValueError(
+            f"Profile too large: '{path.name}' is {size} bytes "
+            f"(limit {_MAX_PROFILE_BYTES} bytes / 1 MB)."
+        )
+
+
+def _validate_schema(fm: dict[str, Any], path: Path) -> None:
+    """Raise ValueError if required frontmatter fields are missing (issue #28).
+
+    Required fields: name, xp, and at least one of role/roles.
+    """
+    missing = []
+    for field in _REQUIRED_FIELDS:
+        if field not in fm:
+            missing.append(field)
+    # Accept either 'role' or 'roles' key — profiles use both conventions
+    if "role" not in fm and "roles" not in fm:
+        missing.append("role")
+    if missing:
+        raise ValueError(
+            f"Profile '{path.name}' is missing required frontmatter field(s): "
+            + ", ".join(repr(f) for f in missing)
+        )
+
+
+def read_frontmatter_validated(path: Path) -> dict[str, Any]:
+    """Read and validate frontmatter from a profile.
+
+    Enforces size cap (#29) and required field schema (#28).
+    Raises ValueError on violations.
+    """
+    _check_file_size(path)
+    fm = read_frontmatter(path)
+    _validate_schema(fm, path)
+    return fm
+
+
 def read_frontmatter_and_sections(
     path: Path,
     sections: list[str],
@@ -70,6 +120,7 @@ def read_frontmatter_and_sections(
     Only the requested sections are collected; the rest of the file is
     discarded as soon as it has been scanned past.
     """
+    _check_file_size(path)
     lines = _iter_lines(path)
 
     # --- parse frontmatter ---
