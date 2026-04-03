@@ -179,7 +179,7 @@ def cmd_spawn(agent: str, role: str) -> None:
 
     # Build output: frontmatter + Base Persona + role block
     lines: list[str] = ["---"]
-    lines.append(yaml.dump(fm, default_flow_style=False).rstrip())
+    lines.append(yaml.safe_dump(fm, default_flow_style=False).rstrip())
     lines.append("---")
     lines.append("")
 
@@ -302,7 +302,7 @@ def cmd_init() -> None:
             "profiles_dir": str(ARMIES_DIR / "profiles"),
         }
         with CONFIG_PATH.open("w", encoding="utf-8") as fh:
-            yaml.dump(config_data, fh, default_flow_style=False)
+            yaml.safe_dump(config_data, fh, default_flow_style=False)
         console.print(f"[green]✓[/green] {CONFIG_PATH}")
 
         if remote_url:
@@ -409,7 +409,7 @@ def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
         "xp_total": new_xp,
     }
     existing.append(entry)
-    record_path.write_text(yaml.dump(existing, default_flow_style=False), encoding="utf-8")
+    record_path.write_text(yaml.safe_dump(existing, default_flow_style=False), encoding="utf-8")
 
     console.print(f"[green]✓[/green] Service record written: {record_path.name}")
     console.print(f"[green]✓[/green] XP updated: {current_xp} → {new_xp}")
@@ -779,7 +779,7 @@ def cmd_test(agent: str) -> None:
     out.append("")
     out.append("```")
     out.append("---")
-    out.append(yaml.dump(spawn_fm, default_flow_style=False, allow_unicode=True).rstrip())
+    out.append(yaml.safe_dump(spawn_fm, default_flow_style=False, allow_unicode=True).rstrip())
     out.append("---")
     out.append("")
     if "Base Persona" in sections:
