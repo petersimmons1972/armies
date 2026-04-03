@@ -154,6 +154,128 @@ def test_missing_xp_key_creates_it(tmp_path):
     assert fm["xp"] == 5
 
 
+# ---------------------------------------------------------------------------
+# #43 — '---' substring in YAML values must not break the parser
+# ---------------------------------------------------------------------------
+
+
+_PROFILE_DASH_IN_YAML_VALUE = """\
+---
+name: grace
+xp: 10
+description: 'range ----> max'
+rank: Admiral
+---
+
+## Base Persona
+
+Grace is relentless.
+"""
+
+_PROFILE_DASH_HORIZONTAL_RULE_IN_BODY = """\
+---
+name: grace
+xp: 10
+rank: Admiral
+---
+
+## Base Persona
+
+Grace is relentless.
+
+---
+
+This paragraph follows a horizontal rule in the body.
+"""
+
+
+def test_dash_in_yaml_value_preserved(tmp_path):
+    """A YAML value containing '---' must survive the update without corruption.
+
+    The old split('---', 2) approach would tear the frontmatter at the first
+    '---' substring inside a value, producing a broken YAML parse.  The
+    line-by-line approach matches only lines whose stripped content is exactly
+    '---', so embedded substrings are ignored.
+    """
+    from armies.cli import _update_frontmatter_field
+
+    profile = tmp_path / "grace.md"
+    profile.write_text(_PROFILE_DASH_IN_YAML_VALUE, encoding="utf-8")
+
+    _update_frontmatter_field(profile, "xp", 99)
+
+    content = profile.read_text(encoding="utf-8")
+
+    # The description value must be byte-identical — no corruption
+    assert "description: 'range ----> max'" in content or \
+        "description: range ----> max" in content, (
+        f"description value was corrupted. Content:\n{content}"
+    )
+
+    # Frontmatter xp must be updated
+    import yaml as _yaml
+    lines = content.splitlines(keepends=True)
+    fm_lines = []
+    in_fm = False
+    delimiters_seen = 0
+    for line in lines:
+        if line.strip() == "---":
+            delimiters_seen += 1
+            if delimiters_seen == 1:
+                in_fm = True
+                continue
+            if delimiters_seen == 2:
+                break
+        if in_fm:
+            fm_lines.append(line)
+    fm = _yaml.safe_load("".join(fm_lines))
+    assert fm["xp"] == 99, f"Expected xp=99, got {fm.get('xp')}"
+    assert fm["description"] == "range ----> max", (
+        f"description was corrupted: {fm.get('description')!r}"
+    )
+
+
+def test_horizontal_rule_in_body_preserved(tmp_path):
+    """A markdown horizontal rule ('---' on its own line) in the body must not
+    confuse the parser.  The line-by-line approach stops at the second exact
+    '---' delimiter and treats the remainder as body — so a horizontal rule
+    in the body is simply part of the body string, never mistaken for a
+    frontmatter delimiter.
+    """
+    from armies.cli import _update_frontmatter_field
+
+    profile = tmp_path / "grace.md"
+    profile.write_text(_PROFILE_DASH_HORIZONTAL_RULE_IN_BODY, encoding="utf-8")
+
+    _update_frontmatter_field(profile, "xp", 55)
+
+    content = profile.read_text(encoding="utf-8")
+
+    # The horizontal rule and the paragraph after it must survive intact
+    assert "This paragraph follows a horizontal rule in the body." in content, (
+        f"Body content after horizontal rule was lost. Content:\n{content}"
+    )
+
+    # Frontmatter xp must be updated
+    import yaml as _yaml
+    lines = content.splitlines(keepends=True)
+    fm_lines = []
+    in_fm = False
+    delimiters_seen = 0
+    for line in lines:
+        if line.strip() == "---":
+            delimiters_seen += 1
+            if delimiters_seen == 1:
+                in_fm = True
+                continue
+            if delimiters_seen == 2:
+                break
+        if in_fm:
+            fm_lines.append(line)
+    fm = _yaml.safe_load("".join(fm_lines))
+    assert fm["xp"] == 55, f"Expected xp=55, got {fm.get('xp')}"
+
+
 def test_cmd_record_uses_safe_frontmatter_update(tmp_path):
     """cmd_record must not corrupt xp: in profile body (integration path).
 

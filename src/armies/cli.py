@@ -200,23 +200,54 @@ def cmd_spawn(agent: str, role: str) -> None:
 def _update_frontmatter_field(path: Path, key: str, value) -> None:
     """Safely update a single frontmatter field without touching the body.
 
-    Reads the file, isolates the frontmatter block (text between the first
-    and second '---' delimiters), parses it with yaml.safe_load, sets the
-    key, re-serializes with yaml.safe_dump, and writes back — leaving the
-    body unchanged.
+    Reads the file line-by-line, locates the opening and closing frontmatter
+    delimiters (lines whose stripped content is EXACTLY '---'), parses the
+    YAML between them, sets the key, re-serializes with yaml.safe_dump, and
+    writes back — leaving the body unchanged.
+
+    Why line-by-line instead of raw.split('---', 2):
+    The split approach matches '---' as a substring anywhere in the raw text.
+    If a YAML value contains the literal substring '---' (e.g.
+    ``description: 'range ----> max'``) the split tears through the middle of
+    that value and the subsequent yaml.safe_load raises a ScannerError (issue
+    #43).  Line-by-line parsing matches only lines whose entire stripped
+    content is '---', so embedded substrings are never mistaken for delimiters.
 
     This replaces the previous re.sub approach which would corrupt any
     occurrence of 'key: ...' that appeared in the body text (issues #20,
     #32, #37).
     """
     raw = path.read_text(encoding="utf-8")
+    file_lines = raw.splitlines(keepends=True)
 
-    # A well-formed profile starts with '---\n' and has a closing '---' line.
-    # Split on '---' at most twice to isolate: ['', frontmatter, body].
-    parts = raw.split("---", 2)
-    if len(parts) < 3:
-        # Malformed file — fall back to a simple write to avoid data loss
-        fm = yaml.safe_load(parts[1]) if len(parts) >= 2 else {}
+    # Walk the lines collecting:
+    #   fm_lines  — the lines between the two '---' delimiters
+    #   body_lines — everything after the closing '---'
+    # We track how many exact '---' delimiter lines we have seen so far.
+    fm_lines: list[str] = []
+    body_lines: list[str] = []
+    delimiters_seen = 0
+
+    for line in file_lines:
+        if line.rstrip("\n\r") == "---":
+            delimiters_seen += 1
+            if delimiters_seen <= 2:
+                # First delimiter opens the block; second closes it.
+                continue
+            # A third '---' belongs to the body (e.g. a markdown horizontal
+            # rule).  Fall through to body collection below.
+        if delimiters_seen >= 2:
+            body_lines.append(line)
+        elif delimiters_seen == 1:
+            fm_lines.append(line)
+        # delimiters_seen == 0: lines before the opening '---' are discarded
+        # (a well-formed profile has nothing before the first delimiter).
+
+    if delimiters_seen < 2:
+        # Malformed file — no proper frontmatter block found.  Reconstruct
+        # from whatever YAML we can recover to avoid silent data loss.
+        fm_text = "".join(fm_lines) if fm_lines else raw
+        fm = yaml.safe_load(fm_text) if fm_text.strip() else {}
         if not isinstance(fm, dict):
             fm = {}
         fm[key] = value
@@ -226,16 +257,13 @@ def _update_frontmatter_field(path: Path, key: str, value) -> None:
         )
         return
 
-    # parts[0] is the empty string before the first '---'
-    # parts[1] is the frontmatter YAML text
-    # parts[2] is everything after the closing '---'
-    fm = yaml.safe_load(parts[1])
+    fm = yaml.safe_load("".join(fm_lines))
     if not isinstance(fm, dict):
         fm = {}
     fm[key] = value
 
     new_fm_text = yaml.safe_dump(fm, default_flow_style=False, allow_unicode=True)
-    new_raw = parts[0] + "---\n" + new_fm_text + "---" + parts[2]
+    new_raw = "---\n" + new_fm_text + "---\n" + "".join(body_lines)
     path.write_text(new_raw, encoding="utf-8")
 
 
