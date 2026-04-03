@@ -197,6 +197,48 @@ def cmd_spawn(agent: str, role: str) -> None:
     click.echo("\n".join(lines))
 
 
+def _update_frontmatter_field(path: Path, key: str, value) -> None:
+    """Safely update a single frontmatter field without touching the body.
+
+    Reads the file, isolates the frontmatter block (text between the first
+    and second '---' delimiters), parses it with yaml.safe_load, sets the
+    key, re-serializes with yaml.safe_dump, and writes back — leaving the
+    body unchanged.
+
+    This replaces the previous re.sub approach which would corrupt any
+    occurrence of 'key: ...' that appeared in the body text (issues #20,
+    #32, #37).
+    """
+    raw = path.read_text(encoding="utf-8")
+
+    # A well-formed profile starts with '---\n' and has a closing '---' line.
+    # Split on '---' at most twice to isolate: ['', frontmatter, body].
+    parts = raw.split("---", 2)
+    if len(parts) < 3:
+        # Malformed file — fall back to a simple write to avoid data loss
+        fm = yaml.safe_load(parts[1]) if len(parts) >= 2 else {}
+        if not isinstance(fm, dict):
+            fm = {}
+        fm[key] = value
+        path.write_text(
+            "---\n" + yaml.safe_dump(fm, default_flow_style=False) + "---\n",
+            encoding="utf-8",
+        )
+        return
+
+    # parts[0] is the empty string before the first '---'
+    # parts[1] is the frontmatter YAML text
+    # parts[2] is everything after the closing '---'
+    fm = yaml.safe_load(parts[1])
+    if not isinstance(fm, dict):
+        fm = {}
+    fm[key] = value
+
+    new_fm_text = yaml.safe_dump(fm, default_flow_style=False, allow_unicode=True)
+    new_raw = parts[0] + "---\n" + new_fm_text + "---" + parts[2]
+    path.write_text(new_raw, encoding="utf-8")
+
+
 def _list_role_headings(path: Path) -> list[str]:
     """Return all '## Role: ...' headings found in a profile file."""
     import re
@@ -381,16 +423,16 @@ def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
             sys.exit(1)
         profile_path = matches[0]
 
-    # Read current profile text and frontmatter
-    raw = profile_path.read_text(encoding="utf-8")
+    # Read current frontmatter and compute new XP
     fm = read_frontmatter(profile_path)
     current_xp = int(fm.get("xp", 0))
     new_xp = current_xp + xp
 
-    # Rewrite xp in the profile frontmatter
-    import re
-    raw = re.sub(r"^xp:\s*\d+", f"xp: {new_xp}", raw, flags=re.MULTILINE)
-    profile_path.write_text(raw, encoding="utf-8")
+    # Update xp in the frontmatter without touching the body.  The old
+    # re.sub approach matched the first `xp:` anywhere in the file,
+    # corrupting role descriptions that contained "xp: N" in their text
+    # (issues #20, #32, #37).
+    _update_frontmatter_field(profile_path, "xp", new_xp)
 
     # Append service record entry
     service_records_dir = ARMIES_DIR / "service-records"
