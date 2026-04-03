@@ -8,9 +8,12 @@ version = "0.1.0"
 description = "Multi-agent coordination engine for Claude Code"
 requires-python = ">=3.10"
 dependencies = [
-    "click>=8.0",
-    "pyyaml>=6.0",
-    "rich>=13.0",
+    # Compatible release (~=) allows patch releases within the minor version
+    # but rejects major/minor bumps that could break the API.  Pinned against
+    # the versions verified at development time (issue #33).
+    "click~=8.1",
+    "pyyaml~=6.0",
+    "rich~=13.5",
 ]
 
 [project.scripts]
