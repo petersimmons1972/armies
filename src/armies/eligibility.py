@@ -160,11 +160,29 @@ def compute_effective_malus(agent_name: str, ledger_path: Path) -> float:
 
 
 def tier_for_malus(effective_malus: float) -> dict[str, Any]:
-    """Return the tier dict from TIERS for the given effective malus value."""
-    for tier in TIERS:
-        if tier["min"] <= effective_malus <= tier["max"]:
-            return tier
-    # Fallback — should not happen given the last tier has max=inf
+    """Return the tier dict from TIERS for the given effective malus value.
+
+    Rounds the input to 10 decimal places before comparison to avoid
+    floating-point accumulation errors where e.g. ten 10-point entries sum
+    to 99.9999999997 instead of 100.0 (issue #23).
+
+    Tiers are treated as half-open intervals [min, next_min) so that float
+    values between integer tier boundaries (e.g. 99.5) never fall through
+    the gaps in the lookup table.
+    """
+    malus = round(effective_malus, 10)
+    for i, tier in enumerate(TIERS):
+        # Use the next tier's min as the exclusive upper bound, except for
+        # the last tier which extends to infinity.
+        if i + 1 < len(TIERS):
+            next_min = TIERS[i + 1]["min"]
+            if tier["min"] <= malus < next_min:
+                return tier
+        else:
+            # Last tier: [min, inf)
+            if malus >= tier["min"]:
+                return tier
+    # Fallback — should not happen
     return TIERS[-1]
 
 
