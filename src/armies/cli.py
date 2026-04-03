@@ -14,7 +14,7 @@ import yaml
 from rich.console import Console
 from rich.table import Table
 
-from .config import ARMIES_DIR, CONFIG_PATH, load_config, malus_ledger_path, profiles_dir
+from .config import ARMIES_DIR, CONFIG_PATH, load_config, malus_ledger_path, profiles_dir, profiles_dir_validated
 from .eligibility import KNOWN_ROLES, compute_effective_malus, eligibility_status, tier_for_malus
 from .profiles import iter_profile_paths, read_frontmatter, read_frontmatter_and_sections
 from .sync import sync_armies
@@ -43,6 +43,26 @@ OVERALL_COLOUR = {
 
 def _status_display(status: str) -> str:
     return STATUS_COLOUR.get(status, status)
+
+
+def _resolve_agent_path(profiles_directory: Path, agent: str) -> Path:
+    """Resolve agent name to a profile path, rejecting path traversal.
+
+    Raises ValueError if the resolved path escapes profiles_directory.
+    This guards against agent='../../etc/passwd' style attacks (issue #26).
+    """
+    base = profiles_directory.resolve()
+    # Build the candidate path — strip any leading slashes to prevent absolute
+    # path injection, then resolve relative to the profiles directory.
+    candidate = (base / f"{agent}.md").resolve()
+    try:
+        candidate.relative_to(base)
+    except ValueError:
+        raise ValueError(
+            f"Agent argument '{agent}' resolves outside the profiles directory "
+            f"'{base}'. Refusing to open '{candidate}'."
+        )
+    return candidate
 
 
 def _overall_display(overall: str) -> str:
@@ -119,12 +139,21 @@ def cmd_roster() -> None:
 def cmd_spawn(agent: str, role: str) -> None:
     """Read a profile and output frontmatter + Base Persona + one role block."""
     config = load_config()
-    pdir = profiles_dir(config)
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
 
-    # Locate profile file
-    profile_path = pdir / f"{agent}.md"
+    # Locate profile file — validate agent path to prevent traversal (#26)
+    try:
+        profile_path = _resolve_agent_path(pdir, agent)
+    except ValueError as exc:
+        console.print(f"[red]Security error:[/red] {exc}")
+        sys.exit(1)
+
     if not profile_path.exists():
-        # Try case-insensitive search
+        # Try case-insensitive search (within safe directory)
         matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
         if not matches:
             console.print(f"[red]Profile not found:[/red] {agent}")
@@ -150,7 +179,7 @@ def cmd_spawn(agent: str, role: str) -> None:
 
     # Build output: frontmatter + Base Persona + role block
     lines: list[str] = ["---"]
-    lines.append(yaml.dump(fm, default_flow_style=False).rstrip())
+    lines.append(yaml.safe_dump(fm, default_flow_style=False).rstrip())
     lines.append("---")
     lines.append("")
 
@@ -166,6 +195,48 @@ def cmd_spawn(agent: str, role: str) -> None:
     lines.append("")
 
     click.echo("\n".join(lines))
+
+
+def _update_frontmatter_field(path: Path, key: str, value) -> None:
+    """Safely update a single frontmatter field without touching the body.
+
+    Reads the file, isolates the frontmatter block (text between the first
+    and second '---' delimiters), parses it with yaml.safe_load, sets the
+    key, re-serializes with yaml.safe_dump, and writes back — leaving the
+    body unchanged.
+
+    This replaces the previous re.sub approach which would corrupt any
+    occurrence of 'key: ...' that appeared in the body text (issues #20,
+    #32, #37).
+    """
+    raw = path.read_text(encoding="utf-8")
+
+    # A well-formed profile starts with '---\n' and has a closing '---' line.
+    # Split on '---' at most twice to isolate: ['', frontmatter, body].
+    parts = raw.split("---", 2)
+    if len(parts) < 3:
+        # Malformed file — fall back to a simple write to avoid data loss
+        fm = yaml.safe_load(parts[1]) if len(parts) >= 2 else {}
+        if not isinstance(fm, dict):
+            fm = {}
+        fm[key] = value
+        path.write_text(
+            "---\n" + yaml.safe_dump(fm, default_flow_style=False) + "---\n",
+            encoding="utf-8",
+        )
+        return
+
+    # parts[0] is the empty string before the first '---'
+    # parts[1] is the frontmatter YAML text
+    # parts[2] is everything after the closing '---'
+    fm = yaml.safe_load(parts[1])
+    if not isinstance(fm, dict):
+        fm = {}
+    fm[key] = value
+
+    new_fm_text = yaml.safe_dump(fm, default_flow_style=False, allow_unicode=True)
+    new_raw = parts[0] + "---\n" + new_fm_text + "---" + parts[2]
+    path.write_text(new_raw, encoding="utf-8")
 
 
 def _list_role_headings(path: Path) -> list[str]:
@@ -273,7 +344,7 @@ def cmd_init() -> None:
             "profiles_dir": str(ARMIES_DIR / "profiles"),
         }
         with CONFIG_PATH.open("w", encoding="utf-8") as fh:
-            yaml.dump(config_data, fh, default_flow_style=False)
+            yaml.safe_dump(config_data, fh, default_flow_style=False)
         console.print(f"[green]✓[/green] {CONFIG_PATH}")
 
         if remote_url:
@@ -333,8 +404,17 @@ def _init_git(remote_url: str) -> None:
 def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
     """Write a service record entry and update XP in the profile."""
     config = load_config()
-    pdir = profiles_dir(config)
-    profile_path = pdir / f"{agent}.md"
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
+
+    try:
+        profile_path = _resolve_agent_path(pdir, agent)
+    except ValueError as exc:
+        console.print(f"[red]Security error:[/red] {exc}")
+        sys.exit(1)
 
     if not profile_path.exists():
         matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
@@ -343,16 +423,16 @@ def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
             sys.exit(1)
         profile_path = matches[0]
 
-    # Read current profile text and frontmatter
-    raw = profile_path.read_text(encoding="utf-8")
+    # Read current frontmatter and compute new XP
     fm = read_frontmatter(profile_path)
     current_xp = int(fm.get("xp", 0))
     new_xp = current_xp + xp
 
-    # Rewrite xp in the profile frontmatter
-    import re
-    raw = re.sub(r"^xp:\s*\d+", f"xp: {new_xp}", raw, flags=re.MULTILINE)
-    profile_path.write_text(raw, encoding="utf-8")
+    # Update xp in the frontmatter without touching the body.  The old
+    # re.sub approach matched the first `xp:` anywhere in the file,
+    # corrupting role descriptions that contained "xp: N" in their text
+    # (issues #20, #32, #37).
+    _update_frontmatter_field(profile_path, "xp", new_xp)
 
     # Append service record entry
     service_records_dir = ARMIES_DIR / "service-records"
@@ -371,7 +451,7 @@ def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
         "xp_total": new_xp,
     }
     existing.append(entry)
-    record_path.write_text(yaml.dump(existing, default_flow_style=False), encoding="utf-8")
+    record_path.write_text(yaml.safe_dump(existing, default_flow_style=False), encoding="utf-8")
 
     console.print(f"[green]✓[/green] Service record written: {record_path.name}")
     console.print(f"[green]✓[/green] XP updated: {current_xp} → {new_xp}")
@@ -433,8 +513,17 @@ def cmd_research(role: str, mode: str) -> None:
             "[yellow]API mode not yet implemented. Default prompt mode used.[/yellow]"
         )
 
+    config = load_config()
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
+
     today = date.today().isoformat()
-    draft_dir = Path.cwd() / "profiles" / "drafts"
+    # Write drafts under the configured profiles directory, not the current
+    # working directory — cwd is unpredictable in CLI usage (issue #39).
+    draft_dir = pdir / "drafts"
     draft_dir.mkdir(parents=True, exist_ok=True)
     draft_filename = f"draft-{role}-{today}.md"
     draft_path = draft_dir / draft_filename
@@ -666,10 +755,19 @@ def cmd_test(agent: str) -> None:
     rubric to verify the profile is activating the right person.
     """
     config = load_config()
-    pdir = profiles_dir(config)
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
 
-    # Locate profile
-    profile_path = pdir / f"{agent}.md"
+    # Locate profile — validate to prevent traversal (#26)
+    try:
+        profile_path = _resolve_agent_path(pdir, agent)
+    except ValueError as exc:
+        console.print(f"[red]Security error:[/red] {exc}")
+        sys.exit(1)
+
     if not profile_path.exists():
         matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
         if not matches:
@@ -732,7 +830,7 @@ def cmd_test(agent: str) -> None:
     out.append("")
     out.append("```")
     out.append("---")
-    out.append(yaml.dump(spawn_fm, default_flow_style=False, allow_unicode=True).rstrip())
+    out.append(yaml.safe_dump(spawn_fm, default_flow_style=False, allow_unicode=True).rstrip())
     out.append("---")
     out.append("")
     if "Base Persona" in sections:

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import fcntl
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -110,8 +111,54 @@ def sync_armies(config: dict[str, Any]) -> dict[str, Any]:
             "error": str(exc),
         }
 
-    # Pull
-    pull_rc, pull_out, pull_err = _run_git(["pull"], armies_dir)
+    # Acquire an exclusive file lock before running any git operations.  This
+    # is a best-effort guard against simultaneous `armies sync` invocations on
+    # the same machine (e.g. two terminal sessions, a cron job, and an IDE).
+    # It does NOT protect against truly concurrent syncs from different machines
+    # — git itself handles that case via fast-forward rejection (issue #42).
+    lock_path = armies_dir / ".sync.lock"
+    lock_fh = open(lock_path, "w")
+    try:
+        fcntl.flock(lock_fh, fcntl.LOCK_EX)
+    except OSError:
+        lock_fh.close()
+        return {
+            "pull_ok": False,
+            "push_ok": False,
+            "pull_msg": "",
+            "push_msg": "",
+            "error": "Could not acquire sync lock. Another sync may be running.",
+        }
+
+    try:
+        return _sync_with_lock(armies_dir, remote_url)
+    finally:
+        fcntl.flock(lock_fh, fcntl.LOCK_UN)
+        lock_fh.close()
+
+
+def _sync_with_lock(armies_dir: Path, remote_url: str) -> dict[str, Any]:
+    """Inner sync logic — called while the .sync.lock is held."""
+    # Check for uncommitted changes before any git network operation.  Syncing
+    # over a dirty working tree can silently overwrite local edits or produce
+    # a confusing merge state (issue #36).
+    dirty_rc, dirty_out, _ = _run_git(["status", "--porcelain"], armies_dir)
+    if dirty_rc == 0 and dirty_out.strip():
+        return {
+            "pull_ok": False,
+            "push_ok": False,
+            "pull_msg": "",
+            "push_msg": "",
+            "error": (
+                "Cannot sync: uncommitted changes in ~/.armies. "
+                "Commit or stash first."
+            ),
+        }
+
+    # Pull with --ff-only to prevent silent merge commits.  If the remote has
+    # diverged, the operator must resolve the conflict manually before syncing
+    # (issue #25).
+    pull_rc, pull_out, pull_err = _run_git(["pull", "--ff-only", "origin", "master"], armies_dir)
     pull_ok = pull_rc == 0
     pull_msg = pull_out or pull_err
 
@@ -126,8 +173,10 @@ def sync_armies(config: dict[str, Any]) -> dict[str, Any]:
             "error": None,
         }
 
-    # Push
-    push_rc, push_out, push_err = _run_git(["push"], armies_dir)
+    # Push with explicit remote and branch to match the pull above.  A bare
+    # `git push` can operate on the wrong tracking branch if the local
+    # checkout is in an unexpected state (issue #25).
+    push_rc, push_out, push_err = _run_git(["push", "origin", "master"], armies_dir)
     push_ok = push_rc == 0
     push_msg = push_out or push_err
 

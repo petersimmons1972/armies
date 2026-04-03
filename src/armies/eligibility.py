@@ -11,12 +11,15 @@ Total effective malus = sum of all per-entry values.
 
 from __future__ import annotations
 
+import logging
 import math
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Tier gate table — mirrors rules/eligibility.yaml
@@ -130,14 +133,22 @@ def compute_effective_malus(agent_name: str, ledger_path: Path) -> float:
             if alloc_agent != target:
                 continue
 
-            share = float(alloc.get("share", 100))
+            # Clamp share to [0, 100] — values outside this range are nonsensical
+            # and can produce malus contributions larger than raw_malus (#31).
+            share = max(0.0, min(100.0, float(alloc.get("share", 100))))
 
             if decays:
                 entry_date_raw = entry.get("date")
                 try:
                     entry_date = _parse_date(entry_date_raw)
-                    days_since = (today - entry_date).days
+                    # Clamp to 0 — future-dated entries decay at full strength, not
+                    # negative (which would amplify malus instead of decaying it) (#30).
+                    days_since = max(0, (today - entry_date).days)
                 except (TypeError, ValueError):
+                    # Log the bad entry so operators can find and fix it (#21, #40).
+                    log.warning(
+                        "Malus entry has unparseable date, treating as today: %r", entry
+                    )
                     days_since = 0
                 contribution = raw_malus * (share / 100) * (0.5 ** (days_since / 14))
             else:
@@ -149,11 +160,29 @@ def compute_effective_malus(agent_name: str, ledger_path: Path) -> float:
 
 
 def tier_for_malus(effective_malus: float) -> dict[str, Any]:
-    """Return the tier dict from TIERS for the given effective malus value."""
-    for tier in TIERS:
-        if tier["min"] <= effective_malus <= tier["max"]:
-            return tier
-    # Fallback — should not happen given the last tier has max=inf
+    """Return the tier dict from TIERS for the given effective malus value.
+
+    Rounds the input to 10 decimal places before comparison to avoid
+    floating-point accumulation errors where e.g. ten 10-point entries sum
+    to 99.9999999997 instead of 100.0 (issue #23).
+
+    Tiers are treated as half-open intervals [min, next_min) so that float
+    values between integer tier boundaries (e.g. 99.5) never fall through
+    the gaps in the lookup table.
+    """
+    malus = round(effective_malus, 10)
+    for i, tier in enumerate(TIERS):
+        # Use the next tier's min as the exclusive upper bound, except for
+        # the last tier which extends to infinity.
+        if i + 1 < len(TIERS):
+            next_min = TIERS[i + 1]["min"]
+            if tier["min"] <= malus < next_min:
+                return tier
+        else:
+            # Last tier: [min, inf)
+            if malus >= tier["min"]:
+                return tier
+    # Fallback — should not happen
     return TIERS[-1]
 
 
