@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import fcntl
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -110,6 +111,34 @@ def sync_armies(config: dict[str, Any]) -> dict[str, Any]:
             "error": str(exc),
         }
 
+    # Acquire an exclusive file lock before running any git operations.  This
+    # is a best-effort guard against simultaneous `armies sync` invocations on
+    # the same machine (e.g. two terminal sessions, a cron job, and an IDE).
+    # It does NOT protect against truly concurrent syncs from different machines
+    # — git itself handles that case via fast-forward rejection (issue #42).
+    lock_path = armies_dir / ".sync.lock"
+    lock_fh = open(lock_path, "w")
+    try:
+        fcntl.flock(lock_fh, fcntl.LOCK_EX)
+    except OSError:
+        lock_fh.close()
+        return {
+            "pull_ok": False,
+            "push_ok": False,
+            "pull_msg": "",
+            "push_msg": "",
+            "error": "Could not acquire sync lock. Another sync may be running.",
+        }
+
+    try:
+        return _sync_with_lock(armies_dir, remote_url)
+    finally:
+        fcntl.flock(lock_fh, fcntl.LOCK_UN)
+        lock_fh.close()
+
+
+def _sync_with_lock(armies_dir: Path, remote_url: str) -> dict[str, Any]:
+    """Inner sync logic — called while the .sync.lock is held."""
     # Check for uncommitted changes before any git network operation.  Syncing
     # over a dirty working tree can silently overwrite local edits or produce
     # a confusing merge state (issue #36).
