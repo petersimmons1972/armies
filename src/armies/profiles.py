@@ -147,17 +147,31 @@ def read_frontmatter_and_sections(
     collected: dict[str, list[str]] = {}
     current_section: str | None = None
     capturing = False
+    in_fence = False  # True while inside a fenced code block (``` ... ```)
 
     for line in lines:
-        # Detect any ## heading
-        m = re.match(r"^## (.+)$", line)
-        if m:
-            heading = m.group(1).strip()
-            current_section = heading
-            capturing = heading in wanted
-            if capturing:
-                collected.setdefault(current_section, [])
-            continue
+        # Track fenced code blocks — a ``` at the start of a line toggles the
+        # fence state.  A ## heading inside a fence is not a section boundary
+        # (issue #41).
+        if line.startswith("```"):
+            in_fence = not in_fence
+
+        if not in_fence:
+            # Detect top-level ## headings (section boundaries)
+            m = re.match(r"^## (.+)$", line)
+            if m:
+                heading = m.group(1).strip()
+                # Early exit: we have already collected every wanted section,
+                # and we've now hit a new top-level heading — stop here (#22).
+                # (Check BEFORE updating current_section so we don't prematurely
+                # exit when the heading that completes the set is first encountered.)
+                if wanted and set(collected.keys()) >= wanted:
+                    break
+                current_section = heading
+                capturing = heading in wanted
+                if capturing:
+                    collected.setdefault(current_section, [])
+                continue
 
         if capturing and current_section is not None:
             collected[current_section].append(line)
