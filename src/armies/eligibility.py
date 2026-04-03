@@ -11,12 +11,15 @@ Total effective malus = sum of all per-entry values.
 
 from __future__ import annotations
 
+import logging
 import math
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Tier gate table — mirrors rules/eligibility.yaml
@@ -130,14 +133,22 @@ def compute_effective_malus(agent_name: str, ledger_path: Path) -> float:
             if alloc_agent != target:
                 continue
 
-            share = float(alloc.get("share", 100))
+            # Clamp share to [0, 100] — values outside this range are nonsensical
+            # and can produce malus contributions larger than raw_malus (#31).
+            share = max(0.0, min(100.0, float(alloc.get("share", 100))))
 
             if decays:
                 entry_date_raw = entry.get("date")
                 try:
                     entry_date = _parse_date(entry_date_raw)
-                    days_since = (today - entry_date).days
+                    # Clamp to 0 — future-dated entries decay at full strength, not
+                    # negative (which would amplify malus instead of decaying it) (#30).
+                    days_since = max(0, (today - entry_date).days)
                 except (TypeError, ValueError):
+                    # Log the bad entry so operators can find and fix it (#21, #40).
+                    log.warning(
+                        "Malus entry has unparseable date, treating as today: %r", entry
+                    )
                     days_since = 0
                 contribution = raw_malus * (share / 100) * (0.5 ** (days_since / 14))
             else:
