@@ -14,7 +14,7 @@ import yaml
 from rich.console import Console
 from rich.table import Table
 
-from .config import ARMIES_DIR, CONFIG_PATH, load_config, malus_ledger_path, profiles_dir
+from .config import ARMIES_DIR, CONFIG_PATH, load_config, malus_ledger_path, profiles_dir, profiles_dir_validated
 from .eligibility import KNOWN_ROLES, compute_effective_malus, eligibility_status, tier_for_malus
 from .profiles import iter_profile_paths, read_frontmatter, read_frontmatter_and_sections
 from .sync import sync_armies
@@ -43,6 +43,26 @@ OVERALL_COLOUR = {
 
 def _status_display(status: str) -> str:
     return STATUS_COLOUR.get(status, status)
+
+
+def _resolve_agent_path(profiles_directory: Path, agent: str) -> Path:
+    """Resolve agent name to a profile path, rejecting path traversal.
+
+    Raises ValueError if the resolved path escapes profiles_directory.
+    This guards against agent='../../etc/passwd' style attacks (issue #26).
+    """
+    base = profiles_directory.resolve()
+    # Build the candidate path — strip any leading slashes to prevent absolute
+    # path injection, then resolve relative to the profiles directory.
+    candidate = (base / f"{agent}.md").resolve()
+    try:
+        candidate.relative_to(base)
+    except ValueError:
+        raise ValueError(
+            f"Agent argument '{agent}' resolves outside the profiles directory "
+            f"'{base}'. Refusing to open '{candidate}'."
+        )
+    return candidate
 
 
 def _overall_display(overall: str) -> str:
@@ -119,12 +139,21 @@ def cmd_roster() -> None:
 def cmd_spawn(agent: str, role: str) -> None:
     """Read a profile and output frontmatter + Base Persona + one role block."""
     config = load_config()
-    pdir = profiles_dir(config)
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
 
-    # Locate profile file
-    profile_path = pdir / f"{agent}.md"
+    # Locate profile file — validate agent path to prevent traversal (#26)
+    try:
+        profile_path = _resolve_agent_path(pdir, agent)
+    except ValueError as exc:
+        console.print(f"[red]Security error:[/red] {exc}")
+        sys.exit(1)
+
     if not profile_path.exists():
-        # Try case-insensitive search
+        # Try case-insensitive search (within safe directory)
         matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
         if not matches:
             console.print(f"[red]Profile not found:[/red] {agent}")
@@ -333,8 +362,17 @@ def _init_git(remote_url: str) -> None:
 def cmd_record(agent: str, note: str, xp: int, outcome: str) -> None:
     """Write a service record entry and update XP in the profile."""
     config = load_config()
-    pdir = profiles_dir(config)
-    profile_path = pdir / f"{agent}.md"
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
+
+    try:
+        profile_path = _resolve_agent_path(pdir, agent)
+    except ValueError as exc:
+        console.print(f"[red]Security error:[/red] {exc}")
+        sys.exit(1)
 
     if not profile_path.exists():
         matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
@@ -666,10 +704,19 @@ def cmd_test(agent: str) -> None:
     rubric to verify the profile is activating the right person.
     """
     config = load_config()
-    pdir = profiles_dir(config)
+    try:
+        pdir = profiles_dir_validated(config)
+    except ValueError as exc:
+        console.print(f"[red]Configuration error:[/red] {exc}")
+        sys.exit(1)
 
-    # Locate profile
-    profile_path = pdir / f"{agent}.md"
+    # Locate profile — validate to prevent traversal (#26)
+    try:
+        profile_path = _resolve_agent_path(pdir, agent)
+    except ValueError as exc:
+        console.print(f"[red]Security error:[/red] {exc}")
+        sys.exit(1)
+
     if not profile_path.exists():
         matches = [p for p in pdir.glob("*.md") if p.stem.lower() == agent.lower()]
         if not matches:

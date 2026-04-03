@@ -39,6 +39,25 @@ def profiles_dir(config: dict[str, Any] | None = None) -> Path:
     return Path(os.path.expanduser(raw))
 
 
+def profiles_dir_validated(config: dict[str, Any] | None = None) -> Path:
+    """Return the resolved profiles directory, validated to stay within home.
+
+    Raises ValueError if the resolved path escapes the user's home directory.
+    This prevents a crafted config.yaml from redirecting profile operations
+    to arbitrary filesystem locations (issue #34).
+    """
+    path = profiles_dir(config).resolve()
+    home = Path.home().resolve()
+    try:
+        path.relative_to(home)
+    except ValueError:
+        raise ValueError(
+            f"profiles_dir '{path}' is outside your home directory '{home}'. "
+            "Check your ~/.armies/config.yaml."
+        )
+    return path
+
+
 def malus_ledger_path() -> Path:
     """Return the path to the malus ledger YAML."""
     return ARMIES_DIR / "accountability" / "malus-ledger.yaml"
