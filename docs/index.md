@@ -60,7 +60,7 @@ graph TD
     style E fill:#3a3a3a,color:#888
 ```
 
-The **Base Persona** is the personality anchor. It loads every time, regardless of role. This is where you define who the agent *is* -- their history, their values, their communication style, and their known failure modes. Grace Hopper's Base Persona explains that she invented the compiler, distrust perfectionism, and will ship before she's certain. That personality colors everything she does, in every role.
+The **Base Persona** is the personality anchor. It loads every time, regardless of role. This is where you define who the agent *is* -- their history, their values, their communication style, and their known failure modes. Grace Hopper's Base Persona explains that she invented the compiler, distrusts perfectionism, and will ship before she's certain. That personality colors everything she does, in every role.
 
 **Role blocks** are mission-scoped behavioral instructions. They define how the agent operates *this time*: what to do before starting, how to work, and what to deliver when done. Only one role block loads per spawn. The rest stay on disk. This is the mechanism that keeps profiles compact at spawn time even as they grow richer over time.
 
@@ -88,14 +88,14 @@ Tool restrictions are a **structural guarantee**, not a suggestion. The Eisenhow
 ## Quick Start
 
 ```bash
-# 1. Install
-pip install armies   # or: docker compose up (see docker/)
+# 1. Install the binary
+go install github.com/petersimmons1972/armies@latest
 
 # 2. Initialize your private profile store
 armies init
 
-# 3. Copy an example profile to get started
-cp profiles/examples/grace-hopper.md ~/.armies/profiles/
+# 3. Install the bundled example profiles
+armies seed
 
 # 4. Spawn Grace Hopper as an implementer
 armies spawn grace-hopper --role implementer
@@ -104,7 +104,7 @@ armies spawn grace-hopper --role implementer
 armies record grace-hopper "implemented user auth" --xp 100
 ```
 
-**Install** gets the CLI on your machine. `armies init` creates your private profile store at `~/.armies/` -- this is separate from the armies repo and never touches version control unless you configure a private remote. **Copy a profile** to start with a working example. **Spawn** reads the profile, merges the personality and role blocks, and outputs a prompt you paste into Claude Code. **Record** writes the service record and updates XP -- next spawn, she's smarter.
+**Install** gets the single binary on your machine. No Python, no virtual environment, no Docker required. `armies init` creates your private profile store at `~/.armies/` -- separate from the armies repo and never under version control unless you configure a private remote. `armies seed` installs all bundled profiles from `examples/generals/` into `~/.armies/profiles/`. **Spawn** reads the profile, merges the personality and role blocks, and outputs a prompt you paste into Claude Code. **Record** writes the service record and updates XP -- next spawn, she's smarter.
 
 See [Getting Started](docs/getting-started.md) for the full narrative walkthrough.
 
@@ -112,7 +112,7 @@ See [Getting Started](docs/getting-started.md) for the full narrative walkthroug
 
 ## Example Profiles
 
-The `profiles/examples/` directory ships with profiles that demonstrate obvious historical matches between personality and role:
+The `examples/generals/` directory ships with profiles that demonstrate obvious historical matches between personality and role.
 
 **Grace Hopper / implementer** -- She invented COBOL, coined the term "debugging," and retired from the Navy at 79 after they kept recalling her because nobody else could do what she did. Her motto was "It's easier to ask forgiveness than permission." If you need someone to take a specification and make it real without getting stuck in committee, this is the profile.
 
@@ -152,5 +152,5 @@ Contributions welcome -- especially new profiles, team templates, and documentat
 | [Coordinator Guide](docs/coordinator-guide.md)            | Running campaigns with structural tool restrictions      |
 | [Accountability](docs/accountability.md)                  | Malus ledger, service records, and audit trails          |
 | [CLI Reference](docs/cli-reference.md)                    | Every command, every flag                                |
-| [Security](docs/security.md)                              | Tool restrictions, Docker isolation, profile integrity   |
+| [Security](docs/security.md)                              | Binary distribution, profile integrity, what armies does not do |
 | [Troubleshooting](docs/troubleshooting.md)                | Common issues and how to resolve them                    |
