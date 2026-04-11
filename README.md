@@ -1,4 +1,15 @@
-# Armies
+# armies v3.0
+
+> **armies v3.0** is a complete Go rewrite of the armies multi-agent coordination engine.
+> Single-binary distribution. No Python runtime required.
+>
+> **Install:**
+> ```
+> go install github.com/petersimmons1972/armies@v3.0.0
+> ```
+> Or download a pre-built binary from [Releases](https://github.com/petersimmons1972/armies/releases).
+
+---
 
 <div align="center">
 <img src="docs/assets/svg/readme-command-table.svg" alt="A commander stands at a war room table covered in agent profile cards — coordinator, implementer, observer — with mission arrows pointing between them." width="900">
@@ -101,7 +112,7 @@ Tool restrictions are a **structural guarantee**, not a suggestion. The Eisenhow
 
 ```bash
 # 1. Install
-pip install armies   # or: docker compose up (see docker/)
+go install github.com/petersimmons1972/armies@v3.0.0   # or: docker compose up (see docker/)
 
 # 2. Initialize your private profile store
 armies init
