@@ -1,0 +1,11 @@
+- agent: test-agent
+  date: "2020-01-01"
+  raw_malus: 100
+  decays: true
+  share: 100
+
+- agent: test-agent
+  date: "2020-01-01"
+  raw_malus: 50
+  decays: false
+  share: 100

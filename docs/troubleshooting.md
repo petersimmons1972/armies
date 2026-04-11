@@ -16,25 +16,98 @@ Common problems, their causes, and how to fix them. Problems are organized by ca
 
 **Symptom:** Running `armies` in the terminal returns `command not found` or `armies: No such file or directory`.
 
-**Cause:** The `armies` package is not installed, or the Python environment's `bin/` directory is not in your `PATH`.
+**Cause:** The `armies` binary is not in your `PATH`. This typically happens when you have used `go install` but `$GOPATH/bin` is not in your `PATH`, or when you have downloaded the binary but have not moved it to a directory in your `PATH`.
+
+**Fix:**
+
+If you installed via `go install`:
+```bash
+# Find where Go puts installed binaries
+go env GOPATH
+# Output: /home/user/go  (or similar)
+
+# The binary is at $GOPATH/bin/armies
+# Add $GOPATH/bin to your PATH in ~/.bashrc or ~/.zshrc:
+export PATH="$HOME/go/bin:$PATH"
+
+# Reload your shell config
+source ~/.bashrc   # or source ~/.zshrc
+
+# Verify
+armies --help
+```
+
+If you downloaded a pre-built binary:
+```bash
+# Move the binary to a directory already in your PATH
+chmod +x armies
+sudo mv armies /usr/local/bin/armies
+
+# Or move it to a personal bin directory
+mkdir -p ~/bin
+mv armies ~/bin/armies
+export PATH="$HOME/bin:$PATH"   # add to ~/.bashrc or ~/.zshrc
+
+# Verify
+armies --help
+```
+
+---
+
+### "permission denied" when running the binary
+
+**Symptom:** Running `./armies` or `armies` returns:
+```
+-bash: /usr/local/bin/armies: Permission denied
+```
+
+**Cause:** The downloaded binary does not have the executable bit set. Pre-built binaries are distributed as plain files. They need `chmod +x` before they can be run.
 
 **Fix:**
 ```bash
-# Install via pip
-pip install armies
-
-# Or install in development mode from the repo
-cd ~/projects/armies
-pip install -e .
-
-# If installed but not found, check where pip puts executables
-python -m armies --help   # bypass PATH issue entirely
-
-# Find where the armies binary landed
-python -c "import sysconfig; print(sysconfig.get_path('scripts'))"
-# Add that directory to your PATH in ~/.bashrc or ~/.zshrc
-export PATH="$HOME/.local/bin:$PATH"
+chmod +x armies
+# Then move to PATH as above, or run directly:
+./armies --help
 ```
+
+---
+
+### Architecture mismatch
+
+**Symptom:** Running `armies` returns:
+```
+cannot execute binary file: Exec format error
+```
+or on macOS:
+```
+bad CPU type in executable
+```
+
+**Cause:** You downloaded the binary for the wrong architecture. The release page publishes separate binaries for `linux-amd64`, `linux-arm64`, `darwin-amd64`, and `darwin-arm64`. Running an amd64 binary on an arm64 machine (or vice versa) produces this error.
+
+**Diagnosis:**
+```bash
+# Check your machine's architecture
+uname -m
+# x86_64   → you need the amd64 binary
+# aarch64  → you need the arm64 binary
+# arm64    → you need the arm64 binary (macOS Apple Silicon)
+
+# Check what you downloaded
+file armies
+# armies: ELF 64-bit LSB executable, ARM aarch64, ...
+# (or x86-64 — should match uname -m output)
+```
+
+**Fix:** Download the binary that matches your architecture from the releases page, or build from source for your exact platform:
+
+```bash
+git clone https://github.com/petersimmons1972/armies
+cd armies
+go build -o armies .
+```
+
+Building from source always produces a binary for the machine you are building on. There is no cross-compilation required for personal use.
 
 ---
 
@@ -46,19 +119,24 @@ No profiles found in /home/user/.armies/profiles
 Run armies init to create the directory structure.
 ```
 
-**Cause:** `~/.armies/profiles/` is empty or doesn't exist yet.
+**Cause:** `~/.armies/profiles/` is empty or does not exist yet.
 
 **Fix:**
 ```bash
 # Create the directory structure
 armies init
 
-# Then either copy an existing profile or run armies research to create one
-cp my-profile.md ~/.armies/profiles/
-# or
-armies research implementer
-# Feed the generated draft to a Claude Code agent
+# Install the bundled example profiles (Grace Hopper, Jane Goodall, and others)
+armies seed
+
+# Or copy a specific profile manually
+cp examples/generals/grace-hopper.md ~/.armies/profiles/
+
+# Verify
+armies roster
 ```
+
+`armies seed` is the fastest way to get started. It unpacks all the bundled example profiles from the binary into `~/.armies/profiles/` in one step.
 
 ---
 
@@ -142,20 +220,24 @@ Run `armies roster` to see which profiles exist, then `armies spawn <agent> --ro
 
 ### "Profile not appearing in roster"
 
-**Symptom:** A `.md` file is in `~/.armies/profiles/` but `armies roster` doesn't list it (or the roster shows fewer agents than expected).
+**Symptom:** A `.md` file is in `~/.armies/profiles/` but `armies roster` does not list it (or the roster shows fewer agents than expected).
 
 **Cause:** The most common cause is a YAML parse error in the profile's frontmatter. YAML is whitespace-sensitive and silently fails on certain formatting errors.
 
-**Fix:** Validate the frontmatter manually:
+**Fix:** Run `armies test <agent-name>` to validate the profile:
 
 ```bash
-# Test whether the file's frontmatter parses cleanly
-python3 -c "
-import yaml
-content = open('~/.armies/profiles/my-profile.md').read()
-fm = content.split('---')[1]
-print(yaml.safe_load(fm))
-"
+armies test grace-hopper
+# Output: PASS — all required sections present
+# or:     FAIL — missing section: ## Base Persona
+```
+
+`armies test` checks for all required sections and reports structural errors without spawning the agent. It is the fastest way to diagnose a profile that is not appearing in the roster.
+
+If you want to inspect the frontmatter directly:
+
+```bash
+head -30 ~/.armies/profiles/my-profile.md
 ```
 
 Common frontmatter errors:
@@ -201,7 +283,7 @@ If the file is truly empty, the profile was likely created as a placeholder. Eit
 
 ### "XP field rejected" or XP not updating
 
-**Symptom:** XP doesn't change, or you see an error when trying to set XP manually.
+**Symptom:** XP does not change, or you see an error when trying to set XP manually.
 
 **Cause:** XP is a read-only field managed by the service record system. It is never set directly in the profile frontmatter. Starting XP for a new profile is always `0`.
 
@@ -212,100 +294,6 @@ If the file is truly empty, the profile was likely created as a placeholder. Eit
 4. Commit the service record update
 
 If you believe XP is wrong, file a GitHub Issue documenting the discrepancy. Do not edit the XP field directly.
-
----
-
-## Docker Problems
-
-### "docker compose run: volume mount permission denied"
-
-**Symptom:** Running any `armies` command via Docker produces:
-```
-PermissionError: [Errno 13] Permission denied: '/home/nonroot/.armies/'
-```
-
-**Cause:** `~/.armies/` on the host is owned by root or by a different user than the one Docker is mapping the volume to. The Chainguard-based container runs as UID 65532 (nonroot). If the host directory is owned by root, the container user cannot write to it.
-
-**Fix:**
-```bash
-# Check current ownership
-ls -la ~/.armies/
-
-# Fix ownership — give your host user ownership
-sudo chown -R $(whoami):$(whoami) ~/.armies/
-
-# Verify
-ls -la ~/.armies/
-```
-
-If the directory doesn't exist yet, create it first:
-```bash
-mkdir -p ~/.armies
-armies init   # or run via Docker: docker compose run --rm armies init
-```
-
----
-
-### "SSH key not forwarded" / "git@github.com: Permission denied (publickey)"
-
-**Symptom:** `armies sync` fails inside Docker with a permission denied error from GitHub, even though your SSH key works on the host.
-
-**Cause:** The Docker Compose file forwards your host SSH agent via `SSH_AUTH_SOCK`, but if the environment variable is not set on the host, no key is forwarded.
-
-**Diagnosis:**
-```bash
-# Check whether SSH agent is running on the host
-echo $SSH_AUTH_SOCK
-# Should print a path like: /run/user/1000/keyring/ssh
-# If it's empty, the agent is not running
-
-# Check which keys are loaded
-ssh-add -l
-```
-
-**Fix:**
-
-On **macOS**:
-```bash
-# Load key into the macOS keychain-backed agent
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-```
-
-On **Linux**:
-```bash
-# Start the agent if not running
-eval $(ssh-agent -s)
-
-# Add your key
-ssh-add ~/.ssh/id_ed25519
-
-# Confirm SSH_AUTH_SOCK is now set
-echo $SSH_AUTH_SOCK
-```
-
-Once the host agent has your key loaded, restart the Docker session:
-```bash
-docker compose run --rm armies sync
-```
-
----
-
-### "armies sync fails inside Docker"
-
-**Symptom:** `armies sync` works on the host but fails inside the container.
-
-**Cause:** Almost always the SSH key passthrough issue above. Also possible: the `SSH_AUTH_SOCK` path from the host doesn't exist at the same path inside the container.
-
-**Fix:** See SSH key section above. If SSH is working but sync still fails, check whether `~/.armies/` is initialized as a git repo inside the container's view of the volume:
-
-```bash
-docker compose run --rm armies bash
-# (drops into container — only works if using -dev image or base has shell)
-# Check git status
-git -C /home/nonroot/.armies status
-```
-
-If git is not initialized, run `armies init` with your remote URL from inside the container or on the host.
 
 ---
 
@@ -339,7 +327,7 @@ Note: Ledger not found at /home/user/.armies/accountability/malus-ledger.yaml.
 Showing gates for zero malus.
 ```
 
-**Cause:** No malus has been recorded yet — the ledger file doesn't exist.
+**Cause:** No malus has been recorded yet — the ledger file does not exist.
 
 **Fix:** This is normal for new installs. The note is informational, not an error. Effective malus is 0 and all roles show CLEAR.
 
@@ -373,7 +361,7 @@ The ledger file is created automatically when a malus entry is first written. It
 
 **Symptom:** `armies sync` shows:
 ```
-✗ push: ! [rejected] main -> main (non-fast-forward)
+! [rejected] main -> main (non-fast-forward)
 ```
 
 **Cause:** The remote repository has commits that your local `~/.armies/` does not have. This happens when profiles are updated on another machine or directly on GitHub.
@@ -412,4 +400,48 @@ git -C ~/.armies remote add origin git@github.com:yourname/armies-profiles.git
 # Also update config.yaml so armies sync knows the URL
 nano ~/.armies/config.yaml
 # Set: remote_url: git@github.com:yourname/armies-profiles.git
+```
+
+---
+
+### "SSH key not forwarded" / "git@github.com: Permission denied (publickey)"
+
+**Symptom:** `armies sync` fails with a permission denied error from GitHub, even though your SSH key works in other contexts.
+
+**Cause:** Your SSH key is not loaded into the SSH agent, or the agent is not running.
+
+**Diagnosis:**
+```bash
+# Check whether SSH agent is running
+echo $SSH_AUTH_SOCK
+# Should print a path like: /run/user/1000/keyring/ssh
+# If it's empty, the agent is not running
+
+# Check which keys are loaded
+ssh-add -l
+```
+
+**Fix:**
+
+On **macOS**:
+```bash
+# Load key into the macOS keychain-backed agent
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+On **Linux**:
+```bash
+# Start the agent if not running
+eval $(ssh-agent -s)
+
+# Add your key
+ssh-add ~/.ssh/id_ed25519
+
+# Confirm SSH_AUTH_SOCK is now set
+echo $SSH_AUTH_SOCK
+```
+
+Once the host agent has your key loaded, retry:
+```bash
+armies sync
 ```

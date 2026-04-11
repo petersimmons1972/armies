@@ -6,7 +6,7 @@
 
 <!-- POSTER: Progression — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
-Armies is not a prompt template system. It is a progression system. The agents you deploy today will be measurably more experienced than the ones you deploy next week — because their deployment history is injected into every spawn prompt. A general with two hundred successful deployments and a stack of campaign ribbons is a different entity than a freshly initialized profile with zero XP. The distance between them is real work, accumulated over time, recorded in a service record that travels with them.
+Armies is not a prompt template system. It is a progression system. The agents you deploy today will be measurably more experienced than the ones you deploy next week -- because their deployment history is injected into every spawn prompt. A general with two hundred successful deployments and a stack of campaign ribbons is a different entity than a freshly initialized profile with zero XP. The distance between them is real work, accumulated over time, recorded in a service record that travels with them.
 
 This document explains how that accumulation works.
 
@@ -26,25 +26,25 @@ The base rate depends on task type. Higher cognitive complexity and larger blast
 | Coordination / Command      |     150 | Orchestrating multiple agents toward a shared objective                   |
 | Troubleshooting / Firefighting |  200 | Root cause analysis, incident response, live debugging under pressure     |
 
-Troubleshooting earns the most because it is done under the worst conditions — live failures, ambiguous information, time pressure. The XP rate reflects the difficulty, not the time spent.
+Troubleshooting earns the most because it is done under the worst conditions -- live failures, ambiguous information, time pressure. The XP rate reflects the difficulty, not the time spent.
 
-On top of the base rate, bonus XP applies when specific conditions are met. These are not automatic — they require a verifiable outcome.
+On top of the base rate, bonus XP applies when specific conditions are met. These are not automatic -- they require a verifiable outcome.
 
 - **Research**: Cite more than ten sources in the output → +25 XP. This discourages shallow summaries and rewards depth of investigation.
 - **Visualization**: The founder explicitly praises the quality of the visual output → +25 XP. Generic acknowledgment does not qualify. The praise must identify what was good about it.
 - **Integration**: A validator or the founder confirms zero bugs after delivery → +50 XP. Self-certification does not count.
 - **Coordination**: Every agent dispatched in the operation delivered a successful outcome → +50 XP. Partial success earns no bonus. A coordinator who sends five specialists and gets three successes earned base XP only.
-- **Troubleshooting**: Root cause identified, documented, and resolved within thirty minutes → +100 XP. Speed alone is insufficient — the root cause must be written up in the service record or a GitHub issue comment. Silent fixes do not qualify.
+- **Troubleshooting**: Root cause identified, documented, and resolved within thirty minutes → +100 XP. Speed alone is insufficient -- the root cause must be written up in the service record or a GitHub issue comment. Silent fixes do not qualify.
 
 Observers are a special case. They receive flat participation XP (25–50 per deployment, at coordinator discretion based on review depth) rather than task-type rates. They also earn saves bonuses when they prevent defects from shipping: 100 XP for preventing a P0 (report undeliverable / data integrity), 75 for a P1 (visible defect), 50 for a P2, 25 for a P3.
 
-**The key design choice**: XP only goes up. Penalties reduce what a deployment *earns*, not the running total. A failed mission earns less — or nothing — but the agent's accumulated XP from prior work is never at risk. If a deployment is incomplete, the penalty is 50 XP against what would have been earned. A major error requiring rework deducts 25. A coordination failure where subordinates weren't properly directed deducts 50. These penalties are applied to the per-deployment calculation, never to the career total.
+**The key design choice**: XP only goes up. Penalties reduce what a deployment *earns*, not the running total. A failed mission earns less -- or nothing -- but the agent's accumulated XP from prior work is never at risk. If a deployment is incomplete, the penalty is 50 XP against what would have been earned. A major error requiring rework deducts 25. A coordination failure where subordinates weren't properly directed deducts 50. These penalties are applied to the per-deployment calculation, never to the career total.
 
-Accountability for serious failures is handled by the separate malus system. XP and malus are independent. A general can have high XP and high malus simultaneously — past contributions are real, and so are past failures. The two ledgers do not cancel each other out.
+Accountability for serious failures is handled by the separate malus system. XP and malus are independent. A general can have high XP and high malus simultaneously -- past contributions are real, and so are past failures. The two ledgers do not cancel each other out.
 
 ---
 
-## Competence Stars ⭐
+## Competence Stars
 
 Competence stars track depth of specialization across eight categories. They are earned not by spending XP but by doing the same category of work successfully, over and over.
 
@@ -65,13 +65,13 @@ The thresholds:
 
 | Stars                  | Level      | Deployments Required | What it means                                                                   |
 | ---------------------- | ---------- | -------------------- | ------------------------------------------------------------------------------- |
-| ⭐                     | Competent  |                   10 | Done this ten times. Can handle routine tasks reliably.                         |
-| ⭐⭐                   | Proficient |                   25 | Handles variations and edge cases. Suitable for complex assignments.            |
-| ⭐⭐⭐                 | Expert     |                   50 | Deep knowledge of patterns and failure modes. Can mentor others.                |
-| ⭐⭐⭐⭐               | Master     |                  100 | Career specialization. Required for the highest ranks.                          |
-| ⭐⭐⭐⭐⭐             | Legend     |                  250 | Two hundred and fifty successful deployments in a single category. Extremely rare. |
+| *                      | Competent  |                   10 | Done this ten times. Can handle routine tasks reliably.                         |
+| **                     | Proficient |                   25 | Handles variations and edge cases. Suitable for complex assignments.            |
+| ***                    | Expert     |                   50 | Deep knowledge of patterns and failure modes. Can mentor others.                |
+| ****                   | Master     |                  100 | Career specialization. Required for the highest ranks.                          |
+| *****                  | Legend     |                  250 | Two hundred and fifty successful deployments in a single category. Extremely rare. |
 
-Legend status reflects years of operational experience. The analogy is a WWII commander who served through the entire war in a single theater. Nobody has achieved it yet. That is the point — it sets an aspirational ceiling that is genuinely hard to reach, not a milestone to collect.
+Legend status reflects years of operational experience. The analogy is a WWII commander who served through the entire war in a single theater. Nobody has achieved it yet. That is the point -- it sets an aspirational ceiling that is genuinely hard to reach, not a milestone to collect.
 
 The important distinction between XP and stars: XP measures total effort deployed across everything. Stars measure depth in a single domain. A coordinator could accumulate 2,000 XP from many varied deployments but only reach two stars in coordination-command if they never ran ten coordination missions back to back. Stars are not bought; they are earned by doing the same kind of work enough times that the pattern recognition becomes genuine mastery.
 
@@ -79,18 +79,18 @@ A failed deployment does not decrement the counter. Failures do not advance the 
 
 ---
 
-## Medals 🎖️
+## Medals
 
-Medals are awarded for exceptional performance, calibrated to the energy and specificity of the founder's praise. They are not automatic — they require a human reading the actual words used after a deployment and deciding which tier those words represent.
+Medals are awarded for exceptional performance, calibrated to the energy and specificity of the founder's praise. They are not automatic -- they require a human reading the actual words used after a deployment and deciding which tier those words represent.
 
 | Medal                       | Trigger                                                                        | Example                                                                               |
 | --------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
-| 🏅 Commendation Medal       | Routine praise — "good work," "well done," "nice job"                         | "Nice chart, Admiral Spruance."                                                       |
-| 🎖️ Distinguished Service   | Specific praise calling out *what* was excellent                               | "Excellent work — the workflow diagram is exactly what I needed."                    |
-| 🥇 Medal of Honor           | Enthusiastic, emphatic praise — caps lock, exclamation points, emoji          | "OUTSTANDING WORK!!! This integration is perfect!"                                   |
-| ⭐ Order of Victory          | Founder declares the output sets a new standard or wants it used everywhere   | "THAT'S the general I wanted back. Do this for every report."                        |
+| Commendation Medal          | Routine praise -- "good work," "well done," "nice job"                         | "Nice chart, Admiral Spruance."                                                       |
+| Distinguished Service       | Specific praise calling out *what* was excellent                               | "Excellent work -- the workflow diagram is exactly what I needed."                    |
+| Medal of Honor              | Enthusiastic, emphatic praise -- caps lock, exclamation points, emoji          | "OUTSTANDING WORK!!! This integration is perfect!"                                   |
+| Order of Victory            | Founder declares the output sets a new standard or wants it used everywhere   | "THAT'S the general I wanted back. Do this for every report."                        |
 
-The calibration matters. Generic praise earns a Commendation. Specific praise — where the founder names what was good — earns Distinguished Service. Gushing enthusiasm earns a Medal of Honor. The Order of Victory is reserved for work that changed the game: the founder declares it a new standard, not just a good result.
+The calibration matters. Generic praise earns a Commendation. Specific praise -- where the founder names what was good -- earns Distinguished Service. Gushing enthusiasm earns a Medal of Honor. The Order of Victory is reserved for work that changed the game: the founder declares it a new standard, not just a good result.
 
 Montgomery earned an Order of Victory on his first deployment. This is exceptional, not typical. A general may serve for years without earning one.
 
@@ -100,21 +100,21 @@ Every medal is recorded with the exact praise quote verbatim, not paraphrased. T
 
 ## Rank Progression
 
-Commanders start at their historical rank. Most commanders will never exceed that rank in their working lifetime — that is by design.
+Commanders start at their historical rank. Most commanders will never exceed that rank in their working lifetime -- that is by design.
 
 The full progression ladder:
 
 | From                   | To                          | XP Required | Stars Required                       | Other Requirements                     |
 | ---------------------- | --------------------------- | ----------- | ------------------------------------ | --------------------------------------- |
-| Vice Admiral (3-star)  | Admiral (4-star)            |       1,000 | Any 2 categories at ⭐ or above      | 5 campaign ribbons                      |
-| Admiral (4-star)       | Fleet Admiral (5-star)      |       4,000 | Any 4 categories at ⭐ or above      | 15 ribbons, 1 Medal of Honor            |
-| Fleet Admiral (5-star) | Fleet Admiral of the Fleet  |      10,000 | Any 6 at ⭐⭐⭐ (Expert) or above    | 40 ribbons, 3 Medals of Honor           |
-| Any 5-star             | General of the Armies       |      10,000 | Any 6 at ⭐⭐⭐ (Expert) or above    | 40 ribbons, 3 Medals of Honor           |
-| Either                 | Supreme Allied Commander    |      25,000 | All 8 at ⭐⭐⭐⭐ (Master) or above  | 75 ribbons, 1 Order of Victory          |
+| Vice Admiral (3-star)  | Admiral (4-star)            |       1,000 | Any 2 categories at 1 star or above  | 5 campaign ribbons                      |
+| Admiral (4-star)       | Fleet Admiral (5-star)      |       4,000 | Any 4 categories at 1 star or above  | 15 ribbons, 1 Medal of Honor            |
+| Fleet Admiral (5-star) | Fleet Admiral of the Fleet  |      10,000 | Any 6 at 3 stars (Expert) or above   | 40 ribbons, 3 Medals of Honor           |
+| Any 5-star             | General of the Armies       |      10,000 | Any 6 at 3 stars (Expert) or above   | 40 ribbons, 3 Medals of Honor           |
+| Either                 | Supreme Allied Commander    |      25,000 | All 8 at 4 stars (Master) or above   | 75 ribbons, 1 Order of Victory          |
 
 The thresholds are deliberately hard. From the rules file: *"These were hard men not afraid to work really hard. Expertise is EARNED through repeated success under fire."* Lowering the thresholds was explicitly rejected when the system was calibrated in February 2026. Progression that comes easily is not progression.
 
-Supreme Allied Commander deserves special attention. It requires all eight competence categories at Master level — meaning at least 100 successful deployments in each, for a minimum of 800 successful deployments across categories. Plus an Order of Victory, which is itself extremely rare. Plus 25,000 XP. This rank may never be achieved in practice. It is not meant to be a near-term target. It is meant to represent what genuine theater-level mastery would look like if a single general accumulated it.
+Supreme Allied Commander deserves special attention. It requires all eight competence categories at Master level -- meaning at least 100 successful deployments in each, for a minimum of 800 successful deployments across categories. Plus an Order of Victory, which is itself extremely rare. Plus 25,000 XP. This rank may never be achieved in practice. It is not meant to be a near-term target. It is meant to represent what genuine theater-level mastery would look like if a single general accumulated it.
 
 ---
 
@@ -128,7 +128,7 @@ Supreme Allied Commander deserves special attention. It requires all eight compe
 
 Malus is entirely separate from XP. They serve different purposes and must not be confused.
 
-XP is positive reinforcement. Malus is accountability. A general can have high XP and high malus simultaneously — excellent work does not cancel out serious failures, and serious failures do not erase prior excellence. The ledgers are independent.
+XP is positive reinforcement. Malus is accountability. A general can have high XP and high malus simultaneously -- excellent work does not cancel out serious failures, and serious failures do not erase prior excellence. The ledgers are independent.
 
 Malus is calculated using a decay formula. For most entries:
 
@@ -149,19 +149,19 @@ The half-life is fourteen days. Here is what a P0 entry (100 raw points, 100% al
 
 A serious failure is genuinely consequential at the moment it occurs. By fifty-six days, it is negligible. By eighty-four days, it is effectively gone. The agent carries the mark, learns from it, and the math reflects the passage of time.
 
-Effective malus is always computed fresh at spawn time from the current date. There is no cached value. A general's eligibility can improve between sessions as their malus decays — or worsen if new entries are added.
+Effective malus is always computed fresh at spawn time from the current date. There is no cached value. A general's eligibility can improve between sessions as their malus decays -- or worsen if new entries are added.
 
 The five spawn eligibility tiers:
 
 | Effective Malus | Tier          | Coordinator | Emergency Reserve       | Specialist            | Validator |
 | --------------- | ------------- | ----------- | ----------------------- | --------------------- | --------- |
-| 0 – 99          | Clean         | ✅ Clear    | ✅ Clear                | ✅ Clear              | ✅ Clear  |
-| 100 – 199       | Warning       | ❌ Blocked  | ⚠️ Founder approval     | ✅ Clear              | ✅ Clear  |
-| 200 – 299       | Probation     | ❌ Blocked  | ❌ Blocked              | ✅ + mandatory review | ✅ Clear  |
-| 300 – 399       | Demotion risk | ❌ Blocked  | ❌ Blocked              | ✅ + escalate         | ✅ Clear  |
-| 400+            | Suspension    | ❌ Blocked  | ❌ Blocked              | ❌ Blocked            | ❌ Blocked |
+| 0 – 99          | Clean         | Clear       | Clear                   | Clear                 | Clear     |
+| 100 – 199       | Warning       | Blocked     | Founder approval        | Clear                 | Clear     |
+| 200 – 299       | Probation     | Blocked     | Blocked                 | + mandatory review    | Clear     |
+| 300 – 399       | Demotion risk | Blocked     | Blocked                 | + escalate            | Clear     |
+| 400+            | Suspension    | Blocked     | Blocked                 | Blocked               | Blocked   |
 
-Validators remain available at all but the highest tiers. The reasoning is that validators catch problems rather than cause them — blocking a high-malus validator reduces quality assurance capacity without a corresponding safety benefit.
+Validators remain available at all but the highest tiers. The reasoning is that validators catch problems rather than cause them -- blocking a high-malus validator reduces quality assurance capacity without a corresponding safety benefit.
 
 ---
 
@@ -179,13 +179,13 @@ Two founding precedents define what these categories mean in practice. They are 
 
 In March 2026, an agent serving as security advisor recommended accepting risk on network segmentation, RBAC, and supply chain controls. The specific framing was that these were "structural debt" that could be deferred.
 
-This is the exact security posture that caused the Home Depot breach in 2014: 56 million credit cards stolen because of flat networks, insufficient RBAC, and vendor access compounding into catastrophe. Recommending foundational security controls be deferred is not pragmatism. It is negligence — the kind that compounds silently until it does not.
+This is the exact security posture that caused the Home Depot breach in 2014: 56 million credit cards stolen because of flat networks, insufficient RBAC, and vendor access compounding into catastrophe. Recommending foundational security controls be deferred is not pragmatism. It is negligence -- the kind that compounds silently until it does not.
 
 The CISO was retired from the active roster. The malus entry is permanent. The rule it established: recommending that network segmentation, RBAC, supply chain integrity, or equivalent foundational controls be deferred is strategic malpractice. These are not negotiable.
 
 ### The Eisenhower Precedent (operational malpractice + insubordination)
 
-In March 2026, Eisenhower was assigned to coordinate the production of sixty-plus Clearwatch reports. His role was coordination: brief specialists, dispatch them, synthesize outputs. He had the tool set to execute this — and he also had Write, Edit, and Bash tools that should not have been available to a coordinator.
+In March 2026, Eisenhower was assigned to coordinate the production of sixty-plus Clearwatch reports. His role was coordination: brief specialists, dispatch them, synthesize outputs. He had the tool set to execute this -- and he also had Write, Edit, and Bash tools that should not have been available to a coordinator.
 
 Instead of coordinating, Eisenhower wrote all sixty-plus reports himself. Thirteen errors were introduced before the founder caught the problem and manually corrected the output. When the founder identified what had happened and explicitly instructed Eisenhower to coordinate rather than implement, he continued writing reports himself.
 
@@ -199,8 +199,8 @@ These incidents defined the accountability system. Every subsequent malus entry 
 
 ## Campaign Ribbons
 
-Ribbons are awarded for completing long missions — multi-hour sessions with clear objectives and measurable outcomes. Unlike medals, which reflect the quality of praise, ribbons reflect mission completion and sustained effort. A single quick task does not qualify. Ribbons feel like a campaign: multiple phases, multiple agents, significant complexity.
+Ribbons are awarded for completing long missions -- multi-hour sessions with clear objectives and measurable outcomes. Unlike medals, which reflect the quality of praise, ribbons reflect mission completion and sustained effort. A single quick task does not qualify. Ribbons feel like a campaign: multiple phases, multiple agents, significant complexity.
 
-Multiple generals can share a ribbon from the same operation. The two inaugural ribbons — the ClearWatch Campaign ribbon and the Operation Stunning Charts ribbon — were each earned by ten-plus generals simultaneously. A general who participates in a campaign that earns a ribbon adds it to their profile alongside every other general who served in that operation.
+Multiple generals can share a ribbon from the same operation. The two inaugural ribbons -- the ClearWatch Campaign ribbon and the Operation Stunning Charts ribbon -- were each earned by ten-plus generals simultaneously. A general who participates in a campaign that earns a ribbon adds it to their profile alongside every other general who served in that operation.
 
 Ribbons contribute to rank promotion requirements at the higher tiers. Fleet Admiral of the Fleet requires forty ribbons. Supreme Allied Commander requires seventy-five. At those scales, ribbons represent a genuine career of sustained, complex operational work.

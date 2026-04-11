@@ -1,10 +1,4 @@
-# Armies
-
-<div align="center">
-<img src="docs/assets/svg/readme-command-table.svg" alt="A commander stands at a war room table covered in agent profile cards — coordinator, implementer, observer — with mission arrows pointing between them." width="900">
-</div>
-
-<!-- POSTER: README — Poster 1 — generate from docs/assets/ai-prompts/poster-manifest.md -->
+# armies v3.0
 
 AI agents are generic. You get the same assistant whether you're debugging a race condition or writing a post-mortem. No memory between sessions. No accountability when something goes wrong. No personality to anchor behavior. Every prompt starts from zero, and every agent is interchangeable. That is the problem. Armies gives your agents identity. Historical figures with earned expertise, accumulated XP, and structural role constraints. Grace Hopper ships code fast and asks forgiveness later. Jane Goodall observes without contaminating the scene. Roy Disney keeps Walt's impossible vision from burning the budget. The right specialist for every mission -- and they get better every time they're deployed.
 
@@ -12,15 +6,76 @@ AI agents are generic. You get the same assistant whether you're debugging a rac
 
 ---
 
+## Installation
+
+### Pre-built binary (recommended)
+
+Download the latest binary for your platform from the [Releases page](https://github.com/petersimmons1972/armies/releases).
+
+```bash
+# macOS (arm64)
+curl -L https://github.com/petersimmons1972/armies/releases/latest/download/armies-darwin-arm64 -o armies
+chmod +x armies
+sudo mv armies /usr/local/bin/
+
+# Linux (amd64)
+curl -L https://github.com/petersimmons1972/armies/releases/latest/download/armies-linux-amd64 -o armies
+chmod +x armies
+sudo mv armies /usr/local/bin/
+```
+
+### go install
+
+If you have Go 1.22 or later installed:
+
+```bash
+go install github.com/petersimmons1972/armies@latest
+```
+
+This compiles and installs the binary in `$GOPATH/bin`. Make sure that directory is in your `PATH`. If you are not sure where that is, run `go env GOPATH` and add `$(go env GOPATH)/bin` to your `PATH` in `~/.bashrc` or `~/.zshrc`.
+
+### Build from source
+
+```bash
+git clone https://github.com/petersimmons1972/armies
+cd armies
+go build -o armies .
+sudo mv armies /usr/local/bin/
+```
+
+That is the complete installation. No Python. No virtual environment. No Docker. One binary, no runtime dependencies.
+
+---
+
+## Quick Start
+
+```bash
+# 1. Initialize your private profile store
+armies init
+
+# 2. Install the bundled example profiles
+armies seed
+
+# 3. Spawn Grace Hopper as an implementer
+armies spawn grace-hopper --role implementer
+
+# 4. After the mission, record it
+armies record grace-hopper "implemented user auth" --xp 100
+```
+
+`armies init` creates `~/.armies/` -- your private profile store, separate from the armies repo. `armies seed` installs all bundled profiles from `examples/generals/` into `~/.armies/profiles/`, so you have a working roster immediately. `spawn` reads the profile, merges the personality and role blocks, and outputs a prompt you paste into Claude Code. `record` writes the service record and updates XP -- next spawn, she's smarter.
+
+See [Getting Started](docs/getting-started.md) for the full narrative walkthrough.
+
+---
+
 ## The Idea
 
 Most agent frameworks treat personality as decoration -- a system prompt seasoning sprinkled over the same underlying behavior. Armies treats personality as the *anchor*. When you spawn Grace Hopper, you are not getting "an agent with a pirate-themed prompt." You are getting a mathematician who invented the compiler, who believes it is easier to ask forgiveness than permission, and whose known failure mode is cutting corners on tests when she moves too fast. That failure mode is documented in her profile. It constrains her behavior. It makes the agent self-aware of its own weaknesses in a way that generic assistants never are.
 
-The personality is who they *are*. The role is what they *do this time*. The same historical figure can play different roles depending on the mission. Walt Disney as an `artist` produces visual output -- SVGs, layouts, design systems. But Walt Disney as a `planner` produces creative briefs and architectural visions. The personality stays constant (ambitious, visual, allergic to compromise), but the behavioral constraints change with the role. His brother Roy is a `coordinator` -- he takes Walt's impossible vision and sequences it into something that ships on time and under budget. The `affinity` field in Walt's profile points to Roy, because coordinators who understand their specialists deploy them better.
+The personality is who they *are*. The role is what they *do this time*. The same historical figure can play different roles depending on the mission. Walt Disney as an `artist` produces visual output -- SVGs, layouts, design systems. But Walt Disney as a `planner` produces creative briefs and architectural visions. The personality stays constant (ambitious, visual, allergic to compromise), but the behavioral constraints change with the role.
 
 This matters because an agent that *is* someone behaves coherently. It makes consistent decisions under pressure. It has predictable failure modes you can plan around. An agent that has tags is just a prompt. An agent with identity is a team member.
-
-The profiles are layered: a Base Persona block that is always loaded (defining who they are), and Role blocks that load only when you spawn them in that role. Grace Hopper has `Role: implementer` and could have `Role: troubleshooter`. When you spawn her as an implementer, only the implementer block loads. The troubleshooter block stays on disk. This is how 43 profiles with multiple roles each don't blow your context window -- you only pay for the role you're using right now.
 
 ---
 
@@ -48,8 +103,6 @@ You ask the CLI to spawn a profile in a specific role. The CLI reads the profile
 
 After the mission, you record what happened. The CLI writes a service record entry and updates XP. Next time you spawn Grace Hopper, her XP is higher, her service record is longer, and the spawn prompt includes her deployment history. She is literally more experienced.
 
-The key insight: profiles are *stateful*. They are not templates that reset every session. They are persistent identities that accumulate experience, earn rank, and carry accountability across every deployment.
-
 ---
 
 ## Anatomy of a Profile
@@ -66,21 +119,11 @@ graph TD
     style E fill:#3a3a3a,color:#888
 ```
 
-The **Base Persona** is the personality anchor. It loads every time, regardless of role. This is where you define who the agent *is* -- their history, their values, their communication style, and their known failure modes. Grace Hopper's Base Persona explains that she invented the compiler, distrust perfectionism, and will ship before she's certain. That personality colors everything she does, in every role.
-
-**Role blocks** are mission-scoped behavioral instructions. They define how the agent operates *this time*: what to do before starting, how to work, and what to deliver when done. Only one role block loads per spawn. The rest stay on disk. This is the mechanism that keeps profiles compact at spawn time even as they grow richer over time.
-
-The **frontmatter** carries the structural data: tool restrictions (enforced, not suggested), model preference, XP balance, rank, and spawn eligibility. Armies profiles are valid Claude Code agent files -- the frontmatter fields that Claude Code recognizes (`name`, `description`, `tools`, `disallowedTools`, `model`) work natively, and Armies-specific fields (`xp`, `rank`, `roles`) are read by the Armies engine.
+The **Base Persona** is the personality anchor. It loads every time, regardless of role. The **Role blocks** define how the agent operates this time -- behavioral instructions for one specific mission type. Only one loads per spawn. The **frontmatter** carries tool restrictions (enforced by Claude Code natively), model preference, XP, and rank.
 
 ---
 
 ## Role Classes
-
-<div align="center">
-<img src="docs/assets/svg/readme-role-insignia.svg" alt="Eight role class insignia badges in WWII military style — coordinator, implementer, qa-validator, planner, researcher, troubleshooter, artist, observer." width="900">
-</div>
-
-<!-- POSTER: README — Poster 2 — generate from docs/assets/ai-prompts/poster-manifest.md -->
 
 | Role              | Archetype                                                                  | Responsibility                                      | Allowed Tools                   |
 | ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------- |
@@ -97,34 +140,9 @@ Tool restrictions are a **structural guarantee**, not a suggestion. The Eisenhow
 
 ---
 
-## Quick Start
-
-```bash
-# 1. Install
-pip install armies   # or: docker compose up (see docker/)
-
-# 2. Initialize your private profile store
-armies init
-
-# 3. Copy an example profile to get started
-cp profiles/examples/grace-hopper.md ~/.armies/profiles/
-
-# 4. Spawn Grace Hopper as an implementer
-armies spawn grace-hopper --role implementer
-
-# 5. After the mission, record it
-armies record grace-hopper "implemented user auth" --xp 100
-```
-
-**Install** gets the CLI on your machine. `armies init` creates your private profile store at `~/.armies/` -- this is separate from the armies repo and never touches version control unless you configure a private remote. **Copy a profile** to start with a working example. **Spawn** reads the profile, merges the personality and role blocks, and outputs a prompt you paste into Claude Code. **Record** writes the service record and updates XP -- next spawn, she's smarter.
-
-See [Getting Started](docs/getting-started.md) for the full narrative walkthrough.
-
----
-
 ## Example Profiles
 
-The `profiles/examples/` directory ships with profiles that demonstrate obvious historical matches between personality and role:
+The bundled profiles in `examples/generals/` demonstrate obvious historical matches between personality and role.
 
 **Grace Hopper / implementer** -- She invented COBOL, coined the term "debugging," and retired from the Navy at 79 after they kept recalling her because nobody else could do what she did. Her motto was "It's easier to ask forgiveness than permission." If you need someone to take a specification and make it real without getting stuck in committee, this is the profile.
 
@@ -136,7 +154,7 @@ The `profiles/examples/` directory ships with profiles that demonstrate obvious 
 
 ## Progression
 
-Agents earn XP for successful completions, catching bugs early, accurate diagnoses, and clean first-pass implementations. XP accumulates across sessions and unlocks higher spawn eligibility tiers -- which coordinators use to assign harder tasks.
+Agents earn XP for successful completions, catching bugs early, accurate diagnoses, and clean first-pass implementations. XP accumulates across sessions and unlocks higher spawn eligibility tiers.
 
 Malus is the other side of the ledger. Scope creep, skipping tests, a coordinator implementing code directly, an observer anchoring on prior findings -- these are logged as malus events with severity levels. The malus ledger is permanent. Only the human operator can resolve a malus event. Unresolved malus reduces spawn eligibility.
 
@@ -164,5 +182,5 @@ Contributions welcome -- especially new profiles, team templates, and documentat
 | [Coordinator Guide](docs/coordinator-guide.md)            | Running campaigns with structural tool restrictions      |
 | [Accountability](docs/accountability.md)                  | Malus ledger, service records, and audit trails          |
 | [CLI Reference](docs/cli-reference.md)                    | Every command, every flag                                |
-| [Security](docs/security.md)                              | Tool restrictions, Docker isolation, profile integrity   |
+| [Security](docs/security.md)                              | Binary distribution, profile integrity, what armies does not do |
 | [Troubleshooting](docs/troubleshooting.md)                | Common issues and how to resolve them                    |

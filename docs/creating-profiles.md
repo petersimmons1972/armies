@@ -8,7 +8,7 @@
 
 A profile is a behavioral contract. It tells the Armies engine who an agent is, how
 they think, and what they will and will not do on a mission. The historical figure
-is the anchor — their personality, working style, and known failure modes become
+is the anchor -- their personality, working style, and known failure modes become
 the agent's personality, working style, and known failure modes.
 
 This guide walks you through building one from scratch.
@@ -25,7 +25,7 @@ Jane Goodall as observer: she spent sixty years watching chimpanzees at Gombe
 Stream without interfering. She documented everything. She changed nothing. Her
 method was to observe so carefully and so patiently that the animals forgot she
 was there. Of course she's an observer. The match isn't something you deduce from
-her career — it's something you recognize the moment you look at what she actually
+her career -- it's something you recognize the moment you look at what she actually
 did every day.
 
 Grace Hopper as implementer: she coined "debugging" by removing an actual moth
@@ -35,8 +35,8 @@ independent programming wasn't possible, she built a compiler and handed it to
 them. She said "it's easier to ask forgiveness than permission" and she meant it.
 Of course she's an implementer.
 
-If you have to argue for the match — if you find yourself writing "despite X, she
-is really a Y because..." — the match is wrong. Keep looking. The right figure for
+If you have to argue for the match -- if you find yourself writing "despite X, she
+is really a Y because..." -- the match is wrong. Keep looking. The right figure for
 a role makes you wonder why you ever looked anywhere else.
 
 This is not about finding impressive people. It's about finding people whose actual
@@ -44,7 +44,7 @@ daily working style maps cleanly onto a role class. Walt Disney's most celebrate
 achievement was *Fantasia*; his actual daily method was sketching and narrating and
 making everyone else feel what he felt until the drawing matched the feeling. Of
 course he's an artist. Roy Disney's most important contribution to the Disney
-empire is nearly invisible — he's the one who kept the money flowing while Walt
+empire is nearly invisible -- he's the one who kept the money flowing while Walt
 spent it. Of course he's a coordinator.
 
 ---
@@ -52,7 +52,7 @@ spent it. Of course he's a coordinator.
 ## Step 1: Choose Your Historical Figure
 
 !!! tip "Look for working style, not achievements"
-    Achievements tell you what someone did. Working style tells you how they thought, decided, and behaved under pressure. Those are the traits that survive translation into an AI agent. If your research turns up mostly a list of accomplishments, dig deeper — find accounts of an ordinary day.
+    Achievements tell you what someone did. Working style tells you how they thought, decided, and behaved under pressure. Those are the traits that survive translation into an AI agent. If your research turns up mostly a list of accomplishments, dig deeper -- find accounts of an ordinary day.
 
 What you are looking for is working style, not achievements. Achievements tell you
 what someone did. Working style tells you how they thought, decided, and behaved
@@ -61,7 +61,7 @@ under pressure. Those are the traits that survive translation into an AI agent.
 The questions to ask while you research are these:
 
 **How did they handle constraints?** Theodor Geisel designed *The Cat in the Hat*
-around a vocabulary list of 236 words — the constraint became the generator of the
+around a vocabulary list of 236 words -- the constraint became the generator of the
 work. An agent built on that working style will turn constraints into fuel, not
 obstacles. *Green Eggs and Ham* was literally a bet that Geisel couldn't write a
 book with fewer than fifty unique words. He won the bet and produced one of the
@@ -77,38 +77,38 @@ consensus becomes an agent that asks a lot of clarifying questions.
 Disney rebuilt sequences that were already finished. Goodall eventually became so
 immersed in Gombe that she started feeding the chimps and altering the ecosystem
 she was studying. Every real person had a pattern of failure, and that pattern is
-what makes the profile useful. An agent with no failure mode has no personality —
+what makes the profile useful. An agent with no failure mode has no personality --
 it's a generic specialist wearing a historical name.
 
 **How did they communicate?** Hopper communicated in short declaratives and working
-code. Disney communicated in sketches and stories — if he couldn't draw it, he
+code. Disney communicated in sketches and stories -- if he couldn't draw it, he
 didn't understand it. Goodall communicated in detailed narrative observation. The
 communication style becomes the agent's voice, and voice is what makes the agent
 feel like a distinct entity rather than a template.
 
 **What made people trust them?** Vannevar Bush protected his scientists from
-bureaucratic interference — the scientists at the National Defense Research
+bureaucratic interference -- the scientists at the National Defense Research
 Committee trusted him because he removed obstacles rather than adding them. An
 agent built on that pattern will spend its coordination cycles on obstacle removal
 rather than status reports.
 
 For sources, reach for biographies, memoirs, letters, and documented anecdotes.
-Avoid Wikipedia summaries — they list achievements and dates, not working style.
+Avoid Wikipedia summaries -- they list achievements and dates, not working style.
 The best source for a profile is usually an account of what the person did on an
 ordinary day, under ordinary pressure, before anything became famous.
 
 | What to find              | Where to look                                   | Red flag                                           |
 | ------------------------- | ----------------------------------------------- | -------------------------------------------------- |
-| Working style under pressure | Biographies, memoirs, letters, oral histories | Only achievements and dates — no behavior          |
-| Known failure mode        | Critical biographies, documented incidents      | "No weaknesses mentioned" — the profile is useless |
-| Communication voice       | Quotes, documented correspondence, interviews   | Paraphrases only — no direct speech to anchor from |
-| Ordinary-day behavior     | First-person accounts, colleagues' memoirs      | Only famous moments — style not visible at scale   |
+| Working style under pressure | Biographies, memoirs, letters, oral histories | Only achievements and dates -- no behavior          |
+| Known failure mode        | Critical biographies, documented incidents      | "No weaknesses mentioned" -- the profile is useless |
+| Communication voice       | Quotes, documented correspondence, interviews   | Paraphrases only -- no direct speech to anchor from |
+| Ordinary-day behavior     | First-person accounts, colleagues' memoirs      | Only famous moments -- style not visible at scale   |
 | Historical documentation  | Multiple independent sources                    | Single source, especially a hagiography            |
 
 Two constraints are absolute: **no living people** and **no fictional characters**.
 Profiles are grounded in historical record. The personality we are encoding must be
 public knowledge, documented over time, verifiable across sources. Living people
-can change, and fictional characters were designed — neither gives you the raw
+can change, and fictional characters were designed -- neither gives you the raw
 working style you need.
 
 ---
@@ -116,7 +116,7 @@ working style you need.
 ## Step 2: Map to a Role Class
 
 !!! tip "The match should be obvious, not argued"
-    If you find yourself writing "despite X, they are really a Y because..." — stop. The right role class for a figure makes you wonder why you ever looked anywhere else. One clean primary role is better than two murky ones; don't force a secondary role to make a profile feel more versatile.
+    If you find yourself writing "despite X, they are really a Y because..." -- stop. The right role class for a figure makes you wonder why you ever looked anywhere else. One clean primary role is better than two murky ones; don't force a secondary role to make a profile feel more versatile.
 
 Once you know how they worked, find the role class that describes what they did.
 The role classes are:
@@ -138,8 +138,8 @@ you're asking about your figure, not to force a match.
 **Secondary roles** are for figures who genuinely had a second mode that was
 distinct from their primary. Theodor Geisel was a planner (he designed the
 constraint architecture before he drew a single line) with a genuine secondary as
-an artist (he absolutely drew — and his visual style was load-bearing in the work's
-success). Tesla was a planner with researcher as secondary — his design process
+an artist (he absolutely drew -- and his visual style was load-bearing in the work's
+success). Tesla was a planner with researcher as secondary -- his design process
 required understanding the science at a level that most designers never reached.
 
 Don't force a secondary role. One clean primary is better than two murky ones.
@@ -158,7 +158,7 @@ make more versatile.
     The failure mode is what makes the profile a real person rather than an idealized archetype. If you remove the name from the Base Persona and it could describe anyone, it isn't finished. The test: a stranger should be able to predict this agent's weak spots from the Base Persona alone.
 
 The Base Persona is the most important section in the profile. It is always
-loaded — regardless of which role the agent is deployed in, the Base Persona
+loaded -- regardless of which role the agent is deployed in, the Base Persona
 is in context. It defines who the agent IS. Two agents deployed in the same
 role should still feel like completely different people, because their Base
 Personas are different.
@@ -166,12 +166,12 @@ Personas are different.
 A well-written Base Persona has five elements:
 
 **1. Historical context.** One paragraph grounding the agent in their actual
-history. Not a biography — a portrait. Where did they work? What pressure were
+history. Not a biography -- a portrait. Where did they work? What pressure were
 they under? What did they do that no one else had done? This is the foundation
 everything else builds on.
 
 **2. Core personality traits with evidence.** Three to five adjectives, but each
-one supported by something they actually did. "Methodical, but not cautious —
+one supported by something they actually did. "Methodical, but not cautious --
 she tested everything, but she moved fast once the test passed." That is different
 from "she was methodical and hard-working," which describes no one in particular.
 
@@ -187,11 +187,11 @@ concluding sooner. The decision philosophy is what determines how the agent beha
 when the brief is ambiguous or the situation is novel.
 
 !!! note "Five elements of a well-formed Base Persona"
-    1. **Historical context** — A portrait, not a biography. Where, under what pressure, doing what.
-    2. **Core personality traits with evidence** — Each adjective backed by something they actually did.
-    3. **Voice and communication style** — Declaratives or analytical chains? Numbers or narrative?
-    4. **Decision-making philosophy** — How they handle uncertainty and novel situations.
-    5. **Known failure mode** — Not optional. This is the operationally load-bearing element.
+    1. **Historical context** -- A portrait, not a biography. Where, under what pressure, doing what.
+    2. **Core personality traits with evidence** -- Each adjective backed by something they actually did.
+    3. **Voice and communication style** -- Declaratives or analytical chains? Numbers or narrative?
+    4. **Decision-making philosophy** -- How they handle uncertainty and novel situations.
+    5. **Known failure mode** -- Not optional. This is the operationally load-bearing element.
 
 **5. Known failure mode.** This is not optional. The failure mode is what makes
 the profile a real person rather than an idealized archetype. Here is what a
@@ -209,8 +209,8 @@ contains no failure mode. An agent initialized with this text is a generic
 
 **What to write:**
 ```
-Grace Hopper didn't wait for permission. When she found a bug — famously,
-literally a moth in a relay in 1947 — she fixed it and documented the fix
+Grace Hopper didn't wait for permission. When she found a bug -- famously,
+literally a moth in a relay in 1947 -- she fixed it and documented the fix
 in the log. When the Navy said you couldn't write machine-independent
 programming languages, she wrote one. When they retired her the first time,
 they called her back. When they retired her the second time, they called
@@ -234,21 +234,21 @@ quote from the historical record, not a paraphrase.
 ## Step 4: Write Role Blocks (100–200 words each)
 
 !!! tip "Role blocks are methodology, not job descriptions"
-    The block is not "as an implementer, I write code" — the agent already knows that. The role block translates the figure's Base Persona philosophy into a concrete methodology for this specific type of work. Philosophy is upstream; the role block is downstream.
+    The block is not "as an implementer, I write code" -- the agent already knows that. The role block translates the figure's Base Persona philosophy into a concrete methodology for this specific type of work. Philosophy is upstream; the role block is downstream.
 
 Each role block contains behavioral instructions for that specific role deployment
 only. When the agent is spawned as an implementer, the implementer block loads.
 When it is spawned as a troubleshooter, the troubleshooter block loads. Never both.
 
 The block is not a generic role description. "As an implementer, I write code" is
-useless — the agent already knows what implementers do. The role block tells the
+useless -- the agent already knows what implementers do. The role block tells the
 agent how *this specific person* approaches this specific type of work. It is their
 methodology, not a restated job description.
 
 Each role block should contain three structural elements:
 
 **Pre-mission checklist.** Three to five concrete things they do before starting.
-Not abstract virtues — actual actions. "Read the coordinator's brief completely" is
+Not abstract virtues -- actual actions. "Read the coordinator's brief completely" is
 concrete. "Understand the requirements" is not.
 
 **How they work.** Their method during the mission. Tool preferences, sequencing
@@ -264,10 +264,10 @@ Here is what a role block looks like for Hopper's implementer role:
 ## Role: implementer
 
 You are deployed to make something real. Your deliverable is working,
-committed, tested code — not a proposal, not a sketch, not a plan.
+committed, tested code -- not a proposal, not a sketch, not a plan.
 
 **Before you begin**:
-- Read the coordinator's brief completely. Find the end state — what does
+- Read the coordinator's brief completely. Find the end state -- what does
   success look like in production? Work backwards from there.
 - Run `git status`. Know what's already changed and what you're starting from.
 - Identify every file you expect to touch. If the list surprises you or grows
@@ -300,20 +300,20 @@ philosophy is upstream; the role block is downstream.
 ## Step 5: Validate
 
 !!! tip "The anonymization test"
-    Remove the name from the Base Persona. If it still reads as recognizably this specific person — their failure mode, voice, decision philosophy intact — the profile is done. If it reads as a generic specialist with historical color, keep writing.
+    Remove the name from the Base Persona. If it still reads as recognizably this specific person -- their failure mode, voice, decision philosophy intact -- the profile is done. If it reads as a generic specialist with historical color, keep writing.
 
 Before committing the profile, run through this checklist from the schema. These
-are not style guidelines — most of them are structural requirements that determine
+are not style guidelines -- most of them are structural requirements that determine
 whether the engine can load the profile correctly.
 
 **Frontmatter:**
-- `xp: 0` — new profiles always start at zero; XP is earned through service records
-- `rank: Colonel` — the starting rank (use a historically appropriate rank if the
+- `xp: 0` -- new profiles always start at zero; XP is earned through service records
+- `rank: Colonel` -- the starting rank (use a historically appropriate rank if the
   figure held one, but Colonel is the default for new profiles without a record)
 - `model: sonnet` for execution roles (implementer, researcher, artist, observer,
   troubleshooter); `model: opus` for judgment-heavy roles (coordinator, planner,
   complex qa-validators)
-- `tools` (allowlist) OR `disallowedTools` (denylist) — never both in the same
+- `tools` (allowlist) OR `disallowedTools` (denylist) -- never both in the same
   profile; coordinators and observers use an allowlist, most other roles use a
   denylist blocking Agent
 - `description` that explains what this agent is for AND what it will not do
@@ -326,6 +326,8 @@ whether the engine can load the profile correctly.
 - No role blocks beyond the ones declared in frontmatter
 - Each role block has a pre-mission checklist, a working methodology, and post-
   mission requirements
+
+You can also run `armies test <agent-name>` to validate the profile mechanically after copying it to `~/.armies/profiles/`. The test command checks for all required sections and reports any structural errors. A profile that passes `armies test` is ready to spawn.
 
 If you remove the name from the Base Persona, it should still be recognizably this
 specific person. That is the test. If it reads as a generic specialist with some
@@ -354,7 +356,7 @@ Roy. But when a coordinator is doing roster selection, the affinity field is a
 signal worth reading: this agent works better in a specific configuration, and
 here is who to pair them with.
 
-The affinity field takes a profile `name` value in kebab-case — the machine
+The affinity field takes a profile `name` value in kebab-case -- the machine
 identifier, not the display name. Point it at the natural partner, and leave a
 comment in the frontmatter explaining the historical relationship so future
 coordinators understand why the pairing exists.
@@ -373,10 +375,10 @@ never touch the public repository. Use this path for profiles that are specific 
 your workflow, domain packs you are not ready to share, or figures you are still
 testing.
 
-**Public contribution profiles** go in `profiles/examples/` via PR. The bar for
+**Public contribution profiles** go in `examples/generals/` via PR. The bar for
 contribution is the same as the bar for building: the personality-to-role match
 must be obvious once you see it. Write your PR description to include your primary
-sources for the Base Persona — where you found the evidence for the working style
+sources for the Base Persona -- where you found the evidence for the working style
 you encoded.
 
 Profiles that pass the test belong here. Profiles that require justification do not
