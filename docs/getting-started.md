@@ -12,30 +12,48 @@ You are about to set up something different from a prompt template library. You 
 
 ## Installation
 
-There are two paths. Docker is recommended because it gives you a clean, isolated environment with no Python dependency management. The pip path is faster if you already have a Python environment you trust.
+### Pre-built binary (recommended)
 
-### Docker (recommended)
+Download the latest binary for your platform from the [Releases page](https://github.com/petersimmons1972/armies/releases).
 
-Docker uses a Chainguard Python base image -- minimal attack surface, typically 0-2 CVEs. You get a clean environment that cannot interfere with your system Python, and the alias makes `armies` behave like a native CLI command.
+```bash
+# macOS (arm64)
+curl -L https://github.com/petersimmons1972/armies/releases/latest/download/armies-darwin-arm64 -o armies
+chmod +x armies
+sudo mv armies /usr/local/bin/
+
+# Linux (amd64)
+curl -L https://github.com/petersimmons1972/armies/releases/latest/download/armies-linux-amd64 -o armies
+chmod +x armies
+sudo mv armies /usr/local/bin/
+```
+
+After installation, verify it works:
+
+```bash
+armies --help
+```
+
+### go install
+
+If you have Go 1.22 or later installed:
+
+```bash
+go install github.com/petersimmons1972/armies@latest
+```
+
+This compiles and installs the binary in `$GOPATH/bin`. Make sure that directory is in your `PATH`. If you are unsure where `$GOPATH/bin` is, run `go env GOPATH` and add the result plus `/bin` to your shell's `PATH` in `~/.bashrc` or `~/.zshrc`.
+
+### Build from source
 
 ```bash
 git clone https://github.com/petersimmons1972/armies
-cd armies/docker
-docker compose build
-alias armies="docker compose run --rm armies"
+cd armies
+go build -o armies .
+sudo mv armies /usr/local/bin/
 ```
 
-Add the alias to your shell profile (`~/.bashrc` or `~/.zshrc`) if you want it to persist across sessions.
-
-### pip
-
-```bash
-pip install armies
-```
-
-This installs the `armies` CLI globally. If you use virtual environments, activate the one you want first. The CLI has no heavy dependencies -- it reads Markdown files with YAML frontmatter and writes YAML service records.
-
-For details on Docker isolation and profile integrity, see [security.md](security.md).
+That is the complete installation. No Python. No virtual environment. No Docker. One binary, no runtime dependencies.
 
 ---
 
@@ -45,7 +63,7 @@ For details on Docker isolation and profile integrity, see [security.md](securit
 armies init
 ```
 
-This creates your private profile store at `~/.armies/`. Here is what that directory looks like:
+This creates your private profile store at `~/.armies/`. Here is what that directory looks like after initialization:
 
 ```
 ~/.armies/
@@ -63,13 +81,19 @@ This separation is deliberate. The armies repo contains the engine, the schema, 
 
 ## Your First Profile
 
-The `profiles/examples/` directory ships with working profiles you can start from immediately. Let's use Grace Hopper -- she's a natural fit for implementation work and demonstrates the profile format clearly.
+The easiest way to get started is to run `armies seed`, which installs all the bundled profiles from `examples/generals/` directly into `~/.armies/profiles/`:
 
 ```bash
-cp profiles/examples/grace-hopper.md ~/.armies/profiles/
+armies seed
 ```
 
-Here is what that profile looks like, abbreviated to show the structure:
+This gives you a working roster immediately -- Grace Hopper, Jane Goodall, Vannevar Bush, and the rest, all ready to spawn. You can also copy profiles individually if you only want specific ones:
+
+```bash
+cp examples/generals/grace-hopper.md ~/.armies/profiles/
+```
+
+Let's look at what that profile contains, abbreviated to show the structure:
 
 ```markdown
 ---
@@ -128,9 +152,10 @@ armies spawn grace-hopper --role implementer
 The CLI reads the profile, merges the frontmatter, Base Persona, and the `Role: implementer` block, and outputs a spawn prompt. Here is an abbreviated example of what that output looks like:
 
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SPAWN: Rear Admiral Grace Hopper | Role: implementer | XP: 0 | Rank: Colonel
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
++----------------------------------------------------------+
+| SPAWN: Rear Admiral Grace Hopper                         |
+| Role: implementer  |  XP: 0  |  Rank: Colonel            |
++----------------------------------------------------------+
 
 You are Grace Hopper -- mathematician, Navy officer, and the person
 who invented the compiler...
@@ -186,13 +211,16 @@ armies roster
 This shows every profile in your store with their current state:
 
 ```
-Name              Role           XP    Rank       Eligibility
-grace-hopper      implementer    100   Colonel    ✅ eligible
-jane-goodall      observer         0   Colonel    ✅ eligible
-vannevar-bush     coordinator      0   Colonel    ✅ eligible
++------------------+---------------------------+---------------+------+-------------+-------------+
+| name             | display_name              | primary_role  | xp   | rank        | eligibility |
++------------------+---------------------------+---------------+------+-------------+-------------+
+| grace-hopper     | Rear Admiral Grace Hopper | implementer   | 100  | Colonel     | eligible    |
+| jane-goodall     | Dr. Jane Goodall          | observer      | 0    | Colonel     | eligible    |
+| vannevar-bush    | Vannevar Bush             | coordinator   | 0    | Colonel     | eligible    |
++------------------+---------------------------+---------------+------+-------------+-------------+
 ```
 
-The roster is your at-a-glance view of who is available, what they do, and how experienced they are. As your profiles accumulate XP and service records, this table tells you who to deploy for what -- a 500 XP implementer gets the hard tasks, a fresh recruit gets the routine ones.
+The roster is your at-a-glance view of who is available, what they do, and how experienced they are. The table uses go-pretty ASCII formatting -- clean, readable, no Unicode dependencies. As your profiles accumulate XP and service records, this table tells you who to deploy for what -- a 500 XP implementer gets the hard tasks, a fresh recruit gets the routine ones.
 
 ---
 
