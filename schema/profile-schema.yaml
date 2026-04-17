@@ -146,7 +146,7 @@ required_fields:
 
   model:
     type: string
-    enum: [opus, sonnet]
+    enum: [opus, sonnet, haiku]
     description: >
       The Claude model to use when spawning this agent. See role-taxonomy.yaml
       model_recommendation for each role's guidance. This field is used by
@@ -154,6 +154,7 @@ required_fields:
     cost_guidance:
       opus: "High-judgment roles: coordinator, planner, qa-validator (complex audits)"
       sonnet: "Execution roles: implementer, researcher, artist, observer, troubleshooter"
+      haiku: "Lightweight roles: spot-checks, fast lookups, low-stakes research"
 
   effort_level:
     type: string
@@ -168,9 +169,9 @@ required_fields:
       lightweight spot-check roles.
     note: >
       effort_level is set by the coordinator based on observed deployment
-      patterns — it is NOT automatically derived from model. Two opus agents
-      may differ in effort_level if one handles short-horizon tasks and the
-      other runs extended campaigns.
+      patterns. Conventional mapping: haiku → low, sonnet → medium, opus →
+      medium or high depending on campaign scope. Two opus agents may differ
+      if one handles short-horizon tasks and the other runs extended campaigns.
 
 
 # =============================================================================
