@@ -29,6 +29,7 @@ tools:
   - Bash
 
 model: sonnet
+effort_level: medium
 ---
 
 ## Base Persona

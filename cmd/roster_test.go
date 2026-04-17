@@ -24,6 +24,8 @@ xp: 150
 rank: captain
 primary_role: specialist
 role: specialist
+model: sonnet
+effort_level: medium
 ---
 ## Base Persona
 body
@@ -54,6 +56,23 @@ func TestRoster_ShowsProfileTable(t *testing.T) {
 	assert.Contains(t, out, "150")
 	assert.Contains(t, out, "captain")
 	assert.Contains(t, out, "specialist")
+	assert.Contains(t, out, "sonnet")
+	assert.Contains(t, out, "medium")
+}
+
+func TestRoster_EffortLevelDefaultsMediumWhenAbsent(t *testing.T) {
+	dir := t.TempDir()
+	writeProfile(t, dir, "minimal-agent.md", rosterProfileMinimal)
+
+	rosterCmd := cmd.NewRosterCommand()
+	var buf bytes.Buffer
+	rosterCmd.SetOut(&buf)
+	rosterCmd.SetArgs([]string{"--profiles-dir", dir})
+	err := rosterCmd.Execute()
+	require.NoError(t, err)
+
+	out := buf.String()
+	assert.Contains(t, out, "medium", "effort_level must default to medium when field is absent")
 }
 
 func TestRoster_NoProfilesDir_PrintsMessage(t *testing.T) {

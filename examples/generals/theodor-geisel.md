@@ -29,6 +29,7 @@ disallowedTools:
 permissionMode: plan
 
 model: opus
+effort_level: medium
 ---
 
 ## Base Persona

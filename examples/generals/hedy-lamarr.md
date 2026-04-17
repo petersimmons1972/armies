@@ -27,6 +27,7 @@ disallowedTools:
   - Agent
 
 model: sonnet
+effort_level: medium
 ---
 
 ## Base Persona

@@ -12,6 +12,7 @@ roles:
 xp: 0
 rank: "General"
 model: sonnet
+effort_level: medium
 ---
 
 ## Base Persona

@@ -64,7 +64,7 @@ func NewRosterCommand() *cobra.Command {
 
 			t := table.NewWriter()
 			t.SetOutputMirror(cmd.OutOrStdout())
-			t.AppendHeader(table.Row{"name", "display_name", "primary_role", "xp", "rank", "eligibility"})
+			t.AppendHeader(table.Row{"name", "display_name", "primary_role", "model", "effort", "xp", "rank", "eligibility"})
 
 			for _, path := range paths {
 				fm, _, parseErr := profiles.ParseProfile(path, nil)
@@ -81,6 +81,11 @@ func NewRosterCommand() *cobra.Command {
 					displayName = name
 				}
 				primaryRole := resolvePrimaryRole(fm)
+				model := stringOrDash(fm, "model")
+				effort := stringOrDash(fm, "effort_level")
+				if effort == "—" {
+					effort = "medium"
+				}
 				xp := stringOrDash(fm, "xp")
 				rank := stringOrDash(fm, "rank")
 
@@ -92,7 +97,7 @@ func NewRosterCommand() *cobra.Command {
 					elig = status.Overall
 				}
 
-				t.AppendRow(table.Row{name, displayName, primaryRole, xp, rank, elig})
+				t.AppendRow(table.Row{name, displayName, primaryRole, model, effort, xp, rank, elig})
 			}
 
 			t.Render()

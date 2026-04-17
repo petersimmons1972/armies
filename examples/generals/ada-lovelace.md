@@ -26,6 +26,7 @@ disallowedTools:
   - Edit
 
 model: sonnet
+effort_level: medium
 ---
 
 ## Base Persona

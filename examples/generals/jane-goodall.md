@@ -28,6 +28,7 @@ tools:
   - Glob
 
 model: sonnet
+effort_level: medium
 ---
 
 ## Base Persona

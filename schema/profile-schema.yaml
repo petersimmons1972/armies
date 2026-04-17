@@ -155,6 +155,23 @@ required_fields:
       opus: "High-judgment roles: coordinator, planner, qa-validator (complex audits)"
       sonnet: "Execution roles: implementer, researcher, artist, observer, troubleshooter"
 
+  effort_level:
+    type: string
+    required: false
+    default: medium
+    enum: [low, medium, high]
+    description: >
+      Deployment cost tier for this agent. Shown alongside model in roster and
+      spawn output so coordinators can assess resource impact at a glance.
+      All profiles default to medium. Coordinators may raise to high for
+      agents used in complex sustained campaigns, or lower to low for
+      lightweight spot-check roles.
+    note: >
+      effort_level is set by the coordinator based on observed deployment
+      patterns — it is NOT automatically derived from model. Two opus agents
+      may differ in effort_level if one handles short-horizon tasks and the
+      other runs extended campaigns.
+
 
 # =============================================================================
 # SECTION 3: OPTIONAL FRONTMATTER FIELDS

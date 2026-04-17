@@ -16,6 +16,7 @@ roles:
 xp: 0
 rank: "General of the Army"
 model: opus
+effort_level: medium
 disallowedTools:
   - Write
   - Edit

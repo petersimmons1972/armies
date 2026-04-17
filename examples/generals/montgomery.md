@@ -15,6 +15,7 @@ roles:
 xp: 0
 rank: "Field Marshal"
 model: opus
+effort_level: medium
 ---
 
 ## Base Persona

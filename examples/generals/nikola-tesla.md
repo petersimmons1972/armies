@@ -30,6 +30,7 @@ disallowedTools:
   - Bash
 
 model: opus
+effort_level: medium
 ---
 
 ## Base Persona
