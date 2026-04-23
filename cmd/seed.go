@@ -23,7 +23,7 @@ func NewSeedCommandFS(generalsFS fs.FS) *cobra.Command {
 			if profilesDir == "" {
 				return fmt.Errorf("--profiles-dir is required")
 			}
-			if err := os.MkdirAll(profilesDir, 0o755); err != nil {
+			if err := os.MkdirAll(profilesDir, 0o700); err != nil {
 				return fmt.Errorf("cannot create profiles directory: %w", err)
 			}
 
@@ -50,7 +50,7 @@ func NewSeedCommandFS(generalsFS fs.FS) *cobra.Command {
 				if err != nil {
 					return err
 				}
-				if err := os.WriteFile(dest, data, 0o644); err != nil {
+				if err := os.WriteFile(dest, data, 0o600); err != nil {
 					return fmt.Errorf("cannot write %s: %w", dest, err)
 				}
 				installed++

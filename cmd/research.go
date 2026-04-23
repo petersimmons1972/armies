@@ -49,7 +49,7 @@ func NewResearchCommand() *cobra.Command {
 
 			// Create drafts subdirectory
 			draftsDir := filepath.Join(pdir, "drafts")
-			if err := os.MkdirAll(draftsDir, 0o755); err != nil {
+			if err := os.MkdirAll(draftsDir, 0o700); err != nil {
 				return fmt.Errorf("cannot create drafts directory %s: %w", draftsDir, err)
 			}
 
@@ -58,7 +58,7 @@ func NewResearchCommand() *cobra.Command {
 			draftPath := filepath.Join(draftsDir, filename)
 
 			content := buildResearchPrompt(role, today)
-			if err := os.WriteFile(draftPath, []byte(content), 0o644); err != nil {
+			if err := os.WriteFile(draftPath, []byte(content), 0o600); err != nil {
 				return fmt.Errorf("cannot write draft file %s: %w", draftPath, err)
 			}
 

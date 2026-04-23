@@ -3,7 +3,6 @@ package sync
 import (
 	"fmt"
 	"net/url"
-	"path/filepath"
 	"strings"
 
 	"github.com/petersimmons1972/armies/internal/gitops"
@@ -57,8 +56,7 @@ func Sync(opts SyncOptions) SyncResult {
 		return errResult(err.Error())
 	}
 
-	lockPath := filepath.Join(opts.ArmiesDir, ".sync.lock")
-	lf, err := acquireLock(lockPath)
+	lf, err := acquireLock(opts.ArmiesDir, ".sync.lock")
 	if err != nil {
 		return errResult(err.Error())
 	}
