@@ -2,7 +2,6 @@ package sync
 
 import (
 	"fmt"
-	"net/url"
 	"strings"
 
 	"github.com/petersimmons1972/armies/internal/gitops"
@@ -29,25 +28,15 @@ func errResult(msg string) SyncResult {
 	return SyncResult{Error: &s}
 }
 
-// ValidateRemoteURL validates that the URL is non-empty and uses an allowed
-// protocol (https, ssh, or git@ SCP). Rejects empty, http://, file://, etc.
+// ValidateRemoteURL delegates to gitops.ValidateRemoteURL, which enforces
+// protocol allow-list plus flag-injection and git-config-substring defenses.
+// Preserved here as a thin wrapper for historical call sites and to keep the
+// "remote_url is empty" phrasing that references the config file.
 func ValidateRemoteURL(rawURL string) error {
-	s := strings.TrimSpace(rawURL)
-	if s == "" {
+	if strings.TrimSpace(rawURL) == "" {
 		return fmt.Errorf("remote_url is empty; set https:// or git@ URL in ~/.armies/config.yaml")
 	}
-	if strings.HasPrefix(s, "git@") {
-		return nil // SCP-style SSH is valid
-	}
-	u, err := url.Parse(s)
-	if err != nil {
-		return fmt.Errorf("malformed remote_url: %w", err)
-	}
-	scheme := strings.ToLower(u.Scheme)
-	if scheme != "https" && scheme != "ssh" {
-		return fmt.Errorf("remote_url uses disallowed protocol %q; only https://, ssh://, git@ allowed", scheme)
-	}
-	return nil
+	return gitops.ValidateRemoteURL(rawURL)
 }
 
 // Sync pulls then pushes the armies directory.

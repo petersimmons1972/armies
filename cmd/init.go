@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/petersimmons1972/armies/internal/config"
 	"github.com/petersimmons1972/armies/internal/gitops"
@@ -83,8 +84,19 @@ func NewInitCommand() *cobra.Command {
 }
 
 // runInitGit runs git init and sets (or updates) remote origin in dir.
+// Both dir and remoteURL are validated before being passed to git to avoid
+// flag-injection (dir or URL starting with "-") and git-config substring
+// abuse (--upload-pack=, core.gitProxy=, …).
 func runInitGit(cmd *cobra.Command, dir, remoteURL string) error {
-	_, stderr, err := gitops.RunGit(".", "init", dir)
+	if err := gitops.ValidateRemoteURL(remoteURL); err != nil {
+		return fmt.Errorf("refusing to set origin: %w", err)
+	}
+	if strings.HasPrefix(dir, "-") {
+		return fmt.Errorf("refusing to git-init %q: path starts with '-'", dir)
+	}
+
+	// `git init -- dir` forces dir to be treated as a positional argument.
+	_, stderr, err := gitops.RunGit(".", "init", "--", dir)
 	if err != nil {
 		return fmt.Errorf("git init failed: %s", stderr)
 	}
