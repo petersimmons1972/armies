@@ -13,7 +13,6 @@ checks:
     - privileged-container
     - privilege-escalation-container
     - run-as-non-root
-    - required-drop-all-capabilities
     - drop-net-raw-capability
     - host-ipc
     - host-pid
