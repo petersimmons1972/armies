@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  # Dedicated zero-permission SA for the static docs pod. The pod never
+  # calls the Kubernetes API, so this SA has no RoleBindings anywhere.
+  # Using a dedicated SA (vs. the namespace default) contains blast radius
+  # if the SA ever gets accidentally bound.
+  name: armies-docs
+  namespace: websites
+automountServiceAccountToken: false
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,6 +31,8 @@ spec:
       labels:
         app: armies-docs
     spec:
+      serviceAccountName: armies-docs
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65532
@@ -29,6 +42,13 @@ spec:
           type: RuntimeDefault
       containers:
         - name: nginx
+          # CONTRACT: this :latest reference is the seed image used only on
+          # an initial `kubectl apply`. The deploy-docs.yml workflow
+          # immediately overrides it with a digest-pinned reference
+          # (`@sha256:<digest>` from docker/build-push-action output) via
+          # `kubectl set image`, so the live Deployment never runs an
+          # unverified :latest in steady state.
+          # See GitHub issue #55.
           image: ghcr.io/petersimmons1972/armies-docs:latest
           imagePullPolicy: Always
           securityContext:

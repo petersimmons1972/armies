@@ -1,0 +1,50 @@
+name: Lint K8s manifests
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'k8s/**'
+      - '.github/workflows/lint-k8s.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'k8s/**'
+      - '.github/workflows/lint-k8s.yml'
+
+jobs:
+  kube-linter:
+    name: kube-linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan manifests
+        uses: stackrox/kube-linter-action@v1.0.4
+        with:
+          directory: k8s
+          config: .github/kube-linter-config.yaml
+
+  no-latest:
+    name: Reject :latest in deployed manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Grep for :latest
+        run: |
+          # Allow-list:
+          #   - myoung34/github-runner:latest — third-party, pinned to a
+          #     digest out-of-band once verified (tracked in #49). Runner
+          #     RBAC is narrowed to compensate.
+          #   - ghcr.io/petersimmons1972/armies-docs:latest — documented
+          #     seed tag; deploy-docs.yml overrides it with a digest-pinned
+          #     reference via `kubectl set image` on every deploy.
+          # Any OTHER :latest reference in k8s/ must fail the run.
+          offenders=$(grep -rEn '^[[:space:]]*image: .*:latest[[:space:]]*$' k8s/ \
+            | grep -vE 'myoung34/github-runner:latest|ghcr\.io/petersimmons1972/armies-docs:latest' \
+            || true)
+          if [ -n "$offenders" ]; then
+            echo "::error::Found :latest tag in manifest — pin to a digest or tagged SHA:"
+            echo "$offenders"
+            exit 1
+          fi
+          echo "No :latest references found outside the allow-list."
