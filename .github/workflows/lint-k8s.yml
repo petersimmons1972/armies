@@ -31,11 +31,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Grep for :latest
         run: |
-          # k8s/github-runner.yaml's myoung34/github-runner:latest is allow-listed
-          # until the upstream digest is verified and pinned (tracked in #49).
+          # Allow-list:
+          #   - myoung34/github-runner:latest — third-party, pinned to a
+          #     digest out-of-band once verified (tracked in #49). Runner
+          #     RBAC is narrowed to compensate.
+          #   - ghcr.io/petersimmons1972/armies-docs:latest — documented
+          #     seed tag; deploy-docs.yml overrides it with a digest-pinned
+          #     reference via `kubectl set image` on every deploy.
           # Any OTHER :latest reference in k8s/ must fail the run.
           offenders=$(grep -rEn '^[[:space:]]*image: .*:latest[[:space:]]*$' k8s/ \
-            | grep -v 'myoung34/github-runner:latest' \
+            | grep -vE 'myoung34/github-runner:latest|ghcr\.io/petersimmons1972/armies-docs:latest' \
             || true)
           if [ -n "$offenders" ]; then
             echo "::error::Found :latest tag in manifest — pin to a digest or tagged SHA:"

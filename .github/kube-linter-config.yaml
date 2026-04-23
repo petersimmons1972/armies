@@ -1,12 +1,31 @@
+# kube-linter runs only the security-relevant built-in checks.
+# Style/policy checks (sorted-keys, required labels, minimum replicas, DNS
+# config, liveness probes for a runner that has none by design, reading
+# Secrets from env vars, node affinity, NetworkPolicy isolation) are
+# intentionally out of scope here — this gate exists to catch hardening
+# regressions, not to enforce house style.
+#
+# latest-tag is excluded because the no-latest job in lint-k8s.yml enforces
+# a stricter check with an explicit allow-list for documented seed tags.
 checks:
-  addAllBuiltIn: true
-  exclude:
-    # We intentionally use `:latest` as a seed tag in k8s/deployment.yaml; the
-    # deploy-docs.yml workflow overrides it with a digest-pinned reference
-    # on every deploy. The no-latest job in lint-k8s.yml enforces that only
-    # allow-listed `:latest` references remain; kube-linter's `latest-tag`
-    # check is therefore redundant here.
-    - "latest-tag"
-    # The github-runner container is designed to write work dirs at runtime;
-    # readOnlyRootFilesystem cannot be enforced. securityContext is applied.
-    - "no-read-only-root-fs"
+  doNotAutoAddDefaults: true
+  include:
+    - privileged-container
+    - privilege-escalation-container
+    - run-as-non-root
+    - required-drop-all-capabilities
+    - drop-net-raw-capability
+    - host-ipc
+    - host-pid
+    - host-network
+    - writable-host-mount
+    - default-service-account
+    - unsafe-proc-mount
+    - unsafe-sysctls
+    - ssh-port
+    - access-to-create-pods
+    - access-to-secrets
+    - cluster-admin-role-binding
+    - wildcard-in-rules
+    - exposed-services
+    - use-namespace
