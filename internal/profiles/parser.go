@@ -20,13 +20,27 @@ const (
 )
 
 // ResolveAgentPath constructs the path for agentName inside profilesDir and
-// returns an error if the resolved path would escape profilesDir (path
-// traversal guard).
+// returns an error if the resolved path would escape profilesDir.
 //
-// Note: this is a lexical check only and does not resolve symlinks. A symlink
-// inside profilesDir pointing outside it will pass this check. This is
-// acceptable when profilesDir is user-controlled (e.g., ~/.armies/profiles).
+// The guard is two-layered:
+//  1. Lexical: filepath.Rel-based containment against the absolute profilesDir.
+//  2. Symbolic: if the candidate file exists, filepath.EvalSymlinks is applied
+//     to both profilesDir and the candidate, and containment is re-checked.
+//     This rejects a symlink inside profilesDir that points outside it.
+//
+// If the candidate does not yet exist (which is common — ResolveAgentPath is
+// also called as a pre-read validation step), only the lexical check runs.
+// Callers that read the returned path MUST treat the returned path as
+// untrusted-until-read if they also accept input that may name non-existent
+// profiles; use EnsureContained on any path they compute via alternate means
+// (e.g., case-insensitive lookup) before opening it.
 func ResolveAgentPath(profilesDir, agentName string) (string, error) {
+	if agentName == "" {
+		return "", fmt.Errorf("agent name is empty")
+	}
+	if strings.ContainsAny(agentName, "/\\") {
+		return "", fmt.Errorf("agent name %q resolves outside profiles directory", agentName)
+	}
 	absDir, err := filepath.Abs(profilesDir)
 	if err != nil {
 		return "", fmt.Errorf("resolving profiles directory: %w", err)
@@ -38,14 +52,60 @@ func ResolveAgentPath(profilesDir, agentName string) (string, error) {
 		return "", fmt.Errorf("resolving candidate path: %w", err)
 	}
 
-	// filepath.Rel returns a path beginning with ".." when absCandidate is
-	// outside absDir.
-	rel, err := filepath.Rel(absDir, absCandidate)
-	if err != nil || strings.HasPrefix(rel, "..") {
+	if !lexicallyContained(absDir, absCandidate) {
 		return "", fmt.Errorf("agent name %q resolves outside profiles directory", agentName)
 	}
 
+	// Symbolic containment: only possible if the file exists. If it does not
+	// exist yet, the lexical guard above is sufficient — no symlink to follow.
+	if _, statErr := os.Lstat(absCandidate); statErr == nil {
+		resolved, err := EnsureContained(absDir, absCandidate)
+		if err != nil {
+			return "", err
+		}
+		return resolved, nil
+	}
+
 	return absCandidate, nil
+}
+
+// EnsureContained resolves base and candidate via filepath.EvalSymlinks and
+// confirms the resolved candidate is lexically contained within the resolved
+// base. Returns the resolved candidate path on success. Exported so callers
+// that compute profile paths by alternate means (e.g., case-insensitive
+// lookup) can re-validate before opening the file.
+func EnsureContained(base, candidate string) (string, error) {
+	resolvedBase, err := filepath.EvalSymlinks(base)
+	if err != nil {
+		return "", fmt.Errorf("resolve symlinks on base %q: %w", base, err)
+	}
+	resolvedCandidate, err := filepath.EvalSymlinks(candidate)
+	if err != nil {
+		return "", fmt.Errorf("resolve symlinks on candidate %q: %w", candidate, err)
+	}
+	absBase, err := filepath.Abs(resolvedBase)
+	if err != nil {
+		return "", err
+	}
+	absCandidate, err := filepath.Abs(resolvedCandidate)
+	if err != nil {
+		return "", err
+	}
+	if !lexicallyContained(absBase, absCandidate) {
+		return "", fmt.Errorf("path %q resolves outside %q after symlink evaluation", candidate, base)
+	}
+	return absCandidate, nil
+}
+
+func lexicallyContained(base, candidate string) bool {
+	rel, err := filepath.Rel(base, candidate)
+	if err != nil {
+		return false
+	}
+	if rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
+		return false
+	}
+	return true
 }
 
 // ParseProfile reads the profile at path and returns:

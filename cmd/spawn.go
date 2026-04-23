@@ -45,13 +45,19 @@ func NewSpawnCommand() *cobra.Command {
 				return err
 			}
 
-			// Check existence; fall back to case-insensitive search
+			// Check existence; fall back to case-insensitive search.
+			// The fallback result MUST be re-validated with EnsureContained —
+			// ResolveAgentPath's guard ran only against the first candidate.
 			if _, statErr := os.Stat(profilePath); statErr != nil {
 				found := caseInsensitiveSearch(pdir, agentName)
 				if found == "" {
 					return fmt.Errorf("profile not found: %s (searched in %s)", agentName, pdir)
 				}
-				profilePath = found
+				resolved, err := profiles.EnsureContained(pdir, found)
+				if err != nil {
+					return fmt.Errorf("case-insensitive match %s failed containment check: %w", found, err)
+				}
+				profilePath = resolved
 			}
 
 			// Determine role from --role flag
