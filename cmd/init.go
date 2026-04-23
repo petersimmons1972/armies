@@ -40,7 +40,7 @@ func NewInitCommand() *cobra.Command {
 			// Create subdirectories
 			for _, sub := range subdirs {
 				full := filepath.Join(dir, sub)
-				if err := os.MkdirAll(full, 0o755); err != nil {
+				if err := os.MkdirAll(full, 0o700); err != nil {
 					return fmt.Errorf("cannot create %s: %w", full, err)
 				}
 				fmt.Fprintf(cmd.OutOrStdout(), "✓ %s\n", full)
@@ -58,7 +58,7 @@ func NewInitCommand() *cobra.Command {
 				if err != nil {
 					return err
 				}
-				if err := os.WriteFile(cfgPath, data, 0o644); err != nil {
+				if err := os.WriteFile(cfgPath, data, 0o600); err != nil {
 					return fmt.Errorf("cannot write config.yaml: %w", err)
 				}
 				fmt.Fprintf(cmd.OutOrStdout(), "✓ %s\n", cfgPath)

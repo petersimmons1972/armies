@@ -91,7 +91,7 @@ func NewRecordCommand() *cobra.Command {
 
 			// Create service-records dir if needed
 			srDir := filepath.Join(adir, "service-records")
-			if err := os.MkdirAll(srDir, 0755); err != nil {
+			if err := os.MkdirAll(srDir, 0o700); err != nil {
 				return fmt.Errorf("cannot create service-records directory: %w", err)
 			}
 
@@ -123,7 +123,7 @@ func NewRecordCommand() *cobra.Command {
 			if err != nil {
 				return fmt.Errorf("cannot marshal service record: %w", err)
 			}
-			if err := os.WriteFile(srFile, out, 0644); err != nil {
+			if err := os.WriteFile(srFile, out, 0o600); err != nil {
 				return fmt.Errorf("cannot write service record: %w", err)
 			}
 

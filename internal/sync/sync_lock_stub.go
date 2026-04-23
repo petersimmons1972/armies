@@ -4,5 +4,5 @@ package sync
 
 import "os"
 
-func acquireLock(path string) (*os.File, error) { return nil, nil }
-func releaseLock(f *os.File)                    {}
+func acquireLock(dir, name string) (*os.File, error) { return nil, nil }
+func releaseLock(f *os.File)                         {}

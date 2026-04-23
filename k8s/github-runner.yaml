@@ -16,9 +16,17 @@ spec:
         app: github-runner
     spec:
       serviceAccountName: github-runner
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: runner
         image: myoung34/github-runner:latest
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
         env:
         - name: REPO_URL
           value: https://github.com/petersimmons1972/armies
