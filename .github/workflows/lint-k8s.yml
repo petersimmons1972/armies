@@ -1,0 +1,45 @@
+name: Lint K8s manifests
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'k8s/**'
+      - '.github/workflows/lint-k8s.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'k8s/**'
+      - '.github/workflows/lint-k8s.yml'
+
+jobs:
+  kube-linter:
+    name: kube-linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan manifests
+        uses: stackrox/kube-linter-action@v1.0.4
+        with:
+          directory: k8s
+          config: .github/kube-linter-config.yaml
+
+  no-latest:
+    name: Reject :latest in deployed manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Grep for :latest
+        run: |
+          # k8s/github-runner.yaml's myoung34/github-runner:latest is allow-listed
+          # until the upstream digest is verified and pinned (tracked in #49).
+          # Any OTHER :latest reference in k8s/ must fail the run.
+          offenders=$(grep -rEn '^[[:space:]]*image: .*:latest[[:space:]]*$' k8s/ \
+            | grep -v 'myoung34/github-runner:latest' \
+            || true)
+          if [ -n "$offenders" ]; then
+            echo "::error::Found :latest tag in manifest — pin to a digest or tagged SHA:"
+            echo "$offenders"
+            exit 1
+          fi
+          echo "No :latest references found outside the allow-list."

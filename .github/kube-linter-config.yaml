@@ -1,0 +1,12 @@
+checks:
+  addAllBuiltIn: true
+  exclude:
+    # We intentionally use `:latest` as a seed tag in k8s/deployment.yaml; the
+    # deploy-docs.yml workflow overrides it with a digest-pinned reference
+    # on every deploy. The no-latest job in lint-k8s.yml enforces that only
+    # allow-listed `:latest` references remain; kube-linter's `latest-tag`
+    # check is therefore redundant here.
+    - "latest-tag"
+    # The github-runner container is designed to write work dirs at runtime;
+    # readOnlyRootFilesystem cannot be enforced. securityContext is applied.
+    - "no-read-only-root-fs"

@@ -22,7 +22,17 @@ spec:
           type: RuntimeDefault
       containers:
       - name: runner
+        # NOTE: upstream image is a third-party registry we do not control.
+        # Pinning to a digest requires an out-of-band verification step
+        # (crane/docker inspect against the current `:latest`). Operators
+        # SHOULD replace this reference with `myoung34/github-runner@sha256:<digest>`
+        # after verifying the digest, and rotate periodically.
+        # Defense-in-depth in place today: dedicated ServiceAccount with a
+        # purpose-built Role (see below) that scopes the runner to
+        # get/patch on Deployment/armies-docs only — no Secret access.
+        # See GitHub issue #49.
         image: myoung34/github-runner:latest
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -59,17 +69,50 @@ metadata:
   name: github-runner
   namespace: github-actions
 ---
-# Allows the runner's kubectl calls to manage armies-docs in websites namespace
+# Purpose-built Role scoped to exactly the two kubectl calls the runner
+# issues during deploy-docs.yml: `kubectl set image deployment/armies-docs`
+# and `kubectl rollout status deployment/armies-docs`. No Secrets, no
+# ConfigMaps, no access to any other Deployment or namespace.
+#
+# This replaces a prior binding to the built-in ClusterRole `edit`, which
+# granted namespace-wide read/write on Secrets, Deployments, ConfigMaps,
+# and most workload resources — far beyond what CI needs and a material
+# escalation path if the runner image or a workflow step is compromised.
+# See GitHub issue #49.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: armies-docs-deployer
+  namespace: websites
+rules:
+  # `kubectl set image` patches the Deployment spec; `kubectl rollout
+  # status` polls the Deployment status. resourceNames restricts the
+  # runner to the single Deployment it is allowed to touch.
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    resourceNames: ["armies-docs"]
+    verbs: ["get", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments/status"]
+    resourceNames: ["armies-docs"]
+    verbs: ["get"]
+  # `kubectl rollout status` also watches the ReplicaSets owned by the
+  # Deployment. ResourceNames cannot be fixed (RS names include a hash
+  # that changes per rollout), but verbs are strictly read-only.
+  - apiGroups: ["apps"]
+    resources: ["replicasets"]
+    verbs: ["get", "list", "watch"]
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: github-runner-edit
+  name: github-runner-deployer
   namespace: websites
 subjects:
-- kind: ServiceAccount
-  name: github-runner
-  namespace: github-actions
+  - kind: ServiceAccount
+    name: github-runner
+    namespace: github-actions
 roleRef:
-  kind: ClusterRole
-  name: edit
+  kind: Role
+  name: armies-docs-deployer
   apiGroup: rbac.authorization.k8s.io

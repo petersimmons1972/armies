@@ -25,7 +25,11 @@ jobs:
       contents: read
       packages: write
     outputs:
-      image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      # Digest-pinned reference — used by the deploy job so the image actually
+      # rolled out is byte-identical to what this job built+scanned. Prevents
+      # a race where :latest or :<sha> is re-tagged in the registry between
+      # push and deploy.
+      image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
 
     steps:
       - name: Checkout
@@ -44,6 +48,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -73,9 +78,9 @@ jobs:
           fi
           kubectl version --client
 
-      - name: Roll out new image
+      - name: Roll out new image (digest-pinned)
         run: |
           kubectl set image deployment/armies-docs \
-            nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            nginx=${{ needs.build.outputs.image }} \
             -n websites
           kubectl rollout status deployment/armies-docs -n websites --timeout=120s

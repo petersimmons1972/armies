@@ -29,6 +29,13 @@ spec:
           type: RuntimeDefault
       containers:
         - name: nginx
+          # CONTRACT: this :latest reference is the seed image used only on
+          # an initial `kubectl apply`. The deploy-docs.yml workflow
+          # immediately overrides it with a digest-pinned reference
+          # (`@sha256:<digest>` from docker/build-push-action output) via
+          # `kubectl set image`, so the live Deployment never runs an
+          # unverified :latest in steady state.
+          # See GitHub issue #55.
           image: ghcr.io/petersimmons1972/armies-docs:latest
           imagePullPolicy: Always
           securityContext:
