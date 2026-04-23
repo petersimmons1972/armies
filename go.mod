@@ -1,8 +1,8 @@
 module github.com/petersimmons1972/armies
 
-go 1.22.0
+go 1.25.0
 
-toolchain go1.22.2
+toolchain go1.25.8
 
 require (
 	github.com/spf13/cobra v1.8.0
