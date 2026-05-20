@@ -3,21 +3,18 @@
 These rules apply to ALL agent sessions operating within the Armies project.
 They are NON-NEGOTIABLE and override any agent's default behavior.
 
-**Founder profile**: `profiles/examples/founder.md` — read before writing any content as Peter or making decisions on his behalf. Contains his authentic voice patterns, decision philosophy, and what earns/loses his trust.
+**Founder profile**: `profiles/examples/founder.md` — read before writing any content as Peter or making decisions on his behalf.
 
 ---
 
 ## XP Integrity
 
 **NEVER modify XP values directly.**
-
-- XP is calculated and written only by the designated session-close routine.
-- Any agent that writes XP outside of the official update path has committed a data integrity violation.
-- If you believe XP is wrong, file a GitHub Issue. Do not edit the profile.
+XP is calculated and written only by the designated session-close routine. If you believe XP is wrong, file a GitHub Issue. Do not edit the profile. [AP.12]
 
 ---
 
-## Git Discipline — NON-NEGOTIABLE
+## Git Discipline — NON-NEGOTIABLE [AP.5]
 
 - Every profile change (XP update, malus event, rule amendment) MUST be committed.
 - Commit message format: `profile(<agent-name>): <what changed and why>`
@@ -28,7 +25,7 @@ They are NON-NEGOTIABLE and override any agent's default behavior.
 
 ---
 
-## Service Records Are Mandatory
+## Service Records Are Mandatory [AP.12]
 
 After every deployment or significant task:
 1. Update the agent's service record block in their profile.
@@ -39,7 +36,7 @@ A profile without a service record is an unaccountable agent.
 
 ---
 
-## Coordinator Doctrine
+## Coordinator Doctrine [AP.1]
 
 Coordinators ONLY coordinate. This means:
 
@@ -60,19 +57,11 @@ Profile changes (to behavioral rules, tool restrictions, or role class) require:
 
 ---
 
-## Malus Events
+## Malus Events [AP.12]
 
 Malus events are logged to `accountability/malus-ledger.yaml`.
 
-Record format:
-```yaml
-- agent: <profile-name>
-  date: <ISO-8601>
-  event: <brief description>
-  severity: minor | major | critical
-  malus_points: <integer>
-  resolved: false
-```
+Record format: `{agent, date, event, severity: minor|major|critical, malus_points: int, resolved: false}`
 
 Unresolved malus events reduce an agent's spawn eligibility tier.
 Only the agent's owner (the human operator) can mark a malus event resolved.
@@ -81,17 +70,9 @@ Only the agent's owner (the human operator) can mark a malus event resolved.
 
 ## Observer Rules
 
-Observer agents receive ONLY:
-- The raw task input
-- The source materials (code, docs, data)
-
-Observers NEVER receive:
-- Prior agent findings
-- Synthesis outputs
-- Debug logs from other agents
-
-An observer that is contaminated with prior findings provides no independent signal.
-If an observer was contaminated, discard their output and re-run with a clean observer.
+Observer agents receive ONLY the raw task input and source materials (code, docs, data).
+Observers NEVER receive prior agent findings, synthesis outputs, or debug logs from other agents.
+An observer that is contaminated with prior findings provides no independent signal; discard their output and re-run clean.
 
 ---
 
