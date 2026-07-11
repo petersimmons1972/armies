@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	maxProfileBytes = 1024 * 1024 // 1 MB
-	scanBufInit     = 64 * 1024   // 64 KB initial scanner buffer
+	maxProfileBytes = 1024 * 1024     // 1 MB
+	scanBufInit     = 64 * 1024       // 64 KB initial scanner buffer
 	scanBufMax      = 2 * 1024 * 1024 // 2 MB maximum line size
 )
 

@@ -129,9 +129,9 @@ func NewTestCommand() *cobra.Command {
 
 // testScenario represents a single test scenario from the profile frontmatter.
 type testScenario struct {
-	ID          string
-	Situation   string
-	Prompt      string
+	ID           string
+	Situation    string
+	Prompt       string
 	Fingerprints []fingerprint
 }
 

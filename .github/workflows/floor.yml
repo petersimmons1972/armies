@@ -1,0 +1,36 @@
+# .github/workflows/floor.yml — the machine-checkable coding floor
+# See: fleet-standards/standards/ci-enforcement.md and CODING-STANDARDS.md
+# Additive to existing ci.yml — this is the minimum machine-checkable bar
+# (formatting, vet, race, lint) that applies regardless of which model/human
+# wrote the diff. Judgment-level rules stay advisory, not gated here.
+name: floor
+on: [pull_request]
+jobs:
+  go:
+    if: ${{ hashFiles('go.mod') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version-file: go.mod }
+      - run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }   # formatting
+      - run: go vet ./...
+      - run: go test -race -count=1 ./...                          # suite + race
+  python:
+    if: ${{ hashFiles('pyproject.toml', 'requirements*.txt') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.x' }
+      - run: pipx run ruff format --check .
+      - run: pipx run ruff check .
+      - run: pip install -e . && python -m pytest -q                # suite
+  rust:
+    if: ${{ hashFiles('Cargo.toml') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo fmt --check
+      - run: cargo clippy -- -D warnings
+      - run: cargo test
