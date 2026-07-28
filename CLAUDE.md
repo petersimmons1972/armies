@@ -1,3 +1,16 @@
+---
+project: armies
+purpose: CLI tool giving AI agents persistent identity, XP, and role constraints via historical-figure profiles.
+stack: [go]
+status: active
+entrypoints:
+  - main.go
+  - cmd/
+  - teams/
+related: [generals, aifleet]
+notes: Experimental status per README. XP values are write-once by session-close routine — never edit directly.
+---
+
 # Armies — Agent Session Guardrails
 
 These rules apply to ALL agent sessions operating within the Armies project.

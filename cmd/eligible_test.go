@@ -21,8 +21,8 @@ func TestEligible_CleanAgentNoLedger(t *testing.T) {
 
 	out := buf.String()
 	assert.Contains(t, out, "clean-agent")
-	assert.Contains(t, out, "0.0")       // zero malus
-	assert.Contains(t, out, "Clean")     // tier name
+	assert.Contains(t, out, "0.0")   // zero malus
+	assert.Contains(t, out, "Clean") // tier name
 	assert.Contains(t, out, "coordinator")
 	assert.Contains(t, out, "CLEAR")
 	assert.Contains(t, out, "Ledger not found")

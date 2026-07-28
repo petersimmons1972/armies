@@ -98,11 +98,11 @@ func NewRecordCommand() *cobra.Command {
 			// Build the record entry
 			today := time.Now().Format("2006-01-02")
 			newEntry := map[string]any{
-				"date":     today,
-				"task":     note,
-				"outcome":  outcome,
+				"date":      today,
+				"task":      note,
+				"outcome":   outcome,
 				"xp_earned": xp,
-				"xp_total": newXP,
+				"xp_total":  newXP,
 			}
 
 			// Read existing entries (empty list if file does not exist)
