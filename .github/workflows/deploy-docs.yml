@@ -13,6 +13,10 @@ on:
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/armies-docs
@@ -21,6 +25,7 @@ jobs:
   build:
     name: Build & Push
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       packages: write
@@ -69,6 +74,7 @@ jobs:
     name: Deploy to K8s
     runs-on: [self-hosted, homelab]
     needs: build
+    timeout-minutes: 10
     steps:
       - name: Install kubectl
         run: |

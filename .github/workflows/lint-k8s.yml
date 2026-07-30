@@ -12,10 +12,15 @@ on:
       - 'k8s/**'
       - '.github/workflows/lint-k8s.yml'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   kube-linter:
     name: kube-linter
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Scan manifests
@@ -27,6 +32,7 @@ jobs:
   no-latest:
     name: Reject :latest in deployed manifests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Grep for :latest
