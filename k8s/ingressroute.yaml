@@ -1,3 +1,14 @@
+# RETIRED 2026-08-15 -- the hosted docs site at armies.petersimmons.com was
+# taken offline (Deployment + IngressRoute deleted from namespace `websites`).
+# This manifest is kept as the documented path back.
+#
+# To restore:
+#   1. Rebuild + push the docs image (docker/Dockerfile.docs) to
+#      ghcr.io/petersimmons1972/armies-docs and update the image below.
+#   2. kubectl apply -f k8s/deployment.yaml -f k8s/ingressroute.yaml
+#   3. Re-add a Deploy Docs workflow -- the old one targeted the
+#      `[self-hosted, homelab]` runner label, which no live runner serves.
+#
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
