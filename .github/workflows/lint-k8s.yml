@@ -42,8 +42,11 @@ jobs:
           #     digest out-of-band once verified (tracked in #49). Runner
           #     RBAC is narrowed to compensate.
           #   - ghcr.io/petersimmons1972/armies-docs:latest — documented
-          #     seed tag; deploy-docs.yml overrides it with a digest-pinned
-          #     reference via `kubectl set image` on every deploy.
+          #     seed tag on a RETIRED manifest (k8s/deployment.yaml, site
+          #     offline since 2026-08-15). The deploy-docs.yml workflow that
+          #     used to override it with a digest-pinned reference via
+          #     `kubectl set image` is deleted; re-add that pinning step
+          #     before restoring the site (see k8s/deployment.yaml step 3).
           # Any OTHER :latest reference in k8s/ must fail the run.
           offenders=$(grep -rEn '^[[:space:]]*image: .*:latest[[:space:]]*$' k8s/ \
             | grep -vE 'myoung34/github-runner:latest|ghcr\.io/petersimmons1972/armies-docs:latest' \

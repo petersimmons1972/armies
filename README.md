@@ -172,6 +172,11 @@ Contributions welcome -- especially new profiles, team templates, and documentat
 
 ## Documentation
 
+Read the docs right here on GitHub -- every page below renders in the browser.
+(The previously hosted docs site at `armies.petersimmons.com` was retired on
+2026-08-15; its deploy pipeline had been silently broken since 2026-03-28 and
+the site served stale content. The Markdown in `docs/` is the source of truth.)
+
 | Document                                                  | What It Covers                                           |
 | --------------------------------------------------------- | -------------------------------------------------------- |
 | [Getting Started](docs/getting-started.md)                | Zero to first spawn -- narrative walkthrough             |

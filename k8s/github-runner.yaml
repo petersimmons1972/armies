@@ -1,3 +1,11 @@
+# RETIRED 2026-08-15 -- this runner and its RBAC existed solely to serve
+# the now-deleted `deploy-docs.yml` workflow (`kubectl set image` /
+# `kubectl rollout status` against Deployment/armies-docs). No workflow in
+# this repo currently uses it. Kept as the documented path back per the
+# restore procedure in k8s/deployment.yaml, k8s/service.yaml, and
+# k8s/ingressroute.yaml -- re-add a Deploy Docs workflow (step 3 there)
+# before this runner has anything to do.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -70,9 +78,12 @@ metadata:
   namespace: github-actions
 ---
 # Purpose-built Role scoped to exactly the two kubectl calls the runner
-# issues during deploy-docs.yml: `kubectl set image deployment/armies-docs`
-# and `kubectl rollout status deployment/armies-docs`. No Secrets, no
-# ConfigMaps, no access to any other Deployment or namespace.
+# issued during the now-deleted deploy-docs.yml: `kubectl set image
+# deployment/armies-docs` and `kubectl rollout status deployment/armies-docs`.
+# No Secrets, no ConfigMaps, no access to any other Deployment or namespace.
+# RETIRED 2026-08-15 -- unused until a Deploy Docs workflow is re-added
+# (see k8s/deployment.yaml restore step 3); kept narrow rather than deleted
+# so a restore does not have to re-derive this scoping from scratch.
 #
 # This replaces a prior binding to the built-in ClusterRole `edit`, which
 # granted namespace-wide read/write on Secrets, Deployments, ConfigMaps,

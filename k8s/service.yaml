@@ -1,3 +1,20 @@
+# RETIRED 2026-08-15 -- the hosted docs site at armies.petersimmons.com was
+# taken offline (Deployment + IngressRoute deleted from namespace `websites`).
+# This manifest is kept as the documented path back.
+#
+# To restore:
+#   0. mkdocs.yml and requirements-docs.txt (Dockerfile.docs build inputs)
+#      were removed by the v3.0 Go rewrite and do not exist at this repo
+#      state -- recreate them (or restore from pre-rewrite history) before
+#      building the image. They are a real prerequisite, not an oversight.
+#   1. Rebuild + push the docs image (docker/Dockerfile.docs) to
+#      ghcr.io/petersimmons1972/armies-docs and update the image in
+#      k8s/deployment.yaml.
+#   2. kubectl apply -f k8s/deployment.yaml -f k8s/service.yaml \
+#        -f k8s/ingressroute.yaml
+#   3. Re-add a Deploy Docs workflow -- the old one targeted the
+#      `[self-hosted, homelab]` runner label, which no live runner serves.
+#
 apiVersion: v1
 kind: Service
 metadata:
